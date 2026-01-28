@@ -66,4 +66,5 @@ npm run dev
 - **Storage**: Supabase Storage
 - **UI**: TailwindCSS, Lucide React
 - **Integration**: LINE Messaging API
-- **Deployment**: Vercel (Recommended)
+- **Deployment**: Vercel (Recommended)dd
+

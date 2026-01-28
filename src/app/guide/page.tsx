@@ -12,11 +12,13 @@ export default async function GuidePage() {
         redirect('/login')
     }
 
-    const { data: profile } = await supabase
+    const { data: rawProfile } = await supabase
         .from('profiles')
         .select('shop_name, line_basic_id')
         .eq('id', user.id)
         .single()
+
+    const profile = rawProfile as any
 
     // ID未設定の場合は設定画面へ誘導
     if (!profile?.line_basic_id) {

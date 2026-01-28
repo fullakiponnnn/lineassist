@@ -12,11 +12,13 @@ export default async function SettingsPage() {
         redirect('/login')
     }
 
-    const { data: profile } = await supabase
+    const { data: rawProfile } = await supabase
         .from('profiles')
         .select('shop_name, line_channel_token, line_basic_id')
         .eq('id', user.id)
         .single()
+
+    const profile = rawProfile as any
 
     const hasToken = !!(profile?.line_channel_token && profile.line_channel_token.length > 0)
 

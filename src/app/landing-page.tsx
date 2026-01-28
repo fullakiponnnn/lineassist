@@ -11,7 +11,7 @@ export default function LandingPage() {
                 <div className="container mx-auto max-w-5xl flex items-center justify-between">
                     <div className="flex items-center gap-2">
                         <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white font-bold">L</div>
-                        <span className="font-bold text-xl">LineAssist</span>
+                        <span className="font-bold text-xl">SnapKarte</span>
                     </div>
                     <div className="flex items-center gap-4">
                         <Link
@@ -44,7 +44,7 @@ export default function LandingPage() {
                     </h1>
 
                     <p className="text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed animate-fade-in-up delay-200">
-                        LineAssistは、美容室の面倒なカルテ管理とLINE送信を自動化します。<br />
+                        SnapKarteは、美容室の面倒なカルテ管理とLINE送信を自動化します。<br />
                         お客様の満足度を高め、リピート率を劇的に向上させましょう。
                     </p>
 
@@ -112,7 +112,7 @@ export default function LandingPage() {
 
             {/* Footer */}
             <footer className="py-10 bg-slate-50 text-center text-slate-400 text-sm border-t border-slate-200">
-                <p>&copy; 2024 LineAssist. All rights reserved.</p>
+                <p>&copy; 2024 SnapKarte. All rights reserved.</p>
             </footer>
         </div>
     )

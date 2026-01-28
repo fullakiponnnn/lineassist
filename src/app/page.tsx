@@ -68,7 +68,7 @@ export default async function Dashboard() {
       <header className="bg-card border-b border-border sticky top-0 z-10 safe-area-top">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <h1 className="font-bold text-lg text-foreground">
-            {profile?.shop_name || 'LineAssist'}
+            {profile?.shop_name || 'SnapKarte'}
           </h1>
           <div className="flex items-center gap-1">
             <Link

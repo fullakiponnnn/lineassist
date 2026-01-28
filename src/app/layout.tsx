@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LineAssist | 美容室向けLINE自動連携CRM",
+  title: "SnapKarte | 美容室向けLINE自動連携CRM",
   description: "写真撮影で簡単カルテ作成。LINEで自動リマインド。",
   manifest: "/manifest.json",
   appleWebApp: {

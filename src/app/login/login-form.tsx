@@ -37,7 +37,7 @@ export default function LoginForm() {
                         <Sparkles className="w-6 h-6 text-primary" />
                     </div>
                     <h1 className="text-2xl font-bold tracking-tight text-foreground">
-                        LineAssist
+                        SnapKarte
                     </h1>
                     <p className="text-muted-foreground mt-2 text-sm">
                         美容室向けLINE自動連携CRM

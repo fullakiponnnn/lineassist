@@ -1,13 +1,21 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState, useTransition, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Sparkles, Loader2, Store, Mail, Lock, ArrowRight } from 'lucide-react'
 import { login, signup } from './actions'
 
 export default function LoginPage() {
+    const searchParams = useSearchParams()
     const [isLogin, setIsLogin] = useState(true)
     const [error, setError] = useState<string | null>(null)
     const [isPending, startTransition] = useTransition()
+
+    useEffect(() => {
+        if (searchParams.get('mode') === 'signup') {
+            setIsLogin(false)
+        }
+    }, [searchParams])
 
     async function handleSubmit(formData: FormData) {
         setError(null)
@@ -45,8 +53,8 @@ export default function LoginPage() {
                                 setError(null)
                             }}
                             className={`flex-1 text-sm font-medium py-2.5 rounded-lg transition-all duration-200 ${isLogin
-                                    ? 'bg-background text-foreground shadow-sm ring-1 ring-border'
-                                    : 'text-muted-foreground hover:text-foreground'
+                                ? 'bg-background text-foreground shadow-sm ring-1 ring-border'
+                                : 'text-muted-foreground hover:text-foreground'
                                 }`}
                         >
                             ログイン
@@ -57,8 +65,8 @@ export default function LoginPage() {
                                 setError(null)
                             }}
                             className={`flex-1 text-sm font-medium py-2.5 rounded-lg transition-all duration-200 ${!isLogin
-                                    ? 'bg-background text-foreground shadow-sm ring-1 ring-border'
-                                    : 'text-muted-foreground hover:text-foreground'
+                                ? 'bg-background text-foreground shadow-sm ring-1 ring-border'
+                                : 'text-muted-foreground hover:text-foreground'
                                 }`}
                         >
                             新規登録

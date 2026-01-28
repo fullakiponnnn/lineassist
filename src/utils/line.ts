@@ -39,6 +39,16 @@ export class LineService {
         }
     }
 
+    async getProfile(userId: string): Promise<messagingApi.UserProfileResponse> {
+        try {
+            const profile = await this.client.getProfile(userId)
+            return profile
+        } catch (error) {
+            console.error('LINE Get Profile Error:', error)
+            throw error
+        }
+    }
+
     async sendVisitThankYou(
         userId: string,
         imageUrl: string,

@@ -3,6 +3,7 @@ import { signOut } from './login/actions'
 import { LogOut, Plus, Search, User, Calendar, Camera, Settings, QrCode } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
+import LandingPage from './landing-page'
 
 export default async function Dashboard() {
   const supabase = await createClient()
@@ -11,6 +12,11 @@ export default async function Dashboard() {
   const {
     data: { user },
   } = await supabase.auth.getUser()
+
+  // 1. 未ログインの場合はLPを表示
+  if (!user) {
+    return <LandingPage />
+  }
 
   // プロフィール情報の取得
   let profile = null
@@ -23,8 +29,8 @@ export default async function Dashboard() {
     profile = data
   }
 
-  // オンボーディング未完了の場合はリダイレクト
-  if (user && (!profile?.shop_name || !profile?.line_channel_token)) {
+  // 2. オンボーディング未完了の場合はリダイレクト
+  if (!profile?.shop_name || !profile?.line_channel_token) {
     redirect('/onboarding')
   }
 
@@ -43,6 +49,7 @@ export default async function Dashboard() {
       `)
       .order('visit_date', { ascending: false })
       .limit(5)
+      .filter('customers.profile_id', 'eq', user.id) // Ensure RLS safety explicitly though RLS handles it
 
     if (visitsData) {
       recentVisits = visitsData.map((v) => ({

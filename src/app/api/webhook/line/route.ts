@@ -69,16 +69,59 @@ export async function POST(
     const data = JSON.parse(body)
     const events = data.events
 
+    console.log('Webhook Received:', JSON.stringify(events, null, 2)) // Debug log
+
     const lineService = new LineService(profile.line_channel_token)
 
     // Process events
     await Promise.all(events.map(async (event: any) => {
+        const userId = event.source.userId
+        const replyToken = event.replyToken
+
+        // --- Handle Follow Event (Friend Add) ---
+        if (event.type === 'follow') {
+            try {
+                // 1. Get LINE Profile
+                const profile = await lineService.getProfile(userId)
+                const displayName = profile.displayName
+
+                // 2. Check if already exists
+                const { data: existingCustomer } = await supabase
+                    .from('customers')
+                    .select('*')
+                    .eq('profile_id', shopId)
+                    .eq('line_user_id', userId)
+                    .single()
+
+                if (!existingCustomer) {
+                    // 3. Register new customer
+                    await supabase
+                        .from('customers')
+                        .insert({
+                            profile_id: shopId,
+                            line_user_id: userId,
+                            display_name: displayName, // Use LINE name initially
+                            // created_at will be set by default
+                        })
+                }
+
+                // 4. Send Welcome Message
+                await lineService.replyMessage(replyToken, [{
+                    type: 'text',
+                    text: `友だち追加ありがとうございます！\n\n会員登録が完了しました。\n次回ご来店の際に、こちらの画面をご提示ください。`
+                }])
+
+            } catch (err) {
+                console.error('Follow Event Error:', err)
+            }
+            return
+        }
+
+        // --- Handle Text Message Event ---
         if (event.type !== 'message' || event.message.type !== 'text') {
             return
         }
 
-        const replyToken = event.replyToken
-        const userId = event.source.userId
         const text = event.message.text.trim()
 
         // 1. Try to find a customer with this LINE User ID first
@@ -91,7 +134,8 @@ export async function POST(
 
         if (existingCustomer) {
             // Already connected
-            // Maybe handle commands? e.g. "予約"
+            // Optional: Handle keywords, but for now just silence or echo?
+            // Let's not reply to avoid spamming unless it's a specific command.
             return
         }
 
@@ -99,13 +143,14 @@ export async function POST(
         // This is a "Heuristic Matching" - weak security but high usability for initial setup.
         // Better: Send a unique code?
         // Simplest for now: User sends their exact registered name.
+        // ... (Existing name matching logic) ...
 
         const { data: matchCustomers } = await supabase
             .from('customers')
             .select('*')
             .eq('profile_id', shopId)
             .eq('display_name', text)
-            .is('line_user_id', null) // Only match unlinked customers (or check dummy)
+            .is('line_user_id', null) // Only match unlinked customers
 
         // Strict match: Only if exactly 1 customer matches that name and is not linked
         if (matchCustomers && matchCustomers.length === 1) {
@@ -114,7 +159,10 @@ export async function POST(
             // Link them!
             await supabase
                 .from('customers')
-                .update({ line_user_id: userId })
+                .update({
+                    line_user_id: userId,
+                    // Optionally update name to LINE name? No, keep shop's record.
+                })
                 .eq('id', customer.id)
 
             // Reply success

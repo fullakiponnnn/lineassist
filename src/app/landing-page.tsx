@@ -399,8 +399,13 @@ export default function LandingPage() {
                                                     <p className="mt-2">今回の仕上がりのお写真をお送りしますね📸</p>
                                                 </div>
                                                 <div className="bg-white p-2 rounded-2xl rounded-tl-none shadow-lg w-48">
-                                                    <div className="bg-gray-100 rounded-xl aspect-[3/4] flex items-center justify-center text-gray-300">
-                                                        <ImageIcon className="w-8 h-8" />
+                                                    <div className="bg-gray-100 rounded-xl overflow-hidden aspect-[3/4] relative">
+                                                        <Image
+                                                            src="/sample-hair.png"
+                                                            alt="仕上がり写真"
+                                                            fill
+                                                            className="object-cover"
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>

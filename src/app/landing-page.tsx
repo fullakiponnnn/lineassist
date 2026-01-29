@@ -438,32 +438,48 @@ export default function LandingPage() {
 
                         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                             {/* Free Plan */}
-                            <FadeIn delay={0}>
-                                <div className="bg-white p-8 rounded-3xl border border-gray-200 shadow-sm hover:shadow-lg transition-all h-full flex flex-col">
-                                    <div className="mb-6">
-                                        <h3 className="text-xl font-bold text-slate-500 mb-2">Free</h3>
-                                        <div className="flex items-baseline gap-1">
-                                            <span className="text-4xl font-extrabold text-slate-900">¥0</span>
-                                            <span className="text-slate-500">/ 月</span>
-                                        </div>
+                            <motion.div
+                                initial={{ opacity: 0, x: -20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: 0.1 }}
+                                whileHover={{ y: -8 }}
+                                className="bg-white p-8 rounded-3xl border border-gray-200 shadow-sm hover:shadow-xl transition-all h-full flex flex-col"
+                            >
+                                <div className="mb-6">
+                                    <h3 className="text-xl font-bold text-slate-500 mb-2">Free</h3>
+                                    <div className="flex items-baseline gap-1">
+                                        <span className="text-4xl font-extrabold text-slate-900">¥0</span>
+                                        <span className="text-slate-500">/ 月</span>
                                     </div>
-                                    <ul className="space-y-4 mb-8 flex-1">
-                                        <li className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-5 h-5 text-primary shrink-0" /> 月間10枚まで送信</li>
-                                        <li className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-5 h-5 text-primary shrink-0" /> 基本的な顧客管理</li>
-                                        <li className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-5 h-5 text-primary shrink-0" /> LINE手動連携</li>
-                                    </ul>
-                                    <Link href="/login" className="w-full py-3 rounded-xl border-2 border-slate-900 text-slate-900 font-bold text-center hover:bg-slate-900 hover:text-white transition-all">
-                                        無料で試す
-                                    </Link>
                                 </div>
-                            </FadeIn>
+                                <ul className="space-y-4 mb-8 flex-1">
+                                    <li className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-5 h-5 text-primary shrink-0" /> 月間10枚まで送信</li>
+                                    <li className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-5 h-5 text-primary shrink-0" /> 基本的な顧客管理</li>
+                                    <li className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-5 h-5 text-primary shrink-0" /> LINE手動連携</li>
+                                </ul>
+                                <Link href="/login" className="w-full py-3 rounded-xl border-2 border-slate-900 text-slate-900 font-bold text-center hover:bg-slate-900 hover:text-white transition-all">
+                                    無料で試す
+                                </Link>
+                            </motion.div>
 
                             {/* Solo Plan (Highlighted) */}
-                            <FadeIn delay={0.1} className="relative transform md:-translate-y-4">
-                                <div className="absolute -top-4 inset-x-0 mx-auto w-max px-4 py-1 bg-gradient-to-r from-primary to-emerald-400 text-white text-xs font-bold rounded-full shadow-lg">
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.9, y: 40 }}
+                                whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ type: "spring", stiffness: 100, delay: 0.2 }}
+                                whileHover={{ scale: 1.03 }}
+                                className="relative transform md:-translate-y-4"
+                            >
+                                <motion.div
+                                    animate={{ y: [0, -4, 0] }}
+                                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                                    className="absolute -top-4 inset-x-0 mx-auto w-max px-4 py-1 bg-gradient-to-r from-primary to-emerald-400 text-white text-xs font-bold rounded-full shadow-lg z-20"
+                                >
                                     一番人気
-                                </div>
-                                <div className="bg-white p-8 rounded-3xl border-2 border-primary shadow-2xl hover:shadow-2xl transition-all h-full flex flex-col relative overflow-hidden">
+                                </motion.div>
+                                <div className="bg-white p-8 rounded-3xl border-2 border-primary shadow-2xl transition-all h-full flex flex-col relative overflow-hidden">
                                     <div className="mb-6 relative z-10">
                                         <h3 className="text-xl font-bold text-primary mb-2">Solo</h3>
                                         <div className="flex items-baseline gap-1">
@@ -477,33 +493,40 @@ export default function LandingPage() {
                                         <li className="flex items-center gap-3 text-sm font-bold text-slate-800"><Check className="w-5 h-5 text-primary shrink-0" /> 顧客データ無制限</li>
                                         <li className="flex items-center gap-3 text-sm font-bold text-slate-800"><Check className="w-5 h-5 text-primary shrink-0" /> 優先サポート</li>
                                     </ul>
-                                    <Link href="/login" className="w-full py-4 rounded-xl bg-primary text-white font-bold text-center shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:scale-105 transition-all relative z-10">
+                                    <Link href="/login" className="w-full py-4 rounded-xl bg-primary text-white font-bold text-center shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all relative z-10">
                                         今すぐ始める
                                     </Link>
+                                    {/* Shining effect background */}
+                                    <div className="absolute top-0 right-0 -mr-16 -mt-16 w-32 h-32 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
                                 </div>
-                            </FadeIn>
+                            </motion.div>
 
                             {/* Standard Plan */}
-                            <FadeIn delay={0.2}>
-                                <div className="bg-white p-8 rounded-3xl border border-gray-200 shadow-sm hover:shadow-lg transition-all h-full flex flex-col">
-                                    <div className="mb-6">
-                                        <h3 className="text-xl font-bold text-slate-500 mb-2">Standard</h3>
-                                        <div className="flex items-baseline gap-1">
-                                            <span className="text-4xl font-extrabold text-slate-900">¥7,980</span>
-                                            <span className="text-slate-500">/ 月</span>
-                                        </div>
-                                        <p className="text-xs text-slate-400 mt-2">小規模サロン向け</p>
+                            <motion.div
+                                initial={{ opacity: 0, x: 20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: 0.3 }}
+                                whileHover={{ y: -8 }}
+                                className="bg-white p-8 rounded-3xl border border-gray-200 shadow-sm hover:shadow-xl transition-all h-full flex flex-col"
+                            >
+                                <div className="mb-6">
+                                    <h3 className="text-xl font-bold text-slate-500 mb-2">Standard</h3>
+                                    <div className="flex items-baseline gap-1">
+                                        <span className="text-4xl font-extrabold text-slate-900">¥7,980</span>
+                                        <span className="text-slate-500">/ 月</span>
                                     </div>
-                                    <ul className="space-y-4 mb-8 flex-1">
-                                        <li className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-5 h-5 text-primary shrink-0" /> すべてのSolo機能</li>
-                                        <li className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-5 h-5 text-primary shrink-0" /> スタッフ管理機能</li>
-                                        <li className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-5 h-5 text-primary shrink-0" /> 顧客分析レポート</li>
-                                    </ul>
-                                    <Link href="/login" className="w-full py-3 rounded-xl border border-gray-200 text-slate-600 font-bold text-center hover:bg-slate-50 transition-all">
-                                        お問い合わせ
-                                    </Link>
+                                    <p className="text-xs text-slate-400 mt-2">小規模サロン向け</p>
                                 </div>
-                            </FadeIn>
+                                <ul className="space-y-4 mb-8 flex-1">
+                                    <li className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-5 h-5 text-primary shrink-0" /> すべてのSolo機能</li>
+                                    <li className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-5 h-5 text-primary shrink-0" /> スタッフ管理機能</li>
+                                    <li className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-5 h-5 text-primary shrink-0" /> 顧客分析レポート</li>
+                                </ul>
+                                <Link href="/login" className="w-full py-3 rounded-xl border border-gray-200 text-slate-600 font-bold text-center hover:bg-slate-50 transition-all">
+                                    お問い合わせ
+                                </Link>
+                            </motion.div>
                         </div>
                     </div>
                 </section>

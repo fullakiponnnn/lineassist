@@ -157,18 +157,24 @@ export default async function Dashboard() {
         )}
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-2 gap-4">
-          <Link href="/visits/new" className="bg-primary text-primary-foreground p-4 rounded-2xl shadow-lg shadow-primary/20 flex flex-col items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all aspect-square sm:aspect-auto">
-            <Camera className="w-8 h-8" />
-            <span className="font-bold text-sm">写真撮影</span>
+        <div className="grid grid-cols-2 gap-3">
+          <Link href="/visits/new" className="col-span-2 bg-primary text-primary-foreground p-5 rounded-2xl shadow-lg shadow-primary/20 flex items-center justify-center gap-3 hover:scale-[1.01] active:scale-[0.99] transition-all">
+            <Camera className="w-6 h-6" />
+            <span className="font-bold text-lg">来店記録を作成</span>
           </Link>
-          <Link href="/guide" className="bg-[#06C755] text-white p-4 rounded-2xl shadow-lg shadow-[#06C755]/20 flex flex-col items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all aspect-square sm:aspect-auto">
-            <QrCode className="w-8 h-8" />
-            <span className="font-bold text-sm">連携ガイド</span>
+
+          <Link href="/scan" className="bg-card text-foreground border border-border p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 hover:bg-muted/50 transition-all aspect-[4/3]">
+            <QrCode className="w-6 h-6 text-primary" />
+            <span className="font-bold text-xs">QR受付</span>
           </Link>
-          <Link href="/customers" className="col-span-2 bg-card text-foreground border border-border p-4 rounded-2xl shadow-sm flex flex-row items-center justify-center gap-3 hover:bg-muted/50 transition-all h-20">
+
+          <Link href="/customers" className="bg-card text-foreground border border-border p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 hover:bg-muted/50 transition-all aspect-[4/3]">
             <User className="w-6 h-6 text-primary" />
-            <span className="font-bold text-sm">顧客一覧を表示</span>
+            <span className="font-bold text-xs">顧客一覧</span>
+          </Link>
+
+          <Link href="/guide" className="col-span-2 bg-[#06C755]/10 text-[#06C755] border border-[#06C755]/20 p-3 rounded-xl flex items-center justify-center gap-2 hover:bg-[#06C755]/20 transition-all">
+            <span className="font-bold text-xs">LINE連携ガイドを見る</span>
           </Link>
         </div>
 

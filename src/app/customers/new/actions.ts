@@ -3,6 +3,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
+import { generateMemberCode } from '@/utils/id'
 
 export async function createCustomer(prevState: any, formData: FormData) {
   const supabase = await createClient()
@@ -21,7 +22,7 @@ export async function createCustomer(prevState: any, formData: FormData) {
   if (!name) {
     return { error: '顧客名は必須です' }
   }
-  
+
   // 仮実装：LINE User IDがない場合、ダミーを入れるか空文字（NOT NULL制約がある場合は注意）
   // schema.sqlでは `line_user_id text not null` なので必須。
   // 現段階では手入力か、ダミーを入れる。
@@ -30,7 +31,8 @@ export async function createCustomer(prevState: any, formData: FormData) {
   const { error } = await supabase.from('customers').insert({
     profile_id: user.id,
     display_name: name,
-    line_user_id: actualLineId
+    line_user_id: actualLineId,
+    member_code: generateMemberCode()
   })
 
   if (error) {

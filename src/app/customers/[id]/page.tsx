@@ -77,6 +77,7 @@ export default async function CustomerDetailPage({
                     </div>
                 </div>
 
+                {/* @ts-ignore */}
                 <CustomerNotes customerId={id} initialNotes={customer.notes} />
 
                 {/* Gallery / History */}

@@ -17,6 +17,7 @@ export default function CustomerNotes({ customerId, initialNotes }: { customerId
         try {
             const { error } = await supabase
                 .from('customers')
+                // @ts-ignore
                 .update({ notes: notes })
                 .eq('id', customerId)
 

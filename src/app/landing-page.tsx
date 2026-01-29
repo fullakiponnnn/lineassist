@@ -508,24 +508,23 @@ export default function LandingPage() {
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.5, delay: 0.3 }}
                                 whileHover={{ y: -8 }}
-                                className="bg-white p-8 rounded-3xl border border-gray-200 shadow-sm hover:shadow-xl transition-all h-full flex flex-col"
+                                className="bg-white p-8 rounded-3xl border border-gray-200 shadow-sm transition-all h-full flex flex-col opacity-80"
                             >
                                 <div className="mb-6">
                                     <h3 className="text-xl font-bold text-slate-500 mb-2">Standard</h3>
                                     <div className="flex items-baseline gap-1">
-                                        <span className="text-4xl font-extrabold text-slate-900">¥7,980</span>
-                                        <span className="text-slate-500">/ 月</span>
+                                        <span className="text-2xl font-bold text-slate-400">Coming Soon</span>
                                     </div>
-                                    <p className="text-xs text-slate-400 mt-2">小規模サロン向け</p>
+                                    <p className="text-xs text-slate-400 mt-2">小規模サロン向け（準備中）</p>
                                 </div>
                                 <ul className="space-y-4 mb-8 flex-1">
-                                    <li className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-5 h-5 text-primary shrink-0" /> すべてのSolo機能</li>
-                                    <li className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-5 h-5 text-primary shrink-0" /> スタッフ管理機能</li>
-                                    <li className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-5 h-5 text-primary shrink-0" /> 顧客分析レポート</li>
+                                    <li className="flex items-center gap-3 text-sm text-slate-400"><Check className="w-5 h-5 text-slate-300 shrink-0" /> すべてのSolo機能</li>
+                                    <li className="flex items-center gap-3 text-sm text-slate-400"><Check className="w-5 h-5 text-slate-300 shrink-0" /> スタッフ管理機能</li>
+                                    <li className="flex items-center gap-3 text-sm text-slate-400"><Check className="w-5 h-5 text-slate-300 shrink-0" /> 顧客分析レポート</li>
                                 </ul>
-                                <Link href="/login" className="w-full py-3 rounded-xl border border-gray-200 text-slate-600 font-bold text-center hover:bg-slate-50 transition-all">
-                                    お問い合わせ
-                                </Link>
+                                <button disabled className="w-full py-3 rounded-xl border border-gray-100 text-gray-300 font-bold text-center cursor-not-allowed">
+                                    準備中
+                                </button>
                             </motion.div>
                         </div>
                     </div>
@@ -580,8 +579,8 @@ export default function LandingPage() {
                         <div className="border-t border-gray-200 pt-10 flex flex-col md:flex-row items-center justify-between text-sm text-slate-500 gap-4">
                             <p>&copy; {new Date().getFullYear()} SnapKarte. All rights reserved.</p>
                             <div className="flex gap-6">
-                                <Link href="/privacy" className="hover:text-primary transition-colors">プライバシーポリシー</Link>
-                                <a href="#" className="hover:text-primary transition-colors">特定商取引法に基づく表記</a>
+                                <Link href="/legal/privacy" className="hover:text-primary transition-colors">プライバシーポリシー</Link>
+                                <Link href="/legal/tokusho" className="hover:text-primary transition-colors">特定商取引法に基づく表記</Link>
                             </div>
                         </div>
                     </div>

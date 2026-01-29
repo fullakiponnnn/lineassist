@@ -19,7 +19,7 @@ export default async function Dashboard() {
   }
 
   // プロフィール情報の取得
-  let profile = null
+  let profile: any = null
   if (user) {
     const { data } = await supabase
       .from('profiles')
@@ -36,6 +36,8 @@ export default async function Dashboard() {
 
   // 最近の来店履歴の取得
   let recentVisits: any[] = []
+  let monthlyCount = 0
+
   if (user) {
     const { data: visitsData } = await supabase
       .from('visits')
@@ -59,6 +61,22 @@ export default async function Dashboard() {
         date: new Date(v.visit_date).toLocaleDateString('ja-JP'),
         tags: v.menu_tags || []
       }))
+    }
+
+    // Freeプランの場合、月間利用件数を取得
+    // @ts-ignore
+    if (profile?.plan_tier === 'free') {
+      const now = new Date()
+      const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
+      const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString()
+
+      const { count } = await supabase
+        .from('visits')
+        .select('*', { count: 'exact', head: true })
+        .gte('created_at', startOfMonth)
+        .lte('created_at', endOfMonth)
+
+      monthlyCount = count || 0
     }
   }
 
@@ -99,6 +117,44 @@ export default async function Dashboard() {
             className="w-full bg-card border border-border rounded-xl px-10 py-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-muted-foreground/60"
           />
         </div>
+
+        {/* Free Plan Usage Limit */}
+        {profile?.plan_tier === 'free' && (
+          <div className="bg-card border border-border rounded-xl p-4 shadow-sm">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
+                <span>利用状況 (今月)</span>
+                <span className={`text-xs px-2 py-0.5 rounded-full ${monthlyCount >= 10 ? 'bg-destructive/10 text-destructive' : 'bg-primary/10 text-primary'}`}>
+                  Freeプラン
+                </span>
+              </h3>
+              <span className={`text-sm font-bold ${monthlyCount >= 10 ? 'text-destructive' : 'text-foreground'}`}>
+                {monthlyCount} / 10
+              </span>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="w-full bg-muted rounded-full h-2 overflow-hidden mb-3">
+              <div
+                className={`h-full rounded-full transition-all duration-500 ${monthlyCount >= 10 ? 'bg-destructive' : 'bg-primary'}`}
+                style={{ width: `${Math.min((monthlyCount / 10) * 100, 100)}%` }}
+              />
+            </div>
+
+            {monthlyCount >= 10 ? (
+              <div className="text-center">
+                <p className="text-xs text-destructive font-bold mb-2">今月の上限に達しました</p>
+                <Link href="/settings" className="block w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-center py-2 rounded-lg text-sm font-bold shadow-md hover:opacity-90 transition-opacity">
+                  無制限プランにアップグレード
+                </Link>
+              </div>
+            ) : (
+              <p className="text-xs text-muted-foreground text-right">
+                あと {10 - monthlyCount} 件登録できます
+              </p>
+            )}
+          </div>
+        )}
 
         {/* Quick Actions */}
         <div className="grid grid-cols-2 gap-4">

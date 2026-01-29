@@ -47,7 +47,7 @@ export async function POST(request: Request) {
                             plan_interval: planInterval,
                             // Set a temporary future date until 'invoice.payment_succeeded' or 'subscription.updated' updates it accurately
                             current_period_end: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
-                        })
+                        } as any)
                         .eq('stripe_customer_id', customerId)
 
                     if (error) {
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
 
             // Subscription Updated (Sync exact Stripe state)
             case 'customer.subscription.updated': {
-                const subscription = event.data.object as Stripe.Subscription
+                const subscription = event.data.object as any
                 const customerId = subscription.customer as string
 
                 // Retrieve price ID to determine tier if metadata logic is somehow skipped
@@ -85,13 +85,13 @@ export async function POST(request: Request) {
                         plan_tier: tier,
                         plan_interval: interval,
                         current_period_end: currentPeriodEnd
-                    })
+                    } as any)
                     .eq('stripe_customer_id', customerId)
                 break
             }
 
             case 'invoice.payment_succeeded': {
-                const invoice = event.data.object as Stripe.Invoice
+                const invoice = event.data.object as any
                 if (invoice.subscription) {
                     const subscription = await stripe.subscriptions.retrieve(invoice.subscription as string)
 
@@ -99,8 +99,8 @@ export async function POST(request: Request) {
                         .from('profiles')
                         .update({
                             subscription_status: 'active', // Ensure status is active
-                            current_period_end: new Date(subscription.current_period_end * 1000).toISOString()
-                        })
+                            current_period_end: new Date((subscription as any).current_period_end * 1000).toISOString()
+                        } as any)
                         .eq('stripe_customer_id', invoice.customer as string)
                 }
                 break
@@ -113,7 +113,7 @@ export async function POST(request: Request) {
                     .update({
                         subscription_status: 'canceled', // or 'free' if you want to downgrade immediately
                         plan_tier: 'free'
-                    })
+                    } as any)
                     .eq('stripe_customer_id', subscription.customer as string)
                 break
             }

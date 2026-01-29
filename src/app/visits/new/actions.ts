@@ -17,11 +17,13 @@ export async function createVisit(prevState: any, formData: FormData) {
     }
 
     // 1. Fetch Profile for settings
-    const { data: profile } = await supabase
+    const { data } = await supabase
         .from('profiles')
-        .select('shop_name, line_channel_token, plan_tier')
+        .select('*')
         .eq('id', user.id)
         .single()
+
+    const profile: any = data
 
     // ---------------------------------------------------------
     // Limit Check for Free Plan

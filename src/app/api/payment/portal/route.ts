@@ -11,11 +11,13 @@ export async function POST(request: Request) {
     }
 
     try {
-        const { data: profile } = await supabase
+        const { data } = await supabase
             .from('profiles')
             .select('stripe_customer_id')
             .eq('id', user.id)
             .single()
+
+        const profile: any = data
 
         if (!profile?.stripe_customer_id) {
             return NextResponse.json({ error: 'No billing information found' }, { status: 404 })

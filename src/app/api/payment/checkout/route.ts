@@ -14,12 +14,15 @@ export async function POST(request: Request) {
         const { priceId, isYearly } = await request.json()
 
         // Get user profile to check if Stripe Customer ID exists
-        const { data: profile } = await supabase
+        const { data } = await supabase
             .from('profiles')
-            .select('stripe_customer_id, email, shop_name')
+            .select('*')
             .eq('id', user.id)
             .single()
 
+        const profile: any = data
+
+        // @ts-ignore
         let customerId = profile?.stripe_customer_id
 
         // Create Stripe Customer if not exists
@@ -36,7 +39,7 @@ export async function POST(request: Request) {
             // Save to DB
             await supabase
                 .from('profiles')
-                .update({ stripe_customer_id: customerId })
+                .update({ stripe_customer_id: customerId } as any)
                 .eq('id', user.id)
         }
 

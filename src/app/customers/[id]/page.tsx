@@ -3,6 +3,7 @@ import { ArrowLeft, Calendar, User, MessageCircle } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import DeleteCustomerButton from './delete-button'
+import CustomerNotes from './notes'
 
 export default async function CustomerDetailPage({
     params,
@@ -75,6 +76,8 @@ export default async function CustomerDetailPage({
                         </p>
                     </div>
                 </div>
+
+                <CustomerNotes customerId={id} initialNotes={customer.notes} />
 
                 {/* Gallery / History */}
                 <div>

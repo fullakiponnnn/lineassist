@@ -34,6 +34,7 @@
 
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-fade-in-up: fade-in-up 0.8s ease-out;
 
   @keyframes accordion-down {
     from {
@@ -49,6 +50,16 @@
     }
     to {
       height: 0;
+    }
+  }
+  @keyframes fade-in-up {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 }
@@ -67,44 +78,44 @@
 /* Base styles */
 :root {
   /* HSL: Hue Saturation Lightness */
-  /* Background: User preference for clean/light or premium dark. Defaulting to a very subtle off-white for light mode */
-  --background: oklch(0.985 0.005 240);
-  --foreground: oklch(0.25 0.02 240);
+  /* Background: Clean White */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.20 0.02 240); /* Dark Slate for readability */
 
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.25 0.02 240);
+  --card-foreground: oklch(0.20 0.02 240);
 
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.25 0.02 240);
+  --popover-foreground: oklch(0.20 0.02 240);
 
-  /* Primary: A sophisticated deep slate/indigo mostly used for actions */
-  --primary: oklch(0.35 0.1 260);
-  --primary-foreground: oklch(0.985 0.005 240);
+  /* Primary: LINE Green (#06C755) -> Consistently used */
+  --primary: oklch(0.68 0.18 145); /* Approx for #06C755 */
+  --primary-foreground: oklch(1 0 0);
 
-  /* Secondary: Soft lavender/gray for secondary actions */
-  --secondary: oklch(0.95 0.02 260);
-  --secondary-foreground: oklch(0.35 0.1 260);
+  /* Secondary: Very light gray for backgrounds/accents */
+  --secondary: oklch(0.97 0.005 240);
+  --secondary-foreground: oklch(0.20 0.02 240);
 
   /* Muted: Subtler texts */
-  --muted: oklch(0.95 0.01 240);
+  --muted: oklch(0.96 0.005 240);
   --muted-foreground: oklch(0.55 0.03 240);
 
-  /* Accent: Used for highlights, active states. A muted gold or soft teal */
-  --accent: oklch(0.95 0.03 260);
-  --accent-foreground: oklch(0.35 0.1 260);
+  /* Accent: Used for highlights, active states */
+  --accent: oklch(0.96 0.01 145);
+  --accent-foreground: oklch(0.25 0.02 240);
 
   --destructive: oklch(0.65 0.25 25);
   --destructive-foreground: oklch(0.985 0.005 240);
 
-  --border: oklch(0.9 0.01 240);
-  --input: oklch(0.9 0.01 240);
-  --ring: oklch(0.35 0.1 260);
+  --border: oklch(0.92 0.005 240);
+  --input: oklch(0.92 0.005 240);
+  --ring: oklch(0.68 0.18 145); /* Matches Primary */
 
   --radius: 0.75rem;
 }
 
 .dark {
-  /* Dark Mode: Deep, rich midnight blue/gray background */
+  /* Dark Mode: Not focus but ensuring readability if toggled */
   --background: oklch(0.15 0.02 260);
   --foreground: oklch(0.985 0.005 240);
 
@@ -114,8 +125,8 @@
   --popover: oklch(0.2 0.03 260);
   --popover-foreground: oklch(0.985 0.005 240);
 
-  --primary: oklch(0.985 0.005 240);
-  --primary-foreground: oklch(0.25 0.02 240);
+  --primary: oklch(0.68 0.18 145);
+  --primary-foreground: oklch(1 0 0);
 
   --secondary: oklch(0.25 0.03 260);
   --secondary-foreground: oklch(0.985 0.005 240);
@@ -131,7 +142,7 @@
 
   --border: oklch(0.25 0.03 260);
   --input: oklch(0.25 0.03 260);
-  --ring: oklch(0.8 0.05 260);
+  --ring: oklch(0.68 0.18 145);
 }
 
 @layer base {

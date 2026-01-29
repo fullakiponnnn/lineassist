@@ -51,19 +51,24 @@ export async function POST(
     const supabase = createAdminClient()
 
     // Fetch Shop Settings
+    // Fetch Shop Settings
     const { data: profile } = await supabase
         .from('profiles')
-        .select('line_channel_token, shop_name') // In real app, also need 'line_channel_secret' for validation
+        .select('line_channel_token, line_channel_secret, shop_name')
         .eq('id', shopId)
         .single()
 
-    if (!profile || !profile.line_channel_token) {
-        return NextResponse.json({ error: 'Shop not found or configured' }, { status: 404 })
+    // @ts-ignore
+    if (!profile || !profile.line_channel_token || !profile.line_channel_secret) {
+        return NextResponse.json({ error: 'Shop not properly configured (Missing Token or Secret)' }, { status: 404 })
     }
 
-    // SKIP SIGNATURE VALIDATION for MVP if we don't store Channel Secret.
-    // In production, you MUST store Channel Secret in profiles and validate here:
-    // if (!line.validateSignature(body, profile.line_channel_secret, signature)) { ... }
+    // STRICT SIGNATURE VALIDATION
+    // @ts-ignore
+    if (!line.validateSignature(body, profile.line_channel_secret, signature)) {
+        console.error('Invalid signature for shop:', shopId)
+        return NextResponse.json({ error: 'Invalid signature' }, { status: 401 })
+    }
 
     // Parse Payload
     const data = JSON.parse(body)
@@ -71,6 +76,7 @@ export async function POST(
 
     console.log('Webhook Received:', JSON.stringify(events, null, 2)) // Debug log
 
+    // @ts-ignore
     const lineService = new LineService(profile.line_channel_token)
 
     // Process events

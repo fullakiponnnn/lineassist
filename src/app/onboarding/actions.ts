@@ -14,6 +14,7 @@ export async function submitOnboarding(formData: FormData) {
     const shopName = formData.get('shopName') as string
     const lineToken = formData.get('lineToken') as string
     const lineBasicId = formData.get('lineBasicId') as string
+    const lineChannelSecret = formData.get('lineChannelSecret') as string
 
     // Update or Insert profile
     const { error } = await supabase
@@ -23,6 +24,7 @@ export async function submitOnboarding(formData: FormData) {
             email: user.email!,
             shop_name: shopName,
             line_channel_token: lineToken,
+            line_channel_secret: lineChannelSecret,
             line_basic_id: lineBasicId,
             updated_at: new Date().toISOString()
         })

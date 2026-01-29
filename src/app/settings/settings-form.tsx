@@ -126,6 +126,22 @@ export default function SettingsForm({ initialShopName, initialLineBasicId, hasT
                         ※ 更新する場合のみ入力してください。以前の値はセキュリティのため表示されません。
                     </p>
                 </div>
+
+                <div className="space-y-2 pt-4 border-t border-border/50">
+                    <label className="text-sm font-bold flex items-center gap-2">
+                        <Key className="w-4 h-4 text-slate-500" />
+                        チャネルシークレット
+                    </label>
+                    <input
+                        type="text"
+                        name="lineChannelSecret"
+                        placeholder={hasToken ? "設定済み (変更する場合のみ入力)" : "32文字程度の英数字"}
+                        className="w-full bg-muted/50 border border-input rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-xs font-mono"
+                    />
+                    <p className="text-xs text-muted-foreground">
+                        ※ Webhookの署名検証に使用します。
+                    </p>
+                </div>
             </div>
 
             {/* Status Messages */}

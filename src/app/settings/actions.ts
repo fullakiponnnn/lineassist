@@ -30,6 +30,11 @@ export async function updateProfile(prevState: any, formData: FormData) {
         updates.line_channel_token = lineToken.trim()
     }
 
+    const lineChannelSecret = formData.get('lineChannelSecret') as string
+    if (lineChannelSecret && lineChannelSecret.trim() !== '') {
+        updates.line_channel_secret = lineChannelSecret.trim()
+    }
+
     const { error } = await supabase
         .from('profiles')
         .update(updates)

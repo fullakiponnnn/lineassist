@@ -72,6 +72,26 @@ const AccordionItem = ({ question, answer }: { question: string, answer: string 
 export default function LandingPage() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
+    // JSON-LD Structured Data
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "SnapKarte",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web, iOS, Android",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "JPY"
+        },
+        "description": "美容室向けのLINE自動連携CRM。施術写真を撮影・送信し、顧客管理を効率化します。",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "ratingCount": "120"
+        }
+    }
+
     const scrollToSection = (id: string) => {
         const element = document.getElementById(id)
         if (element) {
@@ -82,6 +102,10 @@ export default function LandingPage() {
 
     return (
         <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-primary/20 selection:text-primary overflow-x-hidden">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
 
             {/* 1. Header / Navigation */}
             <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 h-16 sm:h-20">

@@ -15,6 +15,7 @@ export default function OnboardingFlow({ profileId, webhookUrl }: Props) {
     const [formData, setFormData] = useState({
         shopName: '',
         lineToken: '',
+        lineChannelSecret: '',
         lineBasicId: ''
     })
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -31,6 +32,7 @@ export default function OnboardingFlow({ profileId, webhookUrl }: Props) {
         const data = new FormData()
         data.append('shopName', formData.shopName)
         data.append('lineToken', formData.lineToken)
+        data.append('lineChannelSecret', formData.lineChannelSecret)
         data.append('lineBasicId', formData.lineBasicId)
 
         try {
@@ -139,9 +141,10 @@ export default function OnboardingFlow({ profileId, webhookUrl }: Props) {
                             <div className="flex gap-4">
                                 <div className="w-6 h-6 rounded-full bg-primary text-primary-foreground flex-shrink-0 flex items-center justify-center font-bold text-xs mt-0.5">3</div>
                                 <div>
-                                    <p className="font-bold mb-1">アクセストークンの発行</p>
+                                    <p className="font-bold mb-1">トークンとシークレットの発行</p>
                                     <p className="text-muted-foreground text-xs">
-                                        Messaging API設定タブで「チャネルアクセストークン（長期）」を発行し、コピーしてください。
+                                        Messaging API設定タブで「チャネルアクセストークン」を発行し、
+                                        チャネル基本設定タブで「チャネルシークレット」を確認してください。
                                     </p>
                                 </div>
                             </div>
@@ -198,6 +201,20 @@ export default function OnboardingFlow({ profileId, webhookUrl }: Props) {
                                     value={formData.lineToken}
                                     onChange={handleChange}
                                     placeholder="非常に長い文字列です..."
+                                    className="w-full bg-muted/50 border border-input rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-xs font-mono"
+                                />
+                            </div>
+
+                            <div className="space-y-3">
+                                <label className="text-sm font-bold flex items-center gap-2">
+                                    <Key className="w-4 h-4 text-slate-500" />
+                                    チャネルシークレット
+                                </label>
+                                <input
+                                    name="lineChannelSecret"
+                                    value={formData.lineChannelSecret}
+                                    onChange={handleChange}
+                                    placeholder="32文字程度の英数字"
                                     className="w-full bg-muted/50 border border-input rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all text-xs font-mono"
                                 />
                             </div>

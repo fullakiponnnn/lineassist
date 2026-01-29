@@ -18,6 +18,11 @@ function PlanSelector({ profileId }: { profileId: string }) {
     const [isLoading, setIsLoading] = useState(false)
 
     const handleCheckout = async (priceId: string) => {
+        if (!priceId) {
+            alert('システムエラー: プランIDが見つかりません。環境設定を確認してください。')
+            console.error('Checkout Error: priceId is undefined', { isYearly })
+            return
+        }
         setIsLoading(true)
         try {
             const res = await fetch('/api/payment/checkout', {

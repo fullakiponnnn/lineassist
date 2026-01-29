@@ -19,9 +19,32 @@ export async function createVisit(prevState: any, formData: FormData) {
     // 1. Fetch Profile for settings
     const { data: profile } = await supabase
         .from('profiles')
-        .select('shop_name, line_channel_token')
+        .select('shop_name, line_channel_token, plan_tier')
         .eq('id', user.id)
         .single()
+
+    // ---------------------------------------------------------
+    // Limit Check for Free Plan
+    // ---------------------------------------------------------
+    if (profile?.plan_tier === 'free') {
+        const now = new Date()
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
+        const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString()
+
+        // We assume RLS Policies restrict access to own customers/visits.
+        // We link visits via customers table if RLS is not implicit on visits regarding profile_id, 
+        // but typically RLS 'visits' policy uses `customer_id IN (select id from customers where profile_id = auth.uid())`
+        // So a simple select count should work for the authenticated user.
+        const { count } = await supabase
+            .from('visits')
+            .select('*', { count: 'exact', head: true })
+            .gte('created_at', startOfMonth)
+            .lte('created_at', endOfMonth)
+
+        if (count !== null && count >= 10) {
+            return { error: '⚠️ Freeプランの上限(月間10件)に達しました。\n設定画面からSoloプランへアップグレードすると無制限に利用できます。' }
+        }
+    }
 
     const customerId = formData.get('customerId') as string
     const visitDate = formData.get('visitDate') as string

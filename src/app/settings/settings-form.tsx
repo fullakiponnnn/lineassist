@@ -1,8 +1,8 @@
 'use client'
 
-import { useActionState } from 'react'
+import { useState, useActionState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Save, Loader2, Store, Key, ExternalLink, Smartphone } from 'lucide-react'
+import { Save, Loader2, Store, Key, ExternalLink, Smartphone, CreditCard, Check } from 'lucide-react'
 import { updateProfile } from './actions'
 
 type Props = {
@@ -10,9 +10,92 @@ type Props = {
     initialLineBasicId: string | null
     hasToken: boolean
     profileId: string
+    profile: any
 }
 
-export default function SettingsForm({ initialShopName, initialLineBasicId, hasToken, profileId }: Props) {
+function PlanSelector({ profileId }: { profileId: string }) {
+    const [isYearly, setIsYearly] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
+
+    const handleCheckout = async (priceId: string) => {
+        setIsLoading(true)
+        try {
+            const res = await fetch('/api/payment/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ priceId, isYearly })
+            })
+            const data = await res.json()
+            if (data.url) window.location.href = data.url
+            else alert('エラーが発生しました: ' + data.error)
+        } catch (error) {
+            alert('通信エラーが発生しました')
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    const SOLO_PRICE_ID = isYearly
+        ? process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_SOLO_YEARLY
+        : process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_SOLO_MONTHLY
+
+    return (
+        <div className="space-y-4">
+            {/* Toggle */}
+            <div className="flex justify-center mb-6">
+                <div className="bg-slate-950/50 p-1 rounded-full flex relative">
+                    <button
+                        type="button"
+                        onClick={() => setIsYearly(false)}
+                        className={`relative z-10 px-4 py-1.5 text-xs font-bold rounded-full transition-all ${!isYearly ? 'text-slate-900 bg-white shadow-sm' : 'text-slate-400 hover:text-slate-200'}`}
+                    >
+                        月払い
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setIsYearly(true)}
+                        className={`relative z-10 px-4 py-1.5 text-xs font-bold rounded-full transition-all flex items-center gap-1 ${isYearly ? 'text-slate-900 bg-white shadow-sm' : 'text-slate-400 hover:text-slate-200'}`}
+                    >
+                        年払い
+                        <span className="bg-emerald-500 text-white text-[9px] px-1.5 py-0.5 rounded-full">お得</span>
+                    </button>
+                </div>
+            </div>
+
+            {/* Solo Plan Card */}
+            <div className="bg-white text-slate-900 rounded-xl p-4 md:p-5 relative overflow-hidden group hover:scale-[1.02] transition-transform duration-300">
+                <div className="absolute top-0 right-0 bg-primary/10 w-24 h-24 rounded-full -mr-8 -mt-8"></div>
+
+                <div className="flex justify-between items-start mb-4 relative z-10">
+                    <div>
+                        <h3 className="font-bold text-lg">Solo Plan</h3>
+                        <p className="text-xs text-slate-500">個人事業主・フリーランス向け</p>
+                    </div>
+                    <div className="text-right">
+                        <p className="text-2xl font-extrabold">{isYearly ? '¥2,483' : '¥2,980'}<span className="text-xs font-normal text-slate-500">/月</span></p>
+                        {isYearly && <p className="text-[10px] text-emerald-600 font-bold">年間 ¥29,800 (2ヶ月分無料)</p>}
+                    </div>
+                </div>
+
+                <ul className="space-y-2 mb-6 text-xs text-slate-600 relative z-10">
+                    <li className="flex items-center gap-2"><Check className="w-3 h-3 text-primary" /> 写真送信数・容量 無制限</li>
+                    <li className="flex items-center gap-2"><Check className="w-3 h-3 text-primary" /> LINE自動連携</li>
+                </ul>
+
+                <button
+                    type="button"
+                    onClick={() => handleCheckout(SOLO_PRICE_ID!)}
+                    disabled={isLoading}
+                    className="w-full bg-primary text-white py-3 rounded-lg font-bold text-sm shadow-lg shadow-primary/20 hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-2 relative z-10"
+                >
+                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'アップグレードする'}
+                </button>
+            </div>
+        </div>
+    )
+}
+
+export default function SettingsForm({ initialShopName, initialLineBasicId, hasToken, profileId, profile }: Props) {
     const router = useRouter()
     // Hydration mismatch avoidance for origin
     const origin = typeof window !== 'undefined' ? window.location.origin : 'https://your-app.com';
@@ -22,6 +105,59 @@ export default function SettingsForm({ initialShopName, initialLineBasicId, hasT
 
     return (
         <form action={formAction} className="space-y-6">
+            {/* Subscription Section */}
+            <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-xl p-6 border border-slate-700 shadow-xl text-white relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
+
+                <h2 className="text-sm font-bold text-slate-300 mb-6 uppercase tracking-wider flex items-center gap-2 relative z-10">
+                    <CreditCard className="w-4 h-4" />
+                    ご利用プラン
+                </h2>
+
+                <div className="relative z-10">
+                    <div className="flex items-center justify-between mb-4">
+                        <div>
+                            <p className="text-2xl font-bold flex items-center gap-2">
+                                {profile.plan_tier === 'free' ? 'Free プラン' :
+                                    profile.plan_tier === 'solo' ? 'Solo プラン' : 'Standard プラン'}
+                                <span className={`text-xs px-2 py-0.5 rounded-full border ${profile.subscription_status === 'active'
+                                    ? 'border-emerald-500 text-emerald-400 bg-emerald-500/10'
+                                    : 'border-slate-500 text-slate-400'
+                                    }`}>
+                                    {profile.subscription_status === 'active' ? '有効' : '無料版'}
+                                </span>
+                            </p>
+                            {profile.subscription_status === 'active' && profile.current_period_end && (
+                                <p className="text-xs text-slate-400 mt-1">
+                                    次回更新日: {new Date(profile.current_period_end).toISOString().split('T')[0].replace(/-/g, '/')}
+                                </p>
+                            )}
+                        </div>
+                    </div>
+
+                    {profile.plan_tier === 'free' ? (
+                        <div className="mt-6">
+                            <PlanSelector profileId={profileId} />
+                        </div>
+                    ) : (
+                        <div className="mt-4">
+                            <a
+                                href="#"
+                                onClick={async (e) => {
+                                    e.preventDefault();
+                                    const res = await fetch('/api/payment/portal', { method: 'POST' });
+                                    const data = await res.json();
+                                    if (data.url) window.location.href = data.url;
+                                }}
+                                className="inline-block w-full text-center bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold py-3 rounded-xl transition-all"
+                            >
+                                契約内容の確認・変更
+                            </a>
+                        </div>
+                    )}
+                </div>
+            </div>
+
             {/* Shop Name Section */}
             <div className="bg-card rounded-xl p-6 border border-border shadow-sm">
                 <h2 className="text-sm font-bold text-muted-foreground mb-4 uppercase tracking-wider flex items-center gap-2">

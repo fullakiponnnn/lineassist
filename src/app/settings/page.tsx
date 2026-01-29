@@ -14,7 +14,7 @@ export default async function SettingsPage() {
 
     const { data: rawProfile } = await supabase
         .from('profiles')
-        .select('shop_name, line_channel_token, line_basic_id')
+        .select('shop_name, line_channel_token, line_basic_id, plan_tier, plan_interval, subscription_status, current_period_end')
         .eq('id', user.id)
         .single()
 
@@ -39,6 +39,7 @@ export default async function SettingsPage() {
                     initialLineBasicId={profile?.line_basic_id || null}
                     hasToken={hasToken}
                     profileId={user.id}
+                    profile={profile}
                 />
             </main>
         </div>

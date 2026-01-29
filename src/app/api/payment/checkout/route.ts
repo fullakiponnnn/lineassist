@@ -49,7 +49,12 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'すでに有料プランを契約中です。プラン変更は「契約内容の確認・変更」から行ってください。' }, { status: 400 })
         }
 
-        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+        const getSiteUrl = () => {
+            if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+            if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
+            return 'http://localhost:3000';
+        };
+        const siteUrl = getSiteUrl();
 
         // Create Checkout Session
         const session = await stripe.checkout.sessions.create({

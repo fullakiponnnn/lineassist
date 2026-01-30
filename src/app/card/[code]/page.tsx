@@ -2,6 +2,8 @@ import { createAdminClient } from '@/utils/supabase/admin'
 import { notFound } from 'next/navigation'
 import MemberCard3D from '@/components/member-card-3d'
 
+export const dynamic = 'force-dynamic'
+
 export default async function MemberCardPage({ params }: { params: Promise<{ code: string }> }) {
     // Next.js 15: params is a Promise
     const { code } = await params
@@ -66,7 +68,7 @@ export default async function MemberCardPage({ params }: { params: Promise<{ cod
 
             {/* Bottom branding */}
             <div className="absolute bottom-6 left-0 w-full text-center">
-                <p className="text-[10px] text-white/10 tracking-widest uppercase">Powered by SnapKarte</p>
+                <p className="text-[10px] text-white/10 tracking-widest uppercase">Powered by SnapKarte v2.0</p>
             </div>
         </div>
     )

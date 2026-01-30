@@ -49,6 +49,14 @@ export async function POST(req: Request) {
 
         let session;
 
+        // Base URLの判定
+        let baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+        if (process.env.VERCEL_URL) {
+            baseUrl = `https://${process.env.VERCEL_URL}`;
+        }
+        // 末尾のスラッシュを削除
+        baseUrl = baseUrl.replace(/\/$/, '');
+
         if (mode === 'payment') {
             // 単発決済モード（主に既存会員のセットアップ購入用）
             if (!priceId) {
@@ -70,8 +78,8 @@ export async function POST(req: Request) {
                     type: 'setup_fee_only', // Webhookで判定用
                     planName: '初期導入サポート',
                 },
-                success_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/setup-thanks`,
-                cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/settings`,
+                success_url: `${baseUrl}/setup-thanks`,
+                cancel_url: `${baseUrl}/settings`,
                 allow_promotion_codes: true,
             });
 
@@ -122,8 +130,8 @@ export async function POST(req: Request) {
                     planName: isYearly ? '年額プラン' : '月額プラン',
                     isSetupFree: isYearly ? 'true' : 'false',
                 },
-                success_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/setup-thanks`,
-                cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/pricing`,
+                success_url: `${baseUrl}/setup-thanks`,
+                cancel_url: `${baseUrl}/pricing`,
                 allow_promotion_codes: true,
             });
         }

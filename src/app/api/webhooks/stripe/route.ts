@@ -40,7 +40,7 @@ export async function POST(req: Request) {
                     .update({
                         is_setup_purchased: true,
                         setup_status: 'pending' // 初期状態はpending
-                    })
+                    } as any)
                     .eq('id', userId);
             }
 

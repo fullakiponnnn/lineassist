@@ -50,10 +50,13 @@ export async function POST(req: Request) {
         let session;
 
         // Base URLの判定
-        let baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-        if (process.env.VERCEL_URL) {
-            baseUrl = `https://${process.env.VERCEL_URL}`;
+        let baseUrl = 'https://www.snapkarte.jp';
+
+        // 開発環境の場合はlocalhostを使用
+        if (process.env.NODE_ENV === 'development') {
+            baseUrl = 'http://localhost:3000';
         }
+
         // 末尾のスラッシュを削除
         baseUrl = baseUrl.replace(/\/$/, '');
 

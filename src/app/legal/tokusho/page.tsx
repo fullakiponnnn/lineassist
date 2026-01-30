@@ -11,7 +11,7 @@ export default function TokushoPage() {
                                 販売業者
                             </th>
                             <td className="px-6 py-4 text-sm text-gray-900">
-                                SnapKarte運営事務局
+                                SwaBlackn Logic
                             </td>
                         </tr>
                         <tr>
@@ -43,7 +43,7 @@ export default function TokushoPage() {
                                 メールアドレス
                             </th>
                             <td className="px-6 py-4 text-sm text-gray-900">
-                                support@snapkarte.com
+                                anke.akfe@gmail.com
                             </td>
                         </tr>
                         <tr>

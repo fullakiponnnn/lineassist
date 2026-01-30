@@ -4,7 +4,7 @@ export default function TermsPage() {
             <h1 className="text-3xl font-bold mb-8 text-center">利用規約</h1>
 
             <section className="space-y-4 mb-8">
-                <p>この利用規約（以下「本規約」といいます。）は、Black Swan Logic（以下「当運営者」といいます。）が提供する美容室向け顧客管理・LINE連携サービス「SnapKarte」（以下「本サービス」といいます。）の利用条件を定めるものです。本サービスの利用を希望する者（以下「利用希望者」といいます。）および本サービスを利用する者（以下「利用者」といいます。）は、本規約に同意した上で本サービスを利用するものとします。</p>
+                <p>この利用規約（以下「本規約」といいます。）は、SwaBlackn Logic（以下「当運営者」といいます。）が提供する美容室向け顧客管理・LINE連携サービス「SnapKarte」（以下「本サービス」といいます。）の利用条件を定めるものです。本サービスの利用を希望する者（以下「利用希望者」といいます。）および本サービスを利用する者（以下「利用者」といいます。）は、本規約に同意した上で本サービスを利用するものとします。</p>
             </section>
 
             <section className="space-y-6">
@@ -94,7 +94,7 @@ export default function TermsPage() {
                 <p>本規約の解釈にあたっては、日本法を準拠法とします。本サービスに関して紛争が生じた場合には、さいたま地方裁判所を第一審の専属的合意管轄裁判所とします。</p>
 
                 <h2 className="text-xl font-bold border-b pb-2 mb-4 mt-8">附則</h2>
-                <p>2026年3月1日 制定・施行</p>
+                <p>2026年1月31日 制定・施行</p>
             </section>
         </div>
     )

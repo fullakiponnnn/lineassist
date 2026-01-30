@@ -48,6 +48,6 @@ Black Swan Logic（以下「当運営者」といいます。）は、当運営�
 なお、当運営者の住所および電話番号については、お問い合わせフォームよりご請求いただければ、遅滞なく開示いたします。
 
 サービス名： SnapKarte
-運営者： Black Swan Logic
+運営者：  SwaBlackn Logic
 お問い合わせ先： anke.akfe@gmail.com
 

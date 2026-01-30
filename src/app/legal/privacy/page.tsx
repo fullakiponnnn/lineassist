@@ -4,7 +4,7 @@ export default function PrivacyPage() {
             <h1 className="text-3xl font-bold mb-8 text-center">プライバシーポリシー</h1>
 
             <section className="space-y-4 mb-8">
-                <p>Black Swan Logic（以下「当運営者」といいます。）は、当運営者が提供するサービス「SnapKarte」（以下「本サービス」といいます。）における、ユーザー（本サービスを利用する事業者およびその顧客を含みます。）の個人情報の取扱いについて、以下のとおりプライバシーポリシー（以下「本ポリシー」といいます。）を定めます。</p>
+                <p>SwaBlackn Logic（以下「当運営者」といいます。）は、当運営者が提供するサービス「SnapKarte」（以下「本サービス」といいます。）における、ユーザー（本サービスを利用する事業者およびその顧客を含みます。）の個人情報の取扱いについて、以下のとおりプライバシーポリシー（以下「本ポリシー」といいます。）を定めます。</p>
             </section>
 
             <section className="space-y-6">
@@ -62,8 +62,8 @@ export default function PrivacyPage() {
 
                 <div className="bg-gray-50 p-6 rounded-lg">
                     <p>サービス名： SnapKarte</p>
-                    <p>運営者： Black Swan Logic</p>
-                    <p>お問い合わせ先： support@snapkarte.com</p>
+                    <p>運営者： SwaBlackn Logic</p>
+                    <p>お問い合わせ先： anke.akfe@gmail.com</p>
                 </div>
             </section>
         </div>

@@ -134,7 +134,7 @@ export async function POST(req: Request) {
                     isSetupFree: isYearly ? 'true' : 'false',
                 },
                 success_url: `${baseUrl}/setup-thanks`,
-                cancel_url: `${baseUrl}/pricing`,
+                cancel_url: `${baseUrl}/`, // LPに戻る
                 allow_promotion_codes: true,
             });
         }

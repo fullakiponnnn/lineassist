@@ -140,6 +140,101 @@ export async function POST(
 
         if (existingCustomer) {
             // Already connected
+
+            // Check if the user is asking for their member card
+            const lowerText = text.toLowerCase()
+            const isCardRequest = ['会員証', 'カード', 'member', 'card', 'qr', 'マイページ'].some(keyword => lowerText.includes(keyword))
+
+            if (isCardRequest) {
+                // @ts-ignore
+                let memberCode = existingCustomer.member_code
+
+                // Generate member code if missing
+                if (!memberCode) {
+                    // Simple 8-char random alphanumeric code
+                    memberCode = Math.random().toString(36).substring(2, 10).toUpperCase()
+
+                    await supabase
+                        .from('customers')
+                        // @ts-ignore
+                        .update({ member_code: memberCode })
+                        .eq('id', existingCustomer.id)
+                }
+
+                // Construct Card URL
+                // Use the request URL to determine the origin (works for both local tunnel and production)
+                const urlObj = new URL(request.url)
+                const origin = `${urlObj.protocol}//${urlObj.host}`
+                const cardUrl = `${origin}/card/${memberCode}`
+
+                // Reply with Flex Message
+                // @ts-ignore
+                await lineService.replyMessage(replyToken, [{
+                    type: 'flex',
+                    altText: '会員証を表示します',
+                    contents: {
+                        type: 'bubble',
+                        header: {
+                            type: 'box',
+                            layout: 'vertical',
+                            contents: [
+                                {
+                                    type: 'text',
+                                    text: 'MEMBERSHIP CARD',
+                                    weight: 'bold',
+                                    color: '#1DB446',
+                                    size: 'xs'
+                                },
+                                {
+                                    type: 'text',
+                                    text: '会員証',
+                                    weight: 'bold',
+                                    size: 'xl',
+                                    margin: 'md'
+                                }
+                            ]
+                        },
+                        body: {
+                            type: 'box',
+                            layout: 'vertical',
+                            contents: [
+                                {
+                                    type: 'text',
+                                    text: `${existingCustomer.display_name} 様`,
+                                    weight: 'bold',
+                                    size: 'lg'
+                                },
+                                {
+                                    type: 'text',
+                                    text: 'ご来店の際は、以下のボタンをタップして会員証をご提示ください。',
+                                    wrap: true,
+                                    size: 'sm',
+                                    color: '#666666',
+                                    margin: 'md'
+                                }
+                            ]
+                        },
+                        footer: {
+                            type: 'box',
+                            layout: 'vertical',
+                            contents: [
+                                {
+                                    type: 'button',
+                                    style: 'primary',
+                                    height: 'sm',
+                                    action: {
+                                        type: 'uri',
+                                        label: '会員証を表示',
+                                        uri: cardUrl
+                                    },
+                                    color: '#06c755'
+                                }
+                            ]
+                        }
+                    }
+                }])
+            }
+
             // Optional: Handle keywords, but for now just silence or echo?
             // Let's not reply to avoid spamming unless it's a specific command.
             return

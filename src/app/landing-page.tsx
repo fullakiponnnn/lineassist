@@ -579,6 +579,7 @@ export default function LandingPage() {
                         <div className="border-t border-gray-200 pt-10 flex flex-col md:flex-row items-center justify-between text-sm text-slate-500 gap-4">
                             <p>&copy; {new Date().getFullYear()} SnapKarte. All rights reserved.</p>
                             <div className="flex gap-6">
+                                <Link href="/legal/terms" className="hover:text-primary transition-colors">利用規約</Link>
                                 <Link href="/legal/privacy" className="hover:text-primary transition-colors">プライバシーポリシー</Link>
                                 <Link href="/legal/tokusho" className="hover:text-primary transition-colors">特定商取引法に基づく表記</Link>
                             </div>

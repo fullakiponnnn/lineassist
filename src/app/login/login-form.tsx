@@ -147,7 +147,7 @@ export default function LoginForm() {
                     </form>
 
                     <p className="mt-8 text-center text-xs text-muted-foreground">
-                        続行することで、利用規約とプライバシーポリシーに同意したことになります。
+                        続行することで、<a href="/legal/terms" target="_blank" className="underline hover:text-primary">利用規約</a>と<a href="/legal/privacy" target="_blank" className="underline hover:text-primary">プライバシーポリシー</a>に同意したことになります。
                     </p>
                 </div>
             </div>

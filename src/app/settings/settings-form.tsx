@@ -2,7 +2,7 @@
 
 import { useState, useActionState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Save, Loader2, Store, Key, ExternalLink, Smartphone, CreditCard, Check } from 'lucide-react'
+import { Save, Loader2, Store, Key, ExternalLink, Smartphone, CreditCard, Check, Zap } from 'lucide-react'
 import { updateProfile } from './actions'
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
     profile: any
 }
 
-function PlanSelector({ profileId }: { profileId: string }) {
+function PlanSelector({ profileId, isSetupOnly = false }: { profileId: string, isSetupOnly?: boolean }) {
     const [isYearly, setIsYearly] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
 
@@ -25,16 +25,29 @@ function PlanSelector({ profileId }: { profileId: string }) {
         }
         setIsLoading(true)
         try {
-            const res = await fetch('/api/payment/checkout', {
+            // mode='payment' を指定してAPIを呼び出す（セットアップ単発購入の場合）
+            const mode = isSetupOnly ? 'payment' : 'subscription';
+
+            const body: any = { mode };
+            if (isSetupOnly) {
+                // 単発決済の場合は priceId を送る
+                body.priceId = priceId;
+            } else {
+                // サブスクの場合は planId を送る
+                body.planId = priceId;
+            }
+
+            const res = await fetch('/api/checkout', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ priceId, isYearly })
+                body: JSON.stringify(body)
             })
             const data = await res.json()
             if (data.url) window.location.href = data.url
-            else alert('エラーが発生しました: ' + data.error)
+            else alert('エラーが発生しました: ' + (data.error || 'Unknown error'))
         } catch (error) {
             alert('通信エラーが発生しました')
+            console.error(error);
         } finally {
             setIsLoading(false)
         }
@@ -43,6 +56,24 @@ function PlanSelector({ profileId }: { profileId: string }) {
     const SOLO_PRICE_ID = isYearly
         ? process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_SOLO_YEARLY
         : process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_SOLO_MONTHLY
+
+    // Setup Fee ID
+    const SETUP_PRICE_ID = process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_SETUP;
+
+    if (isSetupOnly) {
+        return (
+            <div className="mt-4">
+                <button
+                    type="button"
+                    onClick={() => handleCheckout(SETUP_PRICE_ID!)}
+                    disabled={isLoading}
+                    className="w-full bg-amber-500 text-white py-3 rounded-lg font-bold text-sm shadow-lg shadow-amber-500/20 hover:bg-amber-600 disabled:opacity-50 transition-all flex items-center justify-center gap-2"
+                >
+                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : '今すぐ購入する'}
+                </button>
+            </div>
+        )
+    }
 
     return (
         <div className="space-y-4">
@@ -162,6 +193,47 @@ export default function SettingsForm({ initialShopName, initialLineBasicId, hasT
                     )}
                 </div>
             </div>
+
+            {/* Setup Support Section */}
+            {
+                !profile.is_setup_purchased && profile.plan_tier !== 'free' && (
+                    <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-6 border border-amber-200 shadow-sm text-slate-800 relative overflow-hidden">
+                        <h2 className="text-sm font-bold text-amber-800 mb-4 uppercase tracking-wider flex items-center gap-2">
+                            <Zap className="w-4 h-4" />
+                            オプション購入
+                        </h2>
+
+                        <div className="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 className="font-bold text-lg">初期導入サポート</h3>
+                                <p className="text-xs text-slate-600 mt-1 max-w-xs">
+                                    LINE公式アカウントの開設からリッチメニュー設置まで、面倒な設定をすべてプロが代行します。
+                                </p>
+                            </div>
+                            <div className="text-right shrink-0">
+                                <p className="text-xl font-extrabold">¥29,800</p>
+                                <p className="text-xs text-slate-500">一回払い</p>
+                            </div>
+                        </div>
+
+                        <PlanSelector profileId={profileId} isSetupOnly={true} />
+                    </div>
+                )
+            }
+
+            {
+                profile.is_setup_purchased && (
+                    <div className="bg-emerald-50 rounded-xl p-6 border border-emerald-200 shadow-sm flex items-center gap-4">
+                        <div className="bg-emerald-100 p-3 rounded-full">
+                            <Check className="w-6 h-6 text-emerald-600" />
+                        </div>
+                        <div>
+                            <h3 className="font-bold text-emerald-800">初期導入サポート購入済み</h3>
+                            <p className="text-xs text-emerald-700">現在、担当者が設定を進めています。LINEをご確認ください。</p>
+                        </div>
+                    </div>
+                )
+            }
 
             {/* Shop Name Section */}
             <div className="bg-card rounded-xl p-6 border border-border shadow-sm">
@@ -286,16 +358,20 @@ export default function SettingsForm({ initialShopName, initialLineBasicId, hasT
             </div>
 
             {/* Status Messages */}
-            {state?.error && (
-                <div className="p-3 rounded-lg bg-destructive/10 text-destructive text-sm font-bold text-center">
-                    {state.error}
-                </div>
-            )}
-            {state?.success && (
-                <div className="p-3 rounded-lg bg-primary/10 text-primary text-sm font-bold text-center">
-                    {state.message}
-                </div>
-            )}
+            {
+                state?.error && (
+                    <div className="p-3 rounded-lg bg-destructive/10 text-destructive text-sm font-bold text-center">
+                        {state.error}
+                    </div>
+                )
+            }
+            {
+                state?.success && (
+                    <div className="p-3 rounded-lg bg-primary/10 text-primary text-sm font-bold text-center">
+                        {state.message}
+                    </div>
+                )
+            }
 
             {/* Submit Button */}
             <div className="pt-4">
@@ -308,6 +384,6 @@ export default function SettingsForm({ initialShopName, initialLineBasicId, hasT
                     保存する
                 </button>
             </div>
-        </form>
+        </form >
     )
 }

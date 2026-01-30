@@ -34,7 +34,7 @@ export async function POST(req: Request) {
             // ここでは今回購入されたセットアップについて更新する
             const type = metadata.type;
 
-            if (type === 'subscription_with_setup') {
+            if (type === 'subscription_with_setup' || type === 'setup_fee_only') {
                 await supabaseAdmin
                     .from('profiles')
                     .update({
@@ -53,12 +53,19 @@ export async function POST(req: Request) {
         if (process.env.DISCORD_WEBHOOK_URL) {
             const shopName = metadata.shopName || '不明な店舗';
             const planName = metadata.planName || '不明なプラン';
-            const isSetupIncluded = metadata.type === 'subscription_with_setup';
+            const type = metadata.type;
+            const isSetupIncluded = type === 'subscription_with_setup' || type === 'setup_fee_only';
+
+            // 通知タイトル
+            let title = '💰 新規申し込み発生！';
+            if (type === 'setup_fee_only') {
+                title = '🛠️ 初期セットアップ購入！';
+            }
 
             const discordPayload = {
                 embeds: [
                     {
-                        title: '💰 新規申し込み発生！',
+                        title: title,
                         color: 5763719, // Green
                         fields: [
                             {

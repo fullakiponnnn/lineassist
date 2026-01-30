@@ -8,9 +8,11 @@ import { submitOnboarding } from './actions'
 type Props = {
     profileId: string
     webhookUrl: string
+    initialPlan: string | null
+    initialWithSetup: boolean
 }
 
-export default function OnboardingFlow({ profileId, webhookUrl }: Props) {
+export default function OnboardingFlow({ profileId, webhookUrl, initialPlan, initialWithSetup }: Props) {
     const [step, setStep] = useState(1)
     const [formData, setFormData] = useState({
         shopName: '',
@@ -19,6 +21,7 @@ export default function OnboardingFlow({ profileId, webhookUrl }: Props) {
         lineBasicId: ''
     })
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [isPaymentLoading, setIsPaymentLoading] = useState(false)
 
     const handleNext = () => setStep(s => s + 1)
     const handleBack = () => setStep(s => s - 1)
@@ -26,6 +29,11 @@ export default function OnboardingFlow({ profileId, webhookUrl }: Props) {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
+
+    // 決済が必要かどうか
+    // initialPlan が 'monthly' または 'yearly' であれば決済が必要
+    // ただし無料プラン (initialPlan が null または 'free' など) の場合は不要
+    const needsPayment = initialPlan === 'monthly' || initialPlan === 'yearly';
 
     const handleSubmit = async () => {
         setIsSubmitting(true)
@@ -36,16 +44,48 @@ export default function OnboardingFlow({ profileId, webhookUrl }: Props) {
         data.append('lineBasicId', formData.lineBasicId)
 
         try {
-            // Server Action may redirect, or return object. If redirect happens, client code stops here (usually).
-            // But if we return { error }, it continues.
+            // 1. まずはプロフィール情報を保存
             const result = await submitOnboarding(data)
             if (result?.error) {
                 alert(result.error)
                 setIsSubmitting(false)
+                return
             }
+
+            // 2. 決済が必要な場合はCheckoutへ進む
+            if (needsPayment) {
+                setIsPaymentLoading(true)
+                const priceId = initialPlan === 'yearly'
+                    ? process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_SOLO_YEARLY
+                    : process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_SOLO_MONTHLY;
+
+                const res = await fetch('/api/checkout', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        mode: 'subscription',
+                        planId: priceId,
+                        withSetup: initialWithSetup
+                    })
+                })
+                const checkoutData = await res.json()
+                if (checkoutData.url) {
+                    window.location.href = checkoutData.url
+                } else {
+                    alert('決済エラー: ' + (checkoutData.error || 'Unknown Error'))
+                    setIsSubmitting(false)
+                    setIsPaymentLoading(false)
+                }
+            } else {
+                // 無料プランなど決済不要の場合は完了画面へ（このAction内でredirectしている場合はそこへ飛ぶ）
+                // redirectしない場合は、ここでダッシュボードへ遷移
+                window.location.href = '/'
+            }
+
         } catch (e) {
             console.error(e)
             setIsSubmitting(false)
+            setIsPaymentLoading(false)
             alert('エラーが発生しました')
         }
     }
@@ -267,10 +307,13 @@ export default function OnboardingFlow({ profileId, webhookUrl }: Props) {
                     ) : (
                         <button
                             onClick={handleSubmit}
-                            disabled={isSubmitting || !formData.lineToken}
+                            disabled={isSubmitting || !formData.lineToken || isPaymentLoading}
                             className="bg-[#06C755] text-white font-bold px-8 py-3 rounded-xl shadow-lg shadow-[#06C755]/20 hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:scale-100 flex items-center gap-2"
                         >
-                            利用開始 <Check className="w-4 h-4" />
+                            {needsPayment
+                                ? (isPaymentLoading ? '処理中...' : '保存して決済へ')
+                                : '利用開始'}
+                            <Check className="w-4 h-4" />
                         </button>
                     )}
                 </div>

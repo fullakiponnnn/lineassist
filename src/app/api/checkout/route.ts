@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { headers } from 'next/headers';
 import { stripe } from '@/utils/stripe';
 import { createClient } from '@/utils/supabase/server';
 
@@ -15,11 +14,10 @@ export async function POST(req: Request) {
         }
 
         const body = await req.json();
-        const { planId, withSetup } = body;
-
-        if (!planId) {
-            return NextResponse.json({ error: 'Plan ID is required' }, { status: 400 });
-        }
+        // type: check mode ('subscription' or 'payment')
+        // planId: for subscription
+        // priceId: for one-time payment (setup fee)
+        const { planId, withSetup, mode = 'subscription', priceId } = body;
 
         // DBからプロフィール情報を取得
         // @ts-ignore
@@ -49,53 +47,86 @@ export async function POST(req: Request) {
                 .eq('id', user.id);
         }
 
-        // プラン情報を取得して年額かどうか判定
-        const price = await stripe.prices.retrieve(planId);
-        const isYearly = price.recurring?.interval === 'year';
+        let session;
 
-        const line_items = [
-            {
-                price: planId,
-                quantity: 1,
-            },
-        ];
-
-        // 月額プラン かつ セットアップ希望の場合のみ初期費用を追加
-        // 年額プランの場合は無料特典として付帯するため、ここでの課金ラインアイテムは追加しないが、
-        // メタデータでセットアップありとして扱う
-        if (!isYearly && withSetup) {
-            const setupPriceId = process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_SETUP;
-            if (!setupPriceId) {
-                throw new Error('Setup price ID is not configured');
+        if (mode === 'payment') {
+            // 単発決済モード（主に既存会員のセットアップ購入用）
+            if (!priceId) {
+                return NextResponse.json({ error: 'Price ID is required for payment mode' }, { status: 400 });
             }
-            line_items.push({
-                price: setupPriceId,
-                quantity: 1,
-            });
-        }
 
-        const hasSetup = isYearly || withSetup;
-
-        const session = await stripe.checkout.sessions.create({
-            customer: customerId,
-            line_items,
-            mode: 'subscription',
-            subscription_data: {
+            session = await stripe.checkout.sessions.create({
+                customer: customerId,
+                line_items: [
+                    {
+                        price: priceId,
+                        quantity: 1,
+                    },
+                ],
+                mode: 'payment',
                 metadata: {
                     userId: user.id,
+                    shopName: shopName,
+                    type: 'setup_fee_only', // Webhookで判定用
+                    planName: '初期導入サポート',
+                },
+                success_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/setup-thanks`,
+                cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/settings`,
+                allow_promotion_codes: true,
+            });
+
+        } else {
+            // サブスクリプションモード
+            if (!planId) {
+                return NextResponse.json({ error: 'Plan ID is required for subscription mode' }, { status: 400 });
+            }
+
+            // プラン情報を取得して年額かどうか判定
+            const price = await stripe.prices.retrieve(planId);
+            const isYearly = price.recurring?.interval === 'year';
+
+            const line_items = [
+                {
+                    price: planId,
+                    quantity: 1,
+                },
+            ];
+
+            // 月額プラン かつ セットアップ希望の場合のみ初期費用を追加
+            if (!isYearly && withSetup) {
+                const setupPriceId = process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_SETUP;
+                if (!setupPriceId) {
+                    throw new Error('Setup price ID is not configured');
                 }
-            },
-            metadata: {
-                userId: user.id,
-                shopName: shopName,
-                type: hasSetup ? 'subscription_with_setup' : 'subscription_only',
-                planName: isYearly ? '年額プラン' : '月額プラン',
-                isSetupFree: isYearly ? 'true' : 'false',
-            },
-            success_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/setup-thanks`,
-            cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/pricing`, // 仮のURL
-            allow_promotion_codes: true,
-        });
+                line_items.push({
+                    price: setupPriceId,
+                    quantity: 1,
+                });
+            }
+
+            const hasSetup = isYearly || withSetup;
+
+            session = await stripe.checkout.sessions.create({
+                customer: customerId,
+                line_items,
+                mode: 'subscription',
+                subscription_data: {
+                    metadata: {
+                        userId: user.id,
+                    }
+                },
+                metadata: {
+                    userId: user.id,
+                    shopName: shopName,
+                    type: hasSetup ? 'subscription_with_setup' : 'subscription_only',
+                    planName: isYearly ? '年額プラン' : '月額プラン',
+                    isSetupFree: isYearly ? 'true' : 'false',
+                },
+                success_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/setup-thanks`,
+                cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/pricing`,
+                allow_promotion_codes: true,
+            });
+        }
 
         return NextResponse.json({ sessionId: session.id, url: session.url });
     } catch (err: any) {

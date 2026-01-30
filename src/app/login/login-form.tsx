@@ -130,6 +130,10 @@ export default function LoginForm() {
                             </div>
                         )}
 
+                        {/* Hidden inputs to pass query params to server action */}
+                        <input type="hidden" name="plan" value={searchParams.get('plan') || ''} />
+                        <input type="hidden" name="with_setup" value={searchParams.get('with_setup') || ''} />
+
                         <button
                             type="submit"
                             disabled={isPending}

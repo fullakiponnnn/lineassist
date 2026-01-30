@@ -29,7 +29,21 @@ export async function login(formData: FormData) {
     }
 
     revalidatePath('/', 'layout')
-    redirect('/')
+
+    // リダイレクト先にパラメータを引き継ぐ
+    const plan = formData.get('plan')
+    const withSetup = formData.get('with_setup')
+
+    let redirectUrl = '/onboarding'
+    const params = new URLSearchParams()
+    if (plan) params.set('plan', plan as string)
+    if (withSetup) params.set('with_setup', withSetup as string)
+
+    if (params.toString()) {
+        redirectUrl += `?${params.toString()}`
+    }
+
+    redirect(redirectUrl)
 }
 
 export async function signup(formData: FormData) {
@@ -53,16 +67,6 @@ export async function signup(formData: FormData) {
         return { error: error.message }
     }
 
-    // プロフィールテーブルへの挿入は、SupabaseのTriggerで行うか、
-    // ここで明示的に行うことができますが、
-    // 今回はUser Managementと連動させるため、本来はTriggerがベストです。
-    // しかし、Trigger設定をしていない場合はここでinsertします。
-    // 一旦、profilesテーブルはuser.idと紐付いているので、
-    // Triggerを作成するのがベストプラクティスですが、
-    // 簡易的にここでProfilesへの書き込みも試行します。
-    // ただし、RLSで insert own profile を許可しているため、クライアントからでも可能ですが、
-    // Server Action内で行うのが安全です。
-
     if (data.user) {
         const { error: profileError } = await supabase
             .from('profiles')
@@ -74,11 +78,23 @@ export async function signup(formData: FormData) {
 
         if (profileError) {
             console.error('Profile creation failed:', profileError)
-            // ユーザー作成は成功しているがプロフィール作成に失敗した場合のハンドリング
-            // 必要に応じてロールバック処理など（Supabase Authはロールバックできないので、ここが難しい）
         }
     }
 
     revalidatePath('/', 'layout')
-    redirect('/')
+
+    // リダイレクト先にパラメータを引き継ぐ
+    const plan = formData.get('plan')
+    const withSetup = formData.get('with_setup')
+
+    let redirectUrl = '/onboarding'
+    const params = new URLSearchParams()
+    if (plan) params.set('plan', plan as string)
+    if (withSetup) params.set('with_setup', withSetup as string)
+
+    if (params.toString()) {
+        redirectUrl += `?${params.toString()}`
+    }
+
+    redirect(redirectUrl)
 }

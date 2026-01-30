@@ -72,6 +72,7 @@ const AccordionItem = ({ question, answer }: { question: string, answer: string 
 export default function LandingPage() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly')
+    const [withSetup, setWithSetup] = useState(false)
 
     // JSON-LD Structured Data
     const jsonLd = {
@@ -558,16 +559,28 @@ export default function LandingPage() {
                                         {/* Setup Support Feature */}
                                         <li className={`flex items-start gap-3 text-sm font-bold p-2 rounded-lg ${billingCycle === 'yearly' ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'text-slate-500'}`}>
                                             <div className="mt-0.5"><Zap className={`w-4 h-4 ${billingCycle === 'yearly' ? 'text-amber-500 fill-amber-500' : 'text-slate-400'}`} /></div>
-                                            <div>
-                                                初期導入サポート(¥29,800)
+                                            <div className="w-full">
+                                                <div className="flex justify-between items-center">
+                                                    <span>初期導入サポート</span>
+                                                    {billingCycle === 'monthly' && (
+                                                        <label className="inline-flex items-center cursor-pointer">
+                                                            <input type="checkbox" className="sr-only peer" checked={withSetup} onChange={(e) => setWithSetup(e.target.checked)} />
+                                                            <div className="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                                                        </label>
+                                                    )}
+                                                </div>
                                                 <div className={`text-xs mt-1 ${billingCycle === 'yearly' ? 'text-amber-700 font-extrabold' : 'text-slate-400 font-normal'}`}>
-                                                    {billingCycle === 'yearly' ? '👉 年払いなら無料特典！' : '※ 月払いは別途購入可能'}
+                                                    {billingCycle === 'yearly' ? (
+                                                        '👉 年払いなら無料特典！'
+                                                    ) : (
+                                                        withSetup ? <span className="text-primary font-bold">+ ¥29,800 (一回払い)</span> : '※ オプションで追加可能'
+                                                    )}
                                                 </div>
                                             </div>
                                         </li>
                                     </ul>
-                                    <Link href="/login" className="w-full py-4 rounded-xl bg-primary text-white font-bold text-center shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all relative z-10">
-                                        今すぐ始める
+                                    <Link href={`/login?plan=${billingCycle}&with_setup=${billingCycle === 'yearly' ? 'true' : withSetup}`} className="w-full py-4 rounded-xl bg-primary text-white font-bold text-center shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all relative z-10 block">
+                                        {billingCycle === 'monthly' && withSetup ? '総額 ¥32,780 で始める' : '今すぐ始める'}
                                     </Link>
                                     {/* Shining effect background */}
                                     <div className="absolute top-0 right-0 -mr-16 -mt-16 w-32 h-32 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>

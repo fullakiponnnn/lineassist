@@ -75,6 +75,24 @@ export async function createVisit(prevState: any, formData: FormData) {
         return { error: '保存に失敗しました' }
     }
 
+    // Update Customer's last_visit_date
+    const { data: customerData } = await supabase
+        .from('customers')
+        .select('last_visit_date')
+        .eq('id', customerId)
+        .single()
+
+    const newVisitDate = new Date(visitDate)
+    const currentLastVisit = customerData?.last_visit_date ? new Date(customerData.last_visit_date) : null
+
+    // Update if no previous record or if new visit is newer
+    if (!currentLastVisit || newVisitDate >= currentLastVisit) {
+        await supabase
+            .from('customers')
+            .update({ last_visit_date: newVisitDate.toISOString() })
+            .eq('id', customerId)
+    }
+
     // ---------------------------------------------------------
     // LINE Automation
     // ---------------------------------------------------------
@@ -114,6 +132,7 @@ export async function createVisit(prevState: any, formData: FormData) {
     }
 
     revalidatePath('/')
+    revalidatePath(`/customers/${customerId}`)
     redirect('/')
 }
 

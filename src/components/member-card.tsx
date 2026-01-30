@@ -13,10 +13,10 @@ interface MemberCardProps {
 
 export default function MemberCard({ customerName, memberCode, shopName }: MemberCardProps) {
     return (
-        <div className="w-full max-w-[320px] mx-auto aspect-[9/16] relative rounded-[2rem] overflow-hidden shadow-2xl flex flex-col bg-white">
+        <div className="w-full max-w-[340px] mx-auto min-h-[600px] relative rounded-[2rem] overflow-hidden shadow-2xl flex flex-col bg-white ring-1 ring-white/10">
 
             {/* Top Section: Flight Info Style */}
-            <div className="h-[65%] bg-slate-900 relative p-6 flex flex-col justify-between overflow-hidden text-white">
+            <div className="flex-[2] bg-slate-900 relative p-6 flex flex-col justify-between overflow-hidden text-white">
 
                 {/* Holographic/Animated Background */}
                 <div className="absolute inset-0 z-0">
@@ -43,18 +43,18 @@ export default function MemberCard({ customerName, memberCode, shopName }: Membe
                 </div>
 
                 {/* Content Layer */}
-                <div className="relative z-10 flex flex-col h-full">
+                <div className="relative z-10 flex flex-col h-full gap-4">
                     {/* Header */}
-                    <div className="flex justify-between items-start mb-6">
-                        <div>
+                    <div className="flex justify-between items-start">
+                        <div className="flex-1 min-w-0 pr-2">
                             <p className="text-[10px] font-bold tracking-[0.2em] text-cyan-400 uppercase mb-1">Boarding Pass</p>
-                            <h3 className="text-xl font-bold tracking-tight text-white leading-none">{shopName}</h3>
+                            <h3 className="text-xl font-bold tracking-tight text-white leading-tight break-words">{shopName}</h3>
                         </div>
-                        <Plane className="text-white/20 w-8 h-8 rotate-[-45deg]" />
+                        <Plane className="text-white/20 w-8 h-8 rotate-[-45deg] shrink-0" />
                     </div>
 
                     {/* QR Code Section - Centerpiece */}
-                    <div className="flex-1 flex flex-col items-center justify-center py-4">
+                    <div className="flex-1 flex flex-col items-center justify-center py-2">
                         <div className="bg-white p-3 rounded-xl shadow-lg relative group">
                             <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-purple-500 rounded-xl blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
                             <div className="relative bg-white rounded-lg p-1">
@@ -69,7 +69,7 @@ export default function MemberCard({ customerName, memberCode, shopName }: Membe
                     </div>
 
                     {/* Status Row */}
-                    <div className="flex justify-between items-end border-b border-white/10 pb-4 mb-2">
+                    <div className="flex justify-between items-end border-b border-white/10 pb-4">
                         <div>
                             <p className="text-[9px] text-slate-400 uppercase tracking-wider mb-0.5">Class</p>
                             <p className="text-lg font-bold">MEMBER</p>
@@ -83,10 +83,15 @@ export default function MemberCard({ customerName, memberCode, shopName }: Membe
             </div>
 
             {/* Tear-off Line */}
-            <div className="relative flex items-center justify-between w-full h-0">
-                <div className="w-6 h-6 rounded-full bg-[#0a0a0a] -ml-3 z-10"></div>
-                <div className="flex-1 border-t-2 border-dashed border-slate-300 mx-1"></div>
-                <div className="w-6 h-6 rounded-full bg-[#0a0a0a] -mr-3 z-10"></div>
+            <div className="relative flex items-center justify-between w-full h-8 shrink-0 bg-slate-900 overflow-hidden">
+                {/* Visual trick: actually using the background color of top/bottom to make it look seamless,
+                    but here we need a transitional container */}
+                <div className="absolute inset-0 bg-white"></div>
+                <div className="absolute inset-x-0 top-0 h-1/2 bg-slate-900"></div>
+
+                <div className="w-6 h-6 rounded-full bg-[#0a0a0a] -ml-3 z-10 relative"></div>
+                <div className="flex-1 border-t-2 border-dashed border-slate-300 mx-1 relative z-10 opacity-50"></div>
+                <div className="w-6 h-6 rounded-full bg-[#0a0a0a] -mr-3 z-10 relative"></div>
             </div>
 
             {/* Bottom Section: White Ticket Info */}
@@ -95,15 +100,15 @@ export default function MemberCard({ customerName, memberCode, shopName }: Membe
                 <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px]"></div>
 
                 <div className="space-y-4 relative z-10">
-                    <div>
+                    <div className="min-w-0">
                         <p className="text-[9px] text-slate-400 uppercase tracking-wider font-bold mb-1">Passenger Name</p>
-                        <p className="text-xl font-bold text-slate-900 tracking-tight">{customerName}</p>
+                        <p className="text-xl font-bold text-slate-900 tracking-tight truncate">{customerName}</p>
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <p className="text-[9px] text-slate-400 uppercase tracking-wider font-bold mb-1">Member ID</p>
-                            <p className="font-mono text-sm text-slate-700 tracking-widest">{memberCode.slice(0, 8)}</p>
+                            <p className="font-mono text-sm text-slate-700 tracking-widest truncate">{memberCode.slice(0, 8)}</p>
                         </div>
                         <div>
                             <p className="text-[9px] text-slate-400 uppercase tracking-wider font-bold mb-1">Date</p>

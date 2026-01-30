@@ -22,14 +22,15 @@ export async function POST(req: Request) {
         }
 
         // DBからプロフィール情報を取得
+        // @ts-ignore
         const { data: profile } = await supabase
             .from('profiles')
             .select('shop_name, stripe_customer_id')
             .eq('id', user.id)
             .single();
 
-        const shopName = profile?.shop_name || '店舗名未設定';
-        let customerId = profile?.stripe_customer_id;
+        const shopName = (profile as any)?.shop_name || '店舗名未設定';
+        let customerId = (profile as any)?.stripe_customer_id;
 
         // Stripe上でCustomerを作成（未登録の場合）
         if (!customerId) {
@@ -44,7 +45,7 @@ export async function POST(req: Request) {
             // プロフィールを更新
             await supabase
                 .from('profiles')
-                .update({ stripe_customer_id: customerId })
+                .update({ stripe_customer_id: customerId } as any)
                 .eq('id', user.id);
         }
 

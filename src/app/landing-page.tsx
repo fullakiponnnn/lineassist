@@ -71,6 +71,7 @@ const AccordionItem = ({ question, answer }: { question: string, answer: string 
 
 export default function LandingPage() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+    const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly')
 
     // JSON-LD Structured Data
     const jsonLd = {
@@ -465,9 +466,30 @@ export default function LandingPage() {
                 <section className="py-24 bg-gray-50 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]" id="pricing">
                     <div className="container mx-auto px-4">
                         <FadeIn>
-                            <h2 className="text-3xl sm:text-4xl font-extrabold text-center text-slate-900 mb-16">
+                            <h2 className="text-3xl sm:text-4xl font-extrabold text-center text-slate-900 mb-8">
                                 シンプルで透明な<span className="text-primary">料金プラン</span>
                             </h2>
+
+                            {/* Billing Cycle Toggle */}
+                            <div className="flex justify-center mb-12">
+                                <div className="bg-gray-200 p-1 rounded-full inline-flex relative">
+                                    <div className="absolute top-[-30px] right-[-20px] bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full animate-bounce">
+                                        年額ならセットアップ無料！
+                                    </div>
+                                    <button
+                                        onClick={() => setBillingCycle('monthly')}
+                                        className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${billingCycle === 'monthly' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                                    >
+                                        月払い
+                                    </button>
+                                    <button
+                                        onClick={() => setBillingCycle('yearly')}
+                                        className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${billingCycle === 'yearly' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                                    >
+                                        年払い <span className="text-emerald-600 text-xs ml-1">(-17%)</span>
+                                    </button>
+                                </div>
+                            </div>
                         </FadeIn>
 
                         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -484,8 +506,8 @@ export default function LandingPage() {
                                     <h3 className="text-xl font-bold text-slate-500 mb-2">Free</h3>
                                     <div className="flex items-baseline gap-1">
                                         <span className="text-4xl font-extrabold text-slate-900">¥0</span>
-                                        <span className="text-slate-500">/ 月</span>
                                     </div>
+                                    <p className="text-xs text-slate-400 mt-2">ずっと無料</p>
                                 </div>
                                 <ul className="space-y-4 mb-8 flex-1">
                                     <li className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-5 h-5 text-primary shrink-0" /> 月間10枚まで送信</li>
@@ -517,15 +539,32 @@ export default function LandingPage() {
                                     <div className="mb-6 relative z-10">
                                         <h3 className="text-xl font-bold text-primary mb-2">Solo</h3>
                                         <div className="flex items-baseline gap-1">
-                                            <span className="text-5xl font-extrabold text-slate-900">¥2,980</span>
-                                            <span className="text-slate-500">/ 月</span>
+                                            <span className="text-5xl font-extrabold text-slate-900">
+                                                {billingCycle === 'monthly' ? '¥2,980' : '¥29,800'}
+                                            </span>
+                                            <span className="text-slate-500">
+                                                / {billingCycle === 'monthly' ? '月' : '年'}
+                                            </span>
                                         </div>
-                                        <p className="text-xs text-slate-400 mt-2">個人事業主・フリーランス向け</p>
+                                        <p className="text-xs text-slate-400 mt-2">
+                                            {billingCycle === 'yearly' ? '実質2ヶ月分無料！' : '個人事業主・フリーランス向け'}
+                                        </p>
                                     </div>
                                     <ul className="space-y-4 mb-8 flex-1 relative z-10">
                                         <li className="flex items-center gap-3 text-sm font-bold text-slate-800"><Check className="w-5 h-5 text-primary shrink-0" /> 無制限の写真送信</li>
                                         <li className="flex items-center gap-3 text-sm font-bold text-slate-800"><Check className="w-5 h-5 text-primary shrink-0" /> 顧客データ無制限</li>
                                         <li className="flex items-center gap-3 text-sm font-bold text-slate-800"><Check className="w-5 h-5 text-primary shrink-0" /> 優先サポート</li>
+
+                                        {/* Setup Support Feature */}
+                                        <li className={`flex items-start gap-3 text-sm font-bold p-2 rounded-lg ${billingCycle === 'yearly' ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'text-slate-500'}`}>
+                                            <div className="mt-0.5"><Zap className={`w-4 h-4 ${billingCycle === 'yearly' ? 'text-amber-500 fill-amber-500' : 'text-slate-400'}`} /></div>
+                                            <div>
+                                                初期導入サポート(¥29,800)
+                                                <div className={`text-xs mt-1 ${billingCycle === 'yearly' ? 'text-amber-700 font-extrabold' : 'text-slate-400 font-normal'}`}>
+                                                    {billingCycle === 'yearly' ? '👉 年払いなら無料特典！' : '※ 月払いは別途購入可能'}
+                                                </div>
+                                            </div>
+                                        </li>
                                     </ul>
                                     <Link href="/login" className="w-full py-4 rounded-xl bg-primary text-white font-bold text-center shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all relative z-10">
                                         今すぐ始める

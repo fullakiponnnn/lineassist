@@ -22,3 +22,19 @@ export async function generateLinkToken(customerId: string) {
     revalidatePath(`/customers/${customerId}`)
     return { success: true, token }
 }
+
+export async function deleteCustomer(customerId: string) {
+    const supabase = await createClient()
+
+    const { error } = await supabase
+        .from('customers')
+        .delete()
+        .eq('id', customerId)
+
+    if (error) {
+        console.error('Delete error', error)
+        return { error: '顧客の削除に失敗しました' }
+    }
+
+    return { success: true }
+}

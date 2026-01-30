@@ -13,12 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SnapKarte | 美容室向けLINE自動連携CRM | 顧客管理・カルテアプリ",
-  description: "美容室のためのLINE連携CRM「SnapKarte（スナップカルテ）」。施術写真を撮影するだけで、自動でお客様のLINEにお礼メッセージと写真を送信。リピート率向上と業務効率化を同時に実現します。",
-  keywords: ["美容室 CRM", "LINE連携", "電子カルテ", "美容師 アプリ", "顧客管理", "リピート率向上", "業務効率化"],
+  title: "SnapKarte | 個人美容師・面貸し特化のLINE電子カルテ | 顧客管理・自動追客",
+  description: "個人美容師・フリーランスのためのLINE連携電子カルテ「SnapKarte（スナップカルテ）」。施術写真を撮るだけでお礼LINEを自動送信。事務作業をゼロにし、Google口コミ収集やリピート率向上を強力にサポートします。月額0円から。",
+  keywords: ["美容室 CRM", "個人美容師", "フリーランス美容師", "面貸し", "シェアサロン", "LINE連携 電子カルテ", "顧客管理アプリ", "Google口コミ 自動化", "リピート率向上", "業務効率化"],
   openGraph: {
-    title: "SnapKarte | 美容室向けLINE自動連携CRM",
-    description: "写真撮影で簡単カルテ作成。LINEで自動リマインド。美容室の業務を劇的に効率化します。",
+    title: "SnapKarte | 個人美容師・面貸し特化のLINE電子カルテ",
+    description: "スマホで撮るだけ、営業終了。個人美容師の事務作業をゼロにする、LINE連携の無料電子カルテアプリ。",
     url: "https://snapkarte.com", // Replace with actual domain
     siteName: "SnapKarte",
     locale: "ja_JP",
@@ -34,8 +34,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "SnapKarte | 美容室向けLINE連携CRM",
-    description: "撮影するだけで、お客様に感動を。美容室向け自動連携カルテアプリ。",
+    title: "SnapKarte | 個人美容師向けLINE連携CRM",
+    description: "撮影するだけで、お客様に感動を。個人美容師・フリーランスのための自動連携カルテアプリ。",
     images: ["/og-image.png"], // Assuming you will add this image
   },
   manifest: "/manifest.json",

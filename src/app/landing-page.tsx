@@ -77,6 +77,7 @@ export default function LandingPage() {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
         "name": "SnapKarte",
+        "description": "個人美容師・フリーランス向けのLINE自動連携電子カルテ。施術写真を撮影・送信し、顧客管理とリピート施策を自動化します。",
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "Web, iOS, Android",
         "offers": {
@@ -84,7 +85,11 @@ export default function LandingPage() {
             "price": "0",
             "priceCurrency": "JPY"
         },
-        "description": "美容室向けのLINE自動連携CRM。施術写真を撮影・送信し、顧客管理を効率化します。",
+        "featureList": ["LINE自動送信", "電子カルテ", "顧客管理", "Google口コミ促進", "予約管理補助"],
+        "audience": {
+            "@type": "Audience",
+            "audienceType": "美容師, 個人事業主, フリーランス, シェアサロン利用者"
+        },
         "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "4.8",
@@ -175,15 +180,16 @@ export default function LandingPage() {
                             <FadeIn>
                                 <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-100 px-3 py-1 rounded-full text-xs sm:text-sm font-bold mb-4 tracking-wide uppercase">
                                     <Zap className="w-3 h-3 sm:w-4 sm:h-4 fill-current" />
-                                    美容室向けLINE自動連携CRM
+                                    個人美容師・フリーランス特化型CRM
                                 </div>
                                 <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold leading-[1.15] tracking-tight text-slate-900">
-                                    シャッターを切るだけ、<br className="hidden sm:block" />
-                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-slate-500">営業終了。</span>
+                                    「また来たい」を、<br className="hidden sm:block" />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-slate-500">自動で作る。</span>
                                 </h1>
                                 <p className="text-lg sm:text-xl text-slate-500 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-medium">
-                                    お礼メッセージの送信時間をゼロに。<br className="sm:hidden" />
-                                    お客様に「感動」と「記録」を届けます。
+                                    シャッターを切るだけで、お礼LINE送信完了。<br className="hidden sm:block" />
+                                    事務作業をゼロにし、技術と接客だけに集中できる<br className="hidden sm:block" />
+                                    新しい電子カルテアプリです。
                                 </p>
 
                                 <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
@@ -191,7 +197,7 @@ export default function LandingPage() {
                                         href="/login"
                                         className="w-full sm:w-auto px-8 py-4 bg-primary text-white text-lg font-bold rounded-full shadow-xl shadow-primary/30 hover:shadow-primary/40 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2"
                                     >
-                                        今すぐ無料でアカウント作成
+                                        無料でアカウント作成
                                         <Send className="w-5 h-5" />
                                     </Link>
                                     <Link
@@ -245,11 +251,12 @@ export default function LandingPage() {
                         <FadeIn>
                             <div className="text-center max-w-3xl mx-auto mb-16">
                                 <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-6">
-                                    まだ、手動で写真を送っていますか？
+                                    ひとりサロンの「限界」を<br className="sm:hidden" />突破しませんか？
                                 </h2>
                                 <p className="text-lg text-slate-500">
-                                    サロンワークの最大の敵は「事務作業」。<br />
-                                    クリエイティブな時間をもっと確保しましょう。
+                                    施術、接客、予約管理、SNS更新、経理...<br />
+                                    個人美容師の仕事は多すぎます。<br />
+                                    せめて「お礼連絡」と「カルテ管理」は、まるごと自動化しましょう。
                                 </p>
                             </div>
                         </FadeIn>
@@ -258,18 +265,18 @@ export default function LandingPage() {
                             {[
                                 {
                                     icon: <Clock className="w-8 h-8 text-rose-500" />,
-                                    title: "送る時間がない",
-                                    desc: "営業後の疲れ切った状態で、一人一人のお客様にLINEを返信するのは限界があります。"
-                                },
-                                {
-                                    icon: <div className="relative"><Smartphone className="w-8 h-8 text-slate-400" /><div className="absolute top-0 right-0 w-full h-0.5 bg-rose-500 rotate-45 transform origin-center translate-y-4"></div></div>,
-                                    title: "AirDropが面倒",
-                                    desc: "お客様の設定やOSの違い、距離の問題で写真を送るのに意外と時間がかかっていませんか？"
+                                    title: "営業後の「見えない残業」",
+                                    desc: "疲れ切った営業後、一人ひとりにお礼LINEを打っていませんか？SnapKarteなら、施術直後に完了しているので、ハサミを置いたら即帰宅できます。"
                                 },
                                 {
                                     icon: <Search className="w-8 h-8 text-amber-500" />,
-                                    title: "履歴が探せない",
-                                    desc: "「前回のショートボブで」と言われても、数千枚のカメラロールから探すのは至難の業です。"
+                                    title: "「前の髪型」が見つからない",
+                                    desc: "カメラロールに埋もれた数千枚の写真から、お客様の過去スタイルを探すのは時間の無駄。QRコードをかざすだけで、0秒で履歴を呼び出せます。"
+                                },
+                                {
+                                    icon: <MessageCircle className="w-8 h-8 text-[#06C755]" />,
+                                    title: "Google口コミが増えない",
+                                    desc: "「口コミ書いてください」とは言いづらいもの。サンキューメッセージに依頼リンクを自動で埋め込めば、自然と高評価レビューが集まります。"
                                 }
                             ].map((item, i) => (
                                 <FadeIn delay={i * 0.1} key={i} className="h-full">
@@ -368,9 +375,9 @@ export default function LandingPage() {
 
                                     <div className="space-y-6 pt-4">
                                         {[
-                                            { title: "LINE公式アカウント完全連携", desc: "あなたのお店の名前でお礼が届きます。信頼性を損ないません。" },
-                                            { title: "スタイルギャラリー", desc: "お客様ごとの過去の施術履歴を一瞬で検索・閲覧できます。" },
-                                            { title: "QRコードで1秒連携", desc: "面倒なID検索や空メールは不要。QRコードをお客様に見せるだけ。" }
+                                            { title: "LINE公式アカウント完全連携", desc: "あなたのお店の名前でお礼が届きます。ブロックされにくい信頼設計。" },
+                                            { title: "Googleマップ口コミ収集", desc: "お礼メッセージにリンクを貼るだけで、自然に高評価レビューが集まります。" },
+                                            { title: "スタイルギャラリー", desc: "お客様ごとに過去のスタイルが自動で整理され、カウンセリングがスムーズに。" }
                                         ].map((feature, i) => (
                                             <div key={i} className="flex gap-4">
                                                 <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center shrink-0 border border-white/10">
@@ -424,6 +431,33 @@ export default function LandingPage() {
                                 </div>
                             </FadeIn>
                         </div>
+                    </div>
+                </section>
+
+                {/* --- New Section: Ideal for Solopreneurs --- */}
+                <section className="py-20 bg-emerald-50">
+                    <div className="container mx-auto px-4 text-center">
+                        <FadeIn>
+                            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-8">
+                                個人美容師・面貸しの方に<br className="sm:hidden" />最適です
+                            </h2>
+                            <p className="text-lg text-slate-600 max-w-3xl mx-auto mb-12">
+                                大手サロン向けの複雑で高価なPOSレジは必要ありません。<br />
+                                SnapKarteは、個人のスマートフォン1台で<br className="hidden sm:block" />
+                                最高の顧客体験（CX）を提供するために作られました。
+                            </p>
+                            <div className="flex flex-wrap justify-center gap-4">
+                                <span className="px-6 py-3 bg-white rounded-full text-emerald-700 font-bold shadow-sm">
+                                    # クレジットカード登録不要
+                                </span>
+                                <span className="px-6 py-3 bg-white rounded-full text-emerald-700 font-bold shadow-sm">
+                                    # パソコン不要
+                                </span>
+                                <span className="px-6 py-3 bg-white rounded-full text-emerald-700 font-bold shadow-sm">
+                                    # 初期費用0円
+                                </span>
+                            </div>
+                        </FadeIn>
                     </div>
                 </section>
 
@@ -587,6 +621,6 @@ export default function LandingPage() {
                     </div>
                 </footer>
             </main>
-        </div>
+        </div >
     )
 }

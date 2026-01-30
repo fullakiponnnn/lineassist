@@ -11,7 +11,7 @@ export default async function OnboardingPage() {
     }
 
     // Check availability for SSR props
-    let webhookUrlBase = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com'
+    let webhookUrlBase = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.snapkarte.jp'
     // Fallback logic for production vs dev not fully covered by env often requires VERCEL_URL handling
     if (process.env.VERCEL_URL) {
         webhookUrlBase = `https://${process.env.VERCEL_URL}`

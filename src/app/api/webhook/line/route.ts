@@ -9,7 +9,7 @@ import * as line from '@line/bot-sdk'
 // 
 // STRATEGY:
 // Use a dynamic route: /api/webhook/line/[shopId]
-// The shop owner registers https://myapp.com/api/webhook/line/<their-profile-id> in LINE Developers.
+// The shop owner registers https://www.snapkarte.jp/api/webhook/line/<their-profile-id> in LINE Developers.
 
 export const dynamic = 'force-dynamic'
 
@@ -162,9 +162,9 @@ export async function POST(
                 }
 
                 // Construct Card URL
-                // Use the request URL to determine the origin (works for both local tunnel and production)
+                // Use the configured site URL if available, otherwise fallback to request origin
                 const urlObj = new URL(request.url)
-                const origin = `${urlObj.protocol}//${urlObj.host}`
+                const origin = process.env.NEXT_PUBLIC_SITE_URL || `${urlObj.protocol}//${urlObj.host}`
                 const cardUrl = `${origin}/card/${memberCode}`
 
                 // Reply with Flex Message

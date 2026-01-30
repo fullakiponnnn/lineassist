@@ -20,7 +20,7 @@ NEXT_PUBLIC_STRIPE_PRICE_ID_STANDARD_YEARLY=price_...
 
 ## 3. Webhook Setup
 When you deploy, set your webhook URL in Stripe to:
-`https://your-domain.com/api/webhook/stripe`
+`https://www.snapkarte.jp/api/webhook/stripe`
 
 Listen for these events:
 - `checkout.session.completed`

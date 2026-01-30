@@ -1,8 +1,9 @@
 'use client'
 
 import React from 'react'
-import { Sparkles } from 'lucide-react'
+import { Plane, Sparkles, QrCode } from 'lucide-react'
 import QRDisplay from '@/components/qr-display'
+import { motion } from 'framer-motion'
 
 interface MemberCardProps {
     customerName: string
@@ -12,55 +13,109 @@ interface MemberCardProps {
 
 export default function MemberCard({ customerName, memberCode, shopName }: MemberCardProps) {
     return (
-        <div className="w-full max-w-[400px] mx-auto aspect-[1.586/1] relative rounded-2xl overflow-hidden shadow-2xl flex">
-            {/* Left Side: Design & Info (65%) */}
-            <div className="w-[65%] bg-gradient-to-br from-slate-900 via-slate-800 to-black p-5 flex flex-col justify-between relative overflow-hidden">
-                {/* Background Pattern */}
-                <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]"></div>
+        <div className="w-full max-w-[320px] mx-auto aspect-[9/16] relative rounded-[2rem] overflow-hidden shadow-2xl flex flex-col bg-white">
 
-                {/* Decorative Gradients */}
-                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/5 to-transparent pointer-events-none"></div>
-                <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-cyan-500/20 blur-2xl rounded-full"></div>
+            {/* Top Section: Flight Info Style */}
+            <div className="h-[65%] bg-slate-900 relative p-6 flex flex-col justify-between overflow-hidden text-white">
 
-                {/* Header */}
-                <div className="relative z-10">
-                    <div className="flex items-center gap-2 mb-1">
-                        <Sparkles className="text-yellow-400 w-4 h-4" />
-                        <span className="text-[10px] font-bold tracking-[0.2em] text-cyan-400 uppercase">Official Member</span>
-                    </div>
-                    <h3 className="text-white font-bold tracking-wider text-sm opacity-90 truncate">{shopName}</h3>
+                {/* Holographic/Animated Background */}
+                <div className="absolute inset-0 z-0">
+                    <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-black"></div>
+
+                    {/* Moving sheen effect */}
+                    <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12"
+                        animate={{ x: ['-100%', '200%'] }}
+                        transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
+                    />
+
+                    {/* Glowing orbs */}
+                    <motion.div
+                        className="absolute top-10 right-10 w-32 h-32 bg-blue-500/20 rounded-full blur-3xl mix-blend-screen"
+                        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+                        transition={{ repeat: Infinity, duration: 4 }}
+                    />
+                    <motion.div
+                        className="absolute bottom-10 left-10 w-40 h-40 bg-purple-500/20 rounded-full blur-3xl mix-blend-screen"
+                        animate={{ scale: [1.2, 1, 1.2], opacity: [0.3, 0.5, 0.3] }}
+                        transition={{ repeat: Infinity, duration: 5 }}
+                    />
                 </div>
 
-                {/* Member Info */}
-                <div className="relative z-10 space-y-3">
-                    <div>
-                        <p className="text-[9px] text-slate-400 font-mono mb-0.5 tracking-wider uppercase">Member Name</p>
-                        <p className="text-white font-medium tracking-wide text-base truncate">{customerName}</p>
+                {/* Content Layer */}
+                <div className="relative z-10 flex flex-col h-full">
+                    {/* Header */}
+                    <div className="flex justify-between items-start mb-6">
+                        <div>
+                            <p className="text-[10px] font-bold tracking-[0.2em] text-cyan-400 uppercase mb-1">Boarding Pass</p>
+                            <h3 className="text-xl font-bold tracking-tight text-white leading-none">{shopName}</h3>
+                        </div>
+                        <Plane className="text-white/20 w-8 h-8 rotate-[-45deg]" />
                     </div>
-                    <div>
-                        <p className="text-[9px] text-slate-400 font-mono mb-0.5 tracking-wider uppercase">Member ID</p>
-                        <p className="text-white font-mono text-xs tracking-widest opacity-80">{memberCode}</p>
+
+                    {/* QR Code Section - Centerpiece */}
+                    <div className="flex-1 flex flex-col items-center justify-center py-4">
+                        <div className="bg-white p-3 rounded-xl shadow-lg relative group">
+                            <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-purple-500 rounded-xl blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                            <div className="relative bg-white rounded-lg p-1">
+                                <QRDisplay value={memberCode} size={160} showContainer={false} />
+                            </div>
+                        </div>
+                        <div className="mt-4 flex items-center gap-2 text-cyan-300/80">
+                            <Sparkles className="w-3 h-3" />
+                            <span className="text-[10px] tracking-widest uppercase font-semibold">Priority Access</span>
+                            <Sparkles className="w-3 h-3" />
+                        </div>
+                    </div>
+
+                    {/* Status Row */}
+                    <div className="flex justify-between items-end border-b border-white/10 pb-4 mb-2">
+                        <div>
+                            <p className="text-[9px] text-slate-400 uppercase tracking-wider mb-0.5">Class</p>
+                            <p className="text-lg font-bold">MEMBER</p>
+                        </div>
+                        <div className="text-right">
+                            <p className="text-[9px] text-slate-400 uppercase tracking-wider mb-0.5">Gate</p>
+                            <p className="text-lg font-bold">01</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            {/* Right Side: QR Code Area (35%) */}
-            <div className="w-[35%] bg-white flex flex-col items-center justify-center p-2 relative">
-                {/* Serrated edge effect (dashed line separator) */}
-                <div className="absolute left-0 top-2 bottom-2 w-[1px] border-l-2 border-dashed border-slate-200"></div>
-
-                {/* Cutout circles at top and bottom of separator */}
-                <div className="absolute -top-3 left-[-12px] w-6 h-6 bg-[#0a0a0a] rounded-full z-20"></div>
-                <div className="absolute -bottom-3 left-[-12px] w-6 h-6 bg-[#0a0a0a] rounded-full z-20"></div>
-
-                <div className="w-full aspect-square flex items-center justify-center">
-                    <QRDisplay value={memberCode} size={96} showContainer={false} className="w-full h-full" />
-                </div>
-                <p className="mt-1 text-[9px] text-slate-400 font-bold tracking-widest uppercase [writing-mode:vertical-rl]">SCAN ME</p>
+            {/* Tear-off Line */}
+            <div className="relative flex items-center justify-between w-full h-0">
+                <div className="w-6 h-6 rounded-full bg-[#0a0a0a] -ml-3 z-10"></div>
+                <div className="flex-1 border-t-2 border-dashed border-slate-300 mx-1"></div>
+                <div className="w-6 h-6 rounded-full bg-[#0a0a0a] -mr-3 z-10"></div>
             </div>
 
-            {/* Glossy Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 pointer-events-none"></div>
+            {/* Bottom Section: White Ticket Info */}
+            <div className="flex-1 bg-white p-6 flex flex-col justify-center relative overflow-hidden">
+                {/* Subtle pattern */}
+                <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:16px_16px]"></div>
+
+                <div className="space-y-4 relative z-10">
+                    <div>
+                        <p className="text-[9px] text-slate-400 uppercase tracking-wider font-bold mb-1">Passenger Name</p>
+                        <p className="text-xl font-bold text-slate-900 tracking-tight">{customerName}</p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <p className="text-[9px] text-slate-400 uppercase tracking-wider font-bold mb-1">Member ID</p>
+                            <p className="font-mono text-sm text-slate-700 tracking-widest">{memberCode.slice(0, 8)}</p>
+                        </div>
+                        <div>
+                            <p className="text-[9px] text-slate-400 uppercase tracking-wider font-bold mb-1">Date</p>
+                            <p className="font-mono text-sm text-slate-700">{new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
+                        </div>
+                    </div>
+
+                    <div className="pt-2">
+                        <div className="h-8 w-full bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNCIgaGVpZ2h0PSI1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMiIgaGVpZ2h0PSI1MCIgZmlsbD0iIzMzMyIvPjwvc3ZnPg==')] opacity-30"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

@@ -149,9 +149,14 @@ export default async function Dashboard() {
                 </Link>
               </div>
             ) : (
-              <p className="text-xs text-muted-foreground text-right">
-                あと {10 - monthlyCount} 件登録できます
-              </p>
+              <div className="space-y-3">
+                <p className="text-xs text-muted-foreground text-right">
+                  あと {10 - monthlyCount} 件登録できます
+                </p>
+                <Link href="/settings" className="block w-full bg-slate-900/5 hover:bg-slate-900/10 text-slate-600 dark:bg-white/10 dark:hover:bg-white/20 dark:text-slate-200 text-center py-2 rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-2">
+                  <span className="bg-gradient-to-r from-indigo-500 to-purple-500 text-transparent bg-clip-text">✦</span> プロプランを見る
+                </Link>
+              </div>
             )}
           </div>
         )}

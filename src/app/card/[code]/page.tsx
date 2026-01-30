@@ -1,6 +1,6 @@
 import { createAdminClient } from '@/utils/supabase/admin'
 import { notFound } from 'next/navigation'
-import MemberCard3D from '@/components/member-card-3d'
+import MemberCard from '@/components/member-card'
 
 export const dynamic = 'force-dynamic'
 
@@ -47,9 +47,9 @@ export default async function MemberCardPage({ params }: { params: Promise<{ cod
                     </h1>
                 </div>
 
-                {/* 3D Card Component */}
-                <div className="w-full max-w-md perspective-container">
-                    <MemberCard3D
+                {/* Static Card Component */}
+                <div className="w-full max-w-md px-4">
+                    <MemberCard
                         customerName={customer.display_name || 'Member'}
                         memberCode={code}
                         shopName={shopName}

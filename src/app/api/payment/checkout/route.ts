@@ -13,6 +13,18 @@ export async function POST(request: Request) {
     try {
         const { priceId, isYearly } = await request.json()
 
+        // Security Check: Validate priceId
+        const ALLOWED_PRICE_IDS = [
+            process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_SOLO_MONTHLY,
+            process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_SOLO_YEARLY,
+            process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_STANDARD_MONTHLY,
+            process.env.NEXT_PUBLIC_STRIPE_PRICE_ID_STANDARD_YEARLY
+        ].filter(Boolean)
+
+        if (!ALLOWED_PRICE_IDS.includes(priceId)) {
+            return NextResponse.json({ error: 'Invalid Price ID' }, { status: 400 })
+        }
+
         // Get user profile to check if Stripe Customer ID exists
         const { data } = await supabase
             .from('profiles')

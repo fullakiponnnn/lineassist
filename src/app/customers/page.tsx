@@ -22,7 +22,7 @@ export default async function CustomersPage({
     const { data: customers } = await query
 
     return (
-        <div className="min-h-screen bg-muted/20 pb-20">
+        <div className="min-h-screen bg-muted/20 pb-32">
             <header className="sticky top-0 z-10 bg-background/80 backdrop-blur-md border-b border-border p-4 flex items-center justify-between">
                 <h1 className="text-lg font-bold">顧客一覧</h1>
                 <Link
@@ -90,19 +90,7 @@ export default async function CustomersPage({
                 </div>
             </main>
 
-            {/* Footer Navigation (Optional, could make a layout for this) */}
-            <nav className="fixed bottom-0 left-0 right-0 bg-card border-t border-border pb-safe">
-                <div className="flex justify-around items-center h-16">
-                    <Link href="/" className="flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors p-2">
-                        <Search className="w-6 h-6" />
-                        <span className="text-[10px] font-medium">ホーム</span>
-                    </Link>
-                    <Link href="/customers" className="flex flex-col items-center gap-1 text-primary p-2">
-                        <User className="w-6 h-6" />
-                        <span className="text-[10px] font-medium">顧客一覧</span>
-                    </Link>
-                </div>
-            </nav>
+
         </div>
     )
 }

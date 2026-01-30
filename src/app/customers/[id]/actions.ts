@@ -2,21 +2,23 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
 
-export async function deleteCustomer(customerId: string) {
+export async function generateLinkToken(customerId: string) {
     const supabase = await createClient()
+
+    // Generate a secure random token (using crypto in Node context or just UUID)
+    const token = crypto.randomUUID()
 
     const { error } = await supabase
         .from('customers')
-        .delete()
+        .update({ link_token: token } as any)
         .eq('id', customerId)
 
     if (error) {
-        return { error: '顧客の削除に失敗しました' }
+        console.error('Error generating link token:', error)
+        return { error: '連携トークンの生成に失敗しました' }
     }
 
-    revalidatePath('/customers')
-    // 削除後は一覧へリダイレクト
-    return { success: true }
+    revalidatePath(`/customers/${customerId}`)
+    return { success: true, token }
 }

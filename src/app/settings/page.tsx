@@ -23,12 +23,10 @@ export default async function SettingsPage() {
     const hasToken = !!(profile?.line_channel_token && profile.line_channel_token.length > 0)
 
     return (
-        <div className="min-h-screen bg-muted/20 pb-10">
+        <div className="min-h-screen bg-muted/20 pb-32">
             <header className="bg-card sticky top-0 z-10 border-b border-border">
                 <div className="container mx-auto px-4 h-14 flex items-center gap-4">
-                    <Link href="/" className="p-2 -ml-2 hover:bg-muted rounded-full text-muted-foreground hover:text-foreground transition-colors">
-                        <ArrowLeft className="w-5 h-5" />
-                    </Link>
+
                     <h1 className="font-bold text-lg">設定</h1>
                 </div>
             </header>

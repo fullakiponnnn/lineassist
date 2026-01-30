@@ -49,6 +49,16 @@ export class LineService {
         }
     }
 
+    async getBotInfo(): Promise<messagingApi.BotInfoResponse> {
+        try {
+            const info = await this.client.getBotInfo()
+            return info
+        } catch (error) {
+            console.error('LINE Get Bot Info Error:', error)
+            throw error
+        }
+    }
+
     async sendVisitThankYou(
         userId: string,
         imageUrl: string,

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import DeleteCustomerButton from './delete-button'
 import CustomerNotes from './notes'
+import LineIntegrationButton from '@/components/line-integration-button'
 
 export default async function CustomerDetailPage({
     params,
@@ -32,6 +33,16 @@ export default async function CustomerDetailPage({
         .select('*')
         .eq('customer_id', id)
         .order('visit_date', { ascending: false })
+
+    // Fetch Shop Profile to get bot_basic_id
+    const { data: profileData } = await supabase
+        .from('profiles')
+        .select('bot_basic_id')
+        .eq('id', customer.profile_id)
+        .single()
+
+    // @ts-ignore
+    const botBasicId = profileData?.bot_basic_id
 
     return (
         <div className="min-h-screen bg-muted/20 pb-10">
@@ -75,9 +86,17 @@ export default async function CustomerDetailPage({
                             </div>
                         ) : (
                             <div className="flex flex-col items-end gap-2">
-                                <span className="text-[10px] px-2 py-1 bg-muted text-muted-foreground rounded-full border border-border">
-                                    LINE未連携
-                                </span>
+                                <div className="flex items-center gap-2">
+                                    <span className="text-[10px] px-2 py-1 bg-muted text-muted-foreground rounded-full border border-border">
+                                        LINE未連携
+                                    </span>
+                                    <LineIntegrationButton
+                                        customerId={id}
+                                        // @ts-ignore
+                                        initialLinkToken={customer.link_token}
+                                        botBasicId={botBasicId}
+                                    />
+                                </div>
                                 {customer.member_code && (
                                     <Link
                                         href={`/card/${customer.member_code}`}
@@ -112,19 +131,23 @@ export default async function CustomerDetailPage({
 
                     {visits && visits.length > 0 ? (
                         <div className="grid grid-cols-2 gap-3">
-                            {visits.map(visit => {
-                                // Construct public URL if path exists
-                                // NOTE: In real app, consider using signed URLs or pre-fetching public URLs properly
-                                const imageUrl = visit.photo_url
-                                    ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/visit-photos/${visit.photo_url}`
-                                    : null
+                            {await Promise.all(visits.map(async (visit) => {
+                                // Construct SIGNED URL (Private Access)
+                                let imageUrl = null
+                                if (visit.photo_url) {
+                                    const { data } = await supabase.storage
+                                        .from('visit-photos')
+                                        // 1 hour expiry
+                                        .createSignedUrl(visit.photo_url, 3600)
+                                    imageUrl = data?.signedUrl
+                                }
 
                                 return (
                                     <div key={visit.id} className="bg-card rounded-xl overflow-hidden border border-border shadow-sm group">
                                         <div className="aspect-[3/4] bg-muted relative">
                                             {imageUrl ? (
                                                 <img
-                                                    src={imageUrl}
+                                                    src={imageUrl || ''}
                                                     alt="Visit Photo"
                                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                                     loading="lazy"
@@ -149,7 +172,7 @@ export default async function CustomerDetailPage({
                                         </div>
                                     </div>
                                 )
-                            })}
+                            }))}
                         </div>
                     ) : (
                         <div className="text-center py-10 bg-card rounded-xl border border-border border-dashed text-muted-foreground text-sm">

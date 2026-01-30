@@ -75,6 +75,11 @@
   }
 }
 
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+
 /* Base styles */
 :root {
   /* HSL: Hue Saturation Lightness */

@@ -4,18 +4,35 @@ import MemberCard from '@/components/member-card'
 
 export const dynamic = 'force-dynamic'
 
+export const metadata = {
+    robots: {
+        index: false,
+        follow: false,
+    },
+}
+
 export default async function MemberCardPage({ params }: { params: Promise<{ code: string }> }) {
     // Next.js 15: params is a Promise
     const { code } = await params
 
     const supabase = createAdminClient()
 
-    // 会員コードで顧客を検索
-    const { data: customer } = await supabase
-        .from('customers')
-        .select('display_name, profile_id')
-        .eq('member_code', code)
-        .single()
+    // 会員コードまたはURLトークンで顧客を検索
+    // URLパラメータ(code)は、現在は url_token (UUID) を想定するが、
+    // 移行期間中や旧URLのために member_code も検索対象とする（ただしUUID形式ならtoken優先）
+
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(code)
+
+    let query = supabase.from('customers').select('display_name, profile_id, member_code')
+
+    if (isUuid) {
+        query = query.eq('url_token', code)
+    } else {
+        query = query.eq('member_code', code)
+    }
+
+    const { data: customerData } = await query.single()
+    const customer = customerData as any // Quick fix for TS type inference in this context
 
     if (!customer) {
         return notFound()

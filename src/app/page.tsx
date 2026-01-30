@@ -81,7 +81,7 @@ export default async function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-muted/20 pb-20">
+    <div className="min-h-screen bg-muted/20 pb-32">
       {/* Header */}
       <header className="bg-card border-b border-border sticky top-0 z-10 safe-area-top">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -225,12 +225,7 @@ export default async function Dashboard() {
         </div>
       </main>
 
-      {/* Floating Action Button for Mobile */}
-      <div className="fixed bottom-6 right-6 lg:hidden">
-        <Link href="/visits/new" className="w-14 h-14 bg-primary text-primary-foreground rounded-full shadow-xl shadow-primary/30 flex items-center justify-center hover:scale-105 active:scale-95 transition-all">
-          <Plus className="w-8 h-8" />
-        </Link>
-      </div>
+      {/* Floating Action Button removed in favor of BottomNav */}
     </div>
   )
 }

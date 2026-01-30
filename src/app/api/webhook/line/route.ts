@@ -149,7 +149,7 @@ export async function POST(
                 // @ts-ignore
                 let memberCode = existingCustomer.member_code
 
-                // Generate member code if missing
+                // Generate member code if missing (Still used for display/scan)
                 if (!memberCode) {
                     // Simple 8-char random alphanumeric code
                     memberCode = Math.random().toString(36).substring(2, 10).toUpperCase()
@@ -161,11 +161,11 @@ export async function POST(
                         .eq('id', existingCustomer.id)
                 }
 
-                // Construct Card URL
-                // Use the configured site URL if available, otherwise fallback to request origin
+                // Construct Secure Card URL using url_token
                 const urlObj = new URL(request.url)
                 const origin = process.env.NEXT_PUBLIC_SITE_URL || `${urlObj.protocol}//${urlObj.host}`
-                const cardUrl = `${origin}/card/${memberCode}`
+                // @ts-ignore
+                const cardUrl = `${origin}/card/${existingCustomer.url_token || existingCustomer.member_code}` // Fallback if migration delayed
 
                 // Reply with Flex Message
                 // @ts-ignore
@@ -240,12 +240,56 @@ export async function POST(
             return
         }
 
-        // 2. If not connected, try to match by NAME sent in text
-        // This is a "Heuristic Matching" - weak security but high usability for initial setup.
-        // Better: Send a unique code?
-        // Simplest for now: User sends their exact registered name.
-        // ... (Existing name matching logic) ...
+        // 2. CHECK FOR LINK TOKEN (Secure Integration)
+        const linkTokenMatch = text.match(/^連携コード[:：]\s*(.+)$/)
+        if (linkTokenMatch) {
+            const token = linkTokenMatch[1].trim()
 
+            const { data: customerData } = await supabase
+                .from('customers')
+                .select('*')
+                .eq('profile_id', shopId)
+                .eq('link_token', token)
+                .is('line_user_id', null) // Ensure not already linked? Actually, re-linking might be okay if user changed LINE account.
+                // But for safety let's only allow unlinked or handle overwrite carefully.
+                // Let's assume re-linking is OK (e.g. migration), but we need to update the record.
+                .single()
+
+            if (customerData) {
+                // Link Success!
+                await supabase
+                    .from('customers')
+                    .update({
+                        line_user_id: userId,
+                        link_token: null // Invalidate token (One-time use)
+                    } as any)
+                    .eq('id', customerData.id)
+
+                await lineService.replyMessage(replyToken, [{
+                    type: 'text',
+                    text: `${customerData.display_name}様、設定お疲れ様です！\nLINE連携が完了しました。\n\n次回からご来店後に、こちらのLINEへスタイル写真や美容履歴をお届けします。`
+                }])
+            } else {
+                await lineService.replyMessage(replyToken, [{
+                    type: 'text',
+                    text: `連携コードが無効か、すでに使用されています。\n店舗スタッフに新しいコードの発行をご依頼ください。`
+                }])
+            }
+            return
+        }
+
+        // 3. Fallback: No match found
+        // Previously we used Name Matching here, but it is insecure.
+        // We will output a generic message guiding to use the QR code.
+
+        await lineService.replyMessage(replyToken, [{
+            type: 'text',
+            text: `メッセージありがとうございます！\n\n【会員連携について】\nまだLINE連携がお済みでない場合は、店舗スタッフに「連携用QRコード」を提示してもらってください。\n\nすでにお済みの方は、会員証を表示するには「会員証」と送信してください。`
+        }])
+
+        /* DEPRECATED: Insecure Name Matching
+        // 2. If not connected, try to match by NAME sent in text
+        // ... (Existing name matching logic) ...
         const { data: matchCustomers } = await supabase
             .from('customers')
             .select('*')
@@ -255,35 +299,9 @@ export async function POST(
 
         // Strict match: Only if exactly 1 customer matches that name and is not linked
         if (matchCustomers && matchCustomers.length === 1) {
-            const customer = matchCustomers[0]
-
-            // Link them!
-            await supabase
-                .from('customers')
-                .update({
-                    line_user_id: userId,
-                    // Optionally update name to LINE name? No, keep shop's record.
-                })
-                .eq('id', customer.id)
-
-            // Reply success
-            await lineService.replyMessage(replyToken, [{
-                type: 'text',
-                text: `${customer.display_name}様、連携が完了しました！\n次回から来店後に写真をお送りします。`
-            }])
-        } else if (matchCustomers && matchCustomers.length > 1) {
-            // Too many matches
-            await lineService.replyMessage(replyToken, [{
-                type: 'text',
-                text: `「${text}」様というお名前の顧客データが複数見つかりました。店舗スタッフにお問い合わせください。`
-            }])
-        } else {
-            // No match
-            await lineService.replyMessage(replyToken, [{
-                type: 'text',
-                text: `「${text}」様のお名前が見つかりませんでした。\n\n美容室で登録した「正確なお名前（フルネーム）」を送信してください。\nご不明な場合はスタッフにお声がけください。`
-            }])
+             // ...
         }
+        */
     }))
 
     return NextResponse.json({ success: true })

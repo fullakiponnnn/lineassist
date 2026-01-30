@@ -14,11 +14,13 @@ export default async function CustomerDetailPage({
     const { id } = await params
 
     // Fetch Customer
-    const { data: customer } = await supabase
+    const { data: customerData } = await supabase
         .from('customers')
         .select('*')
         .eq('id', id)
         .single()
+
+    const customer = customerData as any
 
     if (!customer) {
         notFound()
@@ -54,17 +56,39 @@ export default async function CustomerDetailPage({
                             {customer.display_name?.[0]}
                         </div>
                         {customer.line_user_id ? (
-                            <div className="flex flex-col items-end">
+                            <div className="flex flex-col items-end gap-2">
                                 <span className="text-[10px] px-2 py-1 bg-[#06C755]/10 text-[#06C755] rounded-full font-bold border border-[#06C755]/20 flex items-center gap-1">
                                     <MessageCircle className="w-3 h-3" />
                                     LINE連携中
                                 </span>
-                                <span className="text-[10px] text-muted-foreground mt-1 font-mono">{customer.line_user_id.slice(0, 8)}...</span>
+                                {customer.member_code && (
+                                    <Link
+                                        href={`/card/${customer.member_code}`}
+                                        target="_blank"
+                                        className="text-[10px] px-2 py-1 bg-primary/10 text-primary rounded-full font-bold border border-primary/20 flex items-center gap-1 hover:bg-primary/20 transition-colors"
+                                    >
+                                        <User className="w-3 h-3" />
+                                        会員証を表示
+                                    </Link>
+                                )}
+                                <span className="text-[10px] text-muted-foreground font-mono">{customer.line_user_id.slice(0, 8)}...</span>
                             </div>
                         ) : (
-                            <span className="text-[10px] px-2 py-1 bg-muted text-muted-foreground rounded-full border border-border">
-                                LINE未連携
-                            </span>
+                            <div className="flex flex-col items-end gap-2">
+                                <span className="text-[10px] px-2 py-1 bg-muted text-muted-foreground rounded-full border border-border">
+                                    LINE未連携
+                                </span>
+                                {customer.member_code && (
+                                    <Link
+                                        href={`/card/${customer.member_code}`}
+                                        target="_blank"
+                                        className="text-[10px] px-2 py-1 bg-primary/10 text-primary rounded-full font-bold border border-primary/20 flex items-center gap-1 hover:bg-primary/20 transition-colors"
+                                    >
+                                        <User className="w-3 h-3" />
+                                        会員証を表示
+                                    </Link>
+                                )}
+                            </div>
                         )}
                     </div>
 

@@ -134,7 +134,7 @@ function PlanSelector({ profileId, isSetupOnly = false }: { profileId: string, i
 export default function SettingsForm({ initialShopName, initialLineBasicId, hasToken, profileId, profile }: Props) {
     const router = useRouter()
     // Hydration mismatch avoidance for origin
-    const origin = typeof window !== 'undefined' ? window.location.origin : 'https://www.snapkarte.jp';
+    const origin = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.snapkarte.jp';
     const webhookUrl = `${origin}/api/webhook/line?shop_id=${profileId}`;
 
     const [state, formAction, isPending] = useActionState(updateProfile, null)

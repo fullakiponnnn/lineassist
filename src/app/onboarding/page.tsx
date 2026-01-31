@@ -17,10 +17,9 @@ export default async function OnboardingPage({
     const { plan, with_setup } = await searchParams;
 
     // Check availability for SSR props
-    let webhookUrlBase = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.snapkarte.jp'
-    // Fallback logic for production vs dev not fully covered by env often requires VERCEL_URL handling
-    if (process.env.VERCEL_URL) {
-        webhookUrlBase = `https://${process.env.VERCEL_URL}`
+    let webhookUrlBase = 'https://www.snapkarte.jp'
+    if (process.env.NODE_ENV === 'development') {
+        webhookUrlBase = 'http://localhost:3000'
     }
 
     const webhookUrl = `${webhookUrlBase}/api/webhook/line?shop_id=${user.id}`

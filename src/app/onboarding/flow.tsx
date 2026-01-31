@@ -65,7 +65,8 @@ export default function OnboardingFlow({ profileId, webhookUrl, initialPlan, ini
                     body: JSON.stringify({
                         mode: 'subscription',
                         planId: priceId,
-                        withSetup: initialWithSetup
+                        withSetup: initialWithSetup,
+                        returnUrl: '/onboarding'
                     })
                 })
                 const checkoutData = await res.json()

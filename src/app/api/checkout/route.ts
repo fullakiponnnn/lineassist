@@ -17,7 +17,7 @@ export async function POST(req: Request) {
         // type: check mode ('subscription' or 'payment')
         // planId: for subscription
         // priceId: for one-time payment (setup fee)
-        const { planId, withSetup, mode = 'subscription', priceId } = body;
+        const { planId, withSetup, mode = 'subscription', priceId, returnUrl } = body;
 
         // DBからプロフィール情報を取得
         // @ts-ignore
@@ -60,6 +60,14 @@ export async function POST(req: Request) {
         // 末尾のスラッシュを削除
         baseUrl = baseUrl.replace(/\/$/, '');
 
+        // リダイレクトURLの設定
+        // returnUrlが指定されていればそれを使用、なければデフォルト
+        // 先頭のスラッシュを確認して調整
+        const formatPath = (path: string) => path.startsWith('/') ? path : `/${path}`;
+        const cancelPath = returnUrl ? formatPath(returnUrl) : '/';
+        const cancelUrl = `${baseUrl}${cancelPath}`;
+
+
         if (mode === 'payment') {
             // 単発決済モード（主に既存会員のセットアップ購入用）
             if (!priceId) {
@@ -82,7 +90,7 @@ export async function POST(req: Request) {
                     planName: '初期導入サポート',
                 },
                 success_url: `${baseUrl}/setup-thanks`,
-                cancel_url: `${baseUrl}/settings`,
+                cancel_url: cancelUrl,
                 allow_promotion_codes: true,
             });
 
@@ -134,7 +142,7 @@ export async function POST(req: Request) {
                     isSetupFree: isYearly ? 'true' : 'false',
                 },
                 success_url: `${baseUrl}/setup-thanks`,
-                cancel_url: `${baseUrl}/`, // LPに戻る
+                cancel_url: cancelUrl,
                 allow_promotion_codes: true,
             });
         }

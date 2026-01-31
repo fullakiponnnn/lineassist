@@ -40,7 +40,7 @@ function PlanSelector({ profileId, isSetupOnly = false }: { profileId: string, i
             const res = await fetch('/api/checkout', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
+                body: JSON.stringify({ ...body, returnUrl: '/settings' })
             })
             const data = await res.json()
             if (data.url) window.location.href = data.url

@@ -19,7 +19,7 @@ export async function login(formData: FormData) {
     const email = formData.get('email') as string
     const password = formData.get('password') as string
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data: authData, error } = await supabase.auth.signInWithPassword({
         email,
         password,
     })
@@ -34,12 +34,31 @@ export async function login(formData: FormData) {
     const plan = formData.get('plan')
     const withSetup = formData.get('with_setup')
 
+    // プロフィール状態を確認
+    let isOnboarded = false
+    if (authData.user) {
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('shop_name, line_channel_token')
+            .eq('id', authData.user.id)
+            .single()
+
+        if (profile?.shop_name && profile?.line_channel_token) {
+            isOnboarded = true
+        }
+    }
+
     let redirectUrl = '/onboarding'
     const params = new URLSearchParams()
     if (plan) params.set('plan', plan as string)
     if (withSetup) params.set('with_setup', withSetup as string)
 
-    if (params.toString()) {
+    if (isOnboarded) {
+        // すでにオンボーディング済みの場合は、プラン指定があれば設定画面へ、なければダッシュボードへ
+        redirectUrl = (plan || withSetup) ? '/settings' : '/'
+    }
+
+    if (params.toString() && redirectUrl !== '/') {
         redirectUrl += `?${params.toString()}`
     }
 

@@ -196,7 +196,7 @@ export default function SettingsForm({ initialShopName, initialLineBasicId, hasT
 
             {/* Setup Support Section */}
             {
-                !profile.is_setup_purchased && profile.plan_tier !== 'free' && (
+                !profile.is_setup_purchased && (
                     <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-6 border border-amber-200 shadow-sm text-slate-800 relative overflow-hidden">
                         <h2 className="text-sm font-bold text-amber-800 mb-4 uppercase tracking-wider flex items-center gap-2">
                             <Zap className="w-4 h-4" />

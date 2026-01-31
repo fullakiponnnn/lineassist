@@ -30,6 +30,22 @@ export async function POST(req: Request) {
         const shopName = (profile as any)?.shop_name || '店舗名未設定';
         let customerId = (profile as any)?.stripe_customer_id;
 
+        // DBにIDがあってもStripe上に存在しない場合（環境切り替え時など）のチェック
+        if (customerId) {
+            try {
+                const customer = await stripe.customers.retrieve(customerId);
+                if ((customer as any).deleted) {
+                    customerId = null;
+                }
+            } catch (error: any) {
+                // Stripe上で削除されている、または存在しない場合
+                if (error.code === 'resource_missing') {
+                    console.log(`Stripe customer ${customerId} not found. Creating new one.`);
+                    customerId = null;
+                }
+            }
+        }
+
         // Stripe上でCustomerを作成（未登録の場合）
         if (!customerId) {
             const customer = await stripe.customers.create({

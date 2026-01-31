@@ -44,6 +44,36 @@ export async function POST(req: Request) {
                     .eq('id', userId);
             }
 
+            // サブスクリプション情報の更新
+            // チェックアウトセッションでサブスクリプションが作成された場合
+            // サブスクリプション情報の更新
+            // チェックアウトセッションでサブスクリプションが作成された場合
+            if (session.mode === 'subscription' && session.subscription) {
+                const subscriptionId = typeof session.subscription === 'string'
+                    ? session.subscription
+                    : (session.subscription as any).id;
+
+                if (subscriptionId) {
+                    // サブスクリプション詳細を取得して期間終了日などを確認
+                    const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+
+                    const currentPeriodEnd = subscription.current_period_end
+                        ? new Date(subscription.current_period_end * 1000).toISOString()
+                        : new Date().toISOString();
+
+                    await supabaseAdmin
+                        .from('profiles')
+                        .update({
+                            // stripe_subscription_id: subscriptionId,
+                            subscription_status: subscription.status, // active, trialing, etc.
+                            plan_tier: 'solo', // 現状はSoloプランのみ
+                            plan_interval: metadata.planName === '年額プラン' ? 'year' : 'month',
+                            current_period_end: currentPeriodEnd
+                        } as any)
+                        .eq('id', userId);
+                }
+            }
+
             // サブスクリプションステータス等の更新も通常ここで行うが、
             // 今回の要件はセットアップフローにフォーカスしているため割愛
             // (本来は subscription_id 保存などが必要)

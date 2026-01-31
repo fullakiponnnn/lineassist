@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Home, Users, QrCode, Settings, PlusCircle } from 'lucide-react'
+import { Home, Users, QrCode, PlusCircle, Book } from 'lucide-react'
 
 export default function BottomNav() {
     const pathname = usePathname()
@@ -65,11 +65,11 @@ export default function BottomNav() {
                 </Link>
 
                 <Link
-                    href="/settings"
-                    className={`flex flex-col items-center justify-center w-16 h-full gap-1 transition-colors ${isActive('/settings') ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
+                    href="/guide"
+                    className={`flex flex-col items-center justify-center w-16 h-full gap-1 transition-colors ${isActive('/guide') ? 'text-primary' : 'text-muted-foreground hover:text-foreground'}`}
                 >
-                    <Settings className="w-6 h-6" />
-                    <span className="text-[10px] font-medium">設定</span>
+                    <Book className="w-6 h-6" />
+                    <span className="text-[10px] font-medium">使い方</span>
                 </Link>
             </nav>
         </div>

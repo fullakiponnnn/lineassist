@@ -1,6 +1,19 @@
 import Link from 'next/link'
 import { ArrowLeft, Book, MessageCircleQuestion, Smartphone, Settings, Camera, Users, CheckCircle } from 'lucide-react'
 
+const faqs = [
+    { q: "料金プランはどのようになっていますか？", a: "現在は個人事業主様・フリーランス様向けの「Soloプラン」をご用意しております。月額2,980円（税込）ですが、年払いを選択いただくと2ヶ月分無料の29,800円（税込）でご利用いただけて大変お得です。また、すべての機能を無料でお試しいただけるFreeプラン（月間10件まで）もございます。" },
+    { q: "初期費用はかかりますか？", a: "Soloプラン（年払い）には初期導入サポートが含まれているため、初期費用は実質0円です。月払いを選択された場合でも、ご自身で設定される場合は初期費用はかかりません。設定代行をご希望の場合は、別途「初期導入サポート」をご購入いただけます。" },
+    { q: "LINE公式アカウントを持っていないのですが...", a: "ご利用にはLINE公式アカウントが必要ですが、お持ちでない場合は開設からサポートさせていただきます。初期設定に不安がある方は「初期導入サポート」のご利用をおすすめします。" },
+    { q: "今使っているLINE公式アカウントをそのまま使えますか？", a: "はい、現在お使いのLINE公式アカウントにSnapKarteを連携させることが可能です。" },
+    { q: "お客様（エンドユーザー）もアプリが必要ですか？", a: "いいえ、お客様はアプリのダウンロードは一切不要です。いつものLINEアプリでお店の公式アカウントと友だちになるだけでご利用いただけます。" },
+    { q: "パソコンがなくてもスマホだけで使えますか？", a: "はい、スマホだけで全ての機能 (来店記録の作成、写真の撮影・アップロード、売上確認など) をご利用いただけます。" },
+    { q: "解約したい場合はどうすればいいですか？", a: "管理画面の「設定」＞「契約内容の確認・変更」からいつでも解約手続きが可能です。違約金などは発生しません。" },
+    { q: "支払い方法は何がありますか？", a: "クレジットカード決済（Visa, Mastercard, American Express, JCB, Diners Club, Discover）に対応しております。" },
+    { q: "インボイス制度に対応した領収書は発行されますか？", a: "はい、可能です。お支払い完了後にStripeより送信されるメール、または管理画面から適格請求書（インボイス）対応の領収書をダウンロードいただけます。" },
+    { q: "撮影した写真の保存容量や期間に制限はありますか？", a: "Soloプランをご契約の場合、写真の保存枚数・容量・期間はすべて「無制限」です。" },
+]
+
 export default function GuidePage() {
     return (
         <div className="min-h-screen bg-muted/20 pb-20">
@@ -109,6 +122,33 @@ export default function GuidePage() {
                                 </p>
                             </div>
                         </div>
+                    </div>
+                </section>
+
+                {/* Section 4: FAQ */}
+                <section>
+                    <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-foreground">
+                        <span className="bg-slate-800 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">4</span>
+                        よくある質問
+                    </h3>
+                    <div className="space-y-3">
+                        {faqs.map((faq, index) => (
+                            <details key={index} className="group bg-card rounded-xl border border-border open:ring-2 open:ring-primary/10 transition-all">
+                                <summary className="flex items-center justify-between p-4 font-bold text-sm cursor-pointer list-none">
+                                    <span className="flex items-center gap-2">
+                                        <span className="text-primary font-extrabold text-xs">Q.</span>
+                                        {faq.q}
+                                    </span>
+                                    <span className="transform group-open:rotate-180 transition-transform text-muted-foreground text-[10px]">
+                                        ▼
+                                    </span>
+                                </summary>
+                                <div className="px-4 pb-4 pt-2 text-xs text-muted-foreground leading-relaxed border-t border-border/50">
+                                    <span className="font-bold text-foreground mr-1">A.</span>
+                                    {faq.a}
+                                </div>
+                            </details>
+                        ))}
                     </div>
                 </section>
 

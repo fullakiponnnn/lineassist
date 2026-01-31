@@ -23,6 +23,31 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'No billing information found' }, { status: 404 })
         }
 
+        const customerId = profile.stripe_customer_id;
+
+        // Check if customer exists in Stripe
+        try {
+            const customer = await stripe.customers.retrieve(customerId);
+            if ((customer as any).deleted) {
+                throw new Error('deleted');
+            }
+        } catch (e: any) {
+            if (e.code === 'resource_missing' || e.message === 'deleted') {
+                // Customer missing in Stripe -> Reset local profile
+                await supabase
+                    .from('profiles')
+                    .update({
+                        stripe_customer_id: null,
+                        subscription_status: null,
+                        plan_tier: 'free'
+                    } as any)
+                    .eq('id', user.id);
+
+                return NextResponse.json({ error: '顧客情報が見つかりませんでした。アカウント情報をリセットしましたので、ページを再読み込みしてください。' }, { status: 404 });
+            }
+            throw e; // Rethrow other errors
+        }
+
         const getSiteUrl = () => {
             if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
             if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;

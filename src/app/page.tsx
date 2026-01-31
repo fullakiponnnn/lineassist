@@ -1,6 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { signOut } from './login/actions'
-import { LogOut, Plus, Search, User, Calendar, Camera, Settings, QrCode } from 'lucide-react'
+import { LogOut, Plus, Search, User, Calendar, Camera, Settings, QrCode, MessageCircleQuestion } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import LandingPage from './landing-page'
@@ -89,6 +89,14 @@ export default async function Dashboard() {
             {profile?.shop_name || 'SnapKarte'}
           </h1>
           <div className="flex items-center gap-1">
+            <a
+              href="https://lin.ee/O3ydcSf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 text-muted-foreground hover:text-primary transition-colors rounded-full hover:bg-muted"
+            >
+              <MessageCircleQuestion className="w-5 h-5" />
+            </a>
             <Link
               href="/settings"
               className="p-2 text-muted-foreground hover:text-primary transition-colors rounded-full hover:bg-muted"

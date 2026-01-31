@@ -1,7 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
 import { redirect } from 'next/navigation'
 import SettingsForm from './settings-form'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, MessageCircleQuestion } from 'lucide-react'
 import Link from 'next/link'
 
 export default async function SettingsPage() {
@@ -39,6 +39,19 @@ export default async function SettingsPage() {
                     profileId={user.id}
                     profile={profile}
                 />
+
+                <div className="mt-8 pt-8 border-t border-border/50 text-center">
+                    <p className="text-sm text-muted-foreground mb-4">お困りですか？</p>
+                    <a
+                        href="https://lin.ee/O3ydcSf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-white border border-slate-200 shadow-sm text-slate-700 font-bold text-sm hover:bg-slate-50 transition-colors"
+                    >
+                        <MessageCircleQuestion className="w-4 h-4" />
+                        LINEでサポートに問い合わせる
+                    </a>
+                </div>
             </main>
         </div>
     )

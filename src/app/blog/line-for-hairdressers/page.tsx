@@ -13,7 +13,7 @@ export const metadata: Metadata = {
         title: '個人美容師がLINE公式アカウントを活用すべき5つの理由',
         description: 'フリーランス・面貸し美容師のためのLINE活用術を徹底解説',
         type: 'article',
-        publishedTime: '2025-01-15T00:00:00.000Z',
+        publishedTime: '2026-02-09T00:00:00.000Z',
     },
 }
 
@@ -57,7 +57,7 @@ export default function LineForHairdressersArticle() {
                             <span className="text-xs font-bold px-3 py-1 bg-[#06C755]/10 text-[#06C755] rounded-full">
                                 LINE活用
                             </span>
-                            <time className="text-sm text-gray-400">2025年1月15日</time>
+                            <time className="text-sm text-gray-400">2026年2月9日</time>
                         </div>
                         <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight mb-6">
                             個人美容師がLINE公式アカウントを<br className="hidden sm:block" />

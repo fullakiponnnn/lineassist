@@ -26,13 +26,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
         // Blog pages (SEO content)
         {
             url: `${baseUrl}/blog`,
-            lastModified: new Date(),
+            lastModified: new Date('2026-02-09'),
             changeFrequency: 'weekly' as const,
             priority: 0.8,
         },
         {
             url: `${baseUrl}/blog/line-for-hairdressers`,
-            lastModified: new Date('2025-01-15'),
+            lastModified: new Date('2026-02-09'),
+            changeFrequency: 'monthly' as const,
+            priority: 0.7,
+        },
+        {
+            url: `${baseUrl}/blog/digital-karte-benefits`,
+            lastModified: new Date('2026-02-09'),
+            changeFrequency: 'monthly' as const,
+            priority: 0.7,
+        },
+        {
+            url: `${baseUrl}/blog/increase-repeat-rate`,
+            lastModified: new Date('2026-02-09'),
             changeFrequency: 'monthly' as const,
             priority: 0.7,
         },

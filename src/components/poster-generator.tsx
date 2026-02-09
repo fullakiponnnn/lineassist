@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from 'react';
 import QRCode from 'react-qr-code';
-import { Download, Loader2, Image as ImageIcon, Check } from 'lucide-react';
+import { Download, Loader2, Image as ImageIcon } from 'lucide-react';
 import html2canvas from 'html2canvas';
 
 type Props = {
@@ -10,33 +10,100 @@ type Props = {
     lineId: string; // @xxxx
 };
 
+const designs = [
+    { name: 'Simple & Clean', color: 'bg-white', textColor: 'text-slate-900', borderColor: 'border-[#06C755]' },
+    { name: 'Elegant Dark', color: 'bg-slate-900', textColor: 'text-white', borderColor: 'border-white' },
+    { name: 'Warm Salon', color: 'bg-[#fdfbf7]', textColor: 'text-[#4a4a4a]', borderColor: 'border-[#4a4a4a]' },
+];
+
+function PosterContent({ design, shopName, lineUrl, lineId }: { design: any, shopName: string, lineUrl: string, lineId: string }) {
+    return (
+        <div
+            className={`w-[595px] h-[842px] flex flex-col items-center justify-between p-16 text-center border-0 ${design.color} ${design.textColor}`}
+            style={{ fontFamily: 'sans-serif' }}
+        >
+            {/* Header */}
+            <div className="space-y-4">
+                <p className="text-2xl font-bold opacity-70 tracking-widest uppercase">Official LINE</p>
+                <h1 className="text-5xl font-extrabold tracking-tight">{shopName}</h1>
+                <div className="w-20 h-1 bg-[#06C755] mx-auto mt-6"></div>
+            </div>
+
+            {/* Main Content */}
+            <div className="space-y-8">
+                <p className="text-3xl font-bold leading-relaxed">
+                    来店記録・スタイル写真を<br />
+                    LINEでお届けします
+                </p>
+
+                <div className="bg-white p-6 rounded-3xl shadow-xl inline-block">
+                    <QRCode
+                        value={lineUrl}
+                        size={280}
+                        style={{ height: "auto", maxWidth: "100%", width: "280px" }}
+                        viewBox={`0 0 256 256`}
+                    />
+                </div>
+                <p className="text-xl font-bold flex items-center justify-center gap-2">
+                    <span className="bg-[#06C755] text-white px-3 py-1 rounded-full text-sm">ID</span>
+                    {lineId}
+                </p>
+            </div>
+
+            {/* Footer */}
+            <div className="space-y-4 w-full px-4">
+                <div className={`flex items-center justify-center gap-4 text-left border-2 ${design.borderColor} p-6 rounded-2xl`}>
+                    <div className="bg-[#06C755] text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-2xl shrink-0">1</div>
+                    <div>
+                        <p className="font-bold text-xl">QRコードをスキャン</p>
+                        <p className="text-sm opacity-80">またはID検索で友だち追加</p>
+                    </div>
+                </div>
+                <div className={`flex items-center justify-center gap-4 text-left border-2 ${design.borderColor} p-6 rounded-2xl`}>
+                    <div className="bg-[#06C755] text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-2xl shrink-0">2</div>
+                    <div>
+                        <p className="font-bold text-xl">連携用QRを提示</p>
+                        <p className="text-sm opacity-80">スタッフが提示するコードを読み取って連携完了！</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export default function PosterGenerator({ shopName, lineId }: Props) {
     const [isGenerating, setIsGenerating] = useState(false);
     const [selectedDesign, setSelectedDesign] = useState<number>(0);
 
     // LINE Add Friend URL
-    // https://line.me/R/ti/p/{LINE_ID_WITHOUT_AT}
-    // Note: lineId includes '@', so remove it.
     const cleanLineId = lineId.replace('@', '');
     const lineUrl = `https://line.me/R/ti/p/%40${cleanLineId}`;
 
-    const designs = [
-        { name: 'Simple & Clean', color: 'bg-white', textColor: 'text-slate-900' },
-        { name: 'Elegant Dark', color: 'bg-slate-900', textColor: 'text-white' },
-        { name: 'Warm Salon', color: 'bg-[#fdfbf7]', textColor: 'text-[#4a4a4a]' },
-    ];
-
-    const posterRef = useRef<HTMLDivElement>(null);
+    const downloadRef = useRef<HTMLDivElement>(null);
 
     const handleDownload = async () => {
-        if (!posterRef.current) return;
+        if (!downloadRef.current) return;
 
         setIsGenerating(true);
         try {
-            const canvas = await html2canvas(posterRef.current, {
+            // Wait for next tick to ensure any updates
+            await new Promise(resolve => setTimeout(resolve, 0));
+
+            const canvas = await html2canvas(downloadRef.current, {
                 scale: 2, // High resolution
                 useCORS: true,
                 backgroundColor: null,
+                logging: false,
+                onclone: (clonedDoc) => {
+                    const el = clonedDoc.getElementById('poster-capture-target');
+                    if (el) {
+                        // Ensure it's treated as visible in the cloned document
+                        el.style.display = 'block';
+                        el.style.position = 'relative'; // Reset fixed position in clone if needed
+                        el.style.top = '0';
+                        el.style.left = '0';
+                    }
+                }
             });
 
             const image = canvas.toDataURL('image/png');
@@ -46,7 +113,7 @@ export default function PosterGenerator({ shopName, lineId }: Props) {
             link.click();
         } catch (err) {
             console.error('Failed to generate poster:', err);
-            alert('画像の生成に失敗しました。');
+            alert('画像の生成に失敗しました。もう一度お試しください。');
         } finally {
             setIsGenerating(false);
         }
@@ -79,61 +146,29 @@ export default function PosterGenerator({ shopName, lineId }: Props) {
                     ))}
                 </div>
 
-                {/* Preview Area (Hidden overflow strictly for preview, but we need full render for capture) */}
+                {/* Preview Area - Scaled down visual representation */}
                 <div className="flex justify-center mb-6 overflow-hidden rounded-lg border border-slate-200 bg-slate-50 p-4">
-                    <div className="scale-[0.4] origin-top transform-gpu" style={{ height: '300px' }}> {/* Scaling down for preview */}
-                        {/* Actual Poster Content */}
-                        <div
-                            ref={posterRef}
-                            className={`w-[595px] h-[842px] relative flex flex-col items-center justify-between p-16 text-center shadow-2xl ${designs[selectedDesign].color} ${designs[selectedDesign].textColor}`}
-                            style={{ fontFamily: 'sans-serif' }}
-                        >
-                            {/* Header */}
-                            <div className="space-y-4">
-                                <p className="text-2xl font-bold opacity-70 tracking-widest uppercase">Official LINE</p>
-                                <h1 className="text-5xl font-extrabold tracking-tight">{shopName}</h1>
-                                <div className="w-20 h-1 bg-[#06C755] mx-auto mt-6"></div>
-                            </div>
+                    <div className="scale-[0.4] origin-top bg-white shadow-sm" style={{ height: '336px', width: '238px' }}> {/* 595*0.4, approx A4 aspect */}
+                        <PosterContent
+                            shopName={shopName}
+                            lineId={lineId}
+                            lineUrl={lineUrl}
+                            design={designs[selectedDesign]}
+                        />
+                    </div>
+                </div>
 
-                            {/* Main Content */}
-                            <div className="space-y-8">
-                                <p className="text-3xl font-bold leading-relaxed">
-                                    来店記録・スタイル写真を<br />
-                                    LINEでお届けします
-                                </p>
-
-                                <div className="bg-white p-6 rounded-3xl shadow-xl inline-block">
-                                    <QRCode
-                                        value={lineUrl}
-                                        size={280}
-                                        style={{ height: "auto", maxWidth: "100%", width: "280px" }}
-                                        viewBox={`0 0 256 256`}
-                                    />
-                                </div>
-                                <p className="text-xl font-bold flex items-center justify-center gap-2">
-                                    <span className="bg-[#06C755] text-white px-3 py-1 rounded-full text-sm">ID</span>
-                                    {lineId}
-                                </p>
-                            </div>
-
-                            {/* Footer */}
-                            <div className="space-y-4">
-                                <div className="flex items-center justify-center gap-4 text-left border-2 border-[#06C755] p-6 rounded-2xl mx-8">
-                                    <div className="bg-[#06C755] text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-2xl shrink-0">1</div>
-                                    <div>
-                                        <p className="font-bold text-xl">QRコードをスキャン</p>
-                                        <p className="text-sm opacity-80">またはID検索で友だち追加</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center justify-center gap-4 text-left border-2 border-[#06C755] p-6 rounded-2xl mx-8">
-                                    <div className="bg-[#06C755] text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-2xl shrink-0">2</div>
-                                    <div>
-                                        <p className="font-bold text-xl">連携用QRを提示</p>
-                                        <p className="text-sm opacity-80">スタッフが提示するコードを読み取って連携完了！</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                {/* Capture Area - Hidden but rendered full size */}
+                {/* We use fixed positioning off-screen to ensure it renders correctly but isn't seen */}
+                <div style={{ position: 'fixed', top: '-9999px', left: '-9999px', display: 'block' }}>
+                    <div ref={downloadRef} id="poster-capture-target" className="bg-white">
+                        {/* Added bg-white wrapper to ensure background IS captured if transparent otherwise */}
+                        <PosterContent
+                            shopName={shopName}
+                            lineId={lineId}
+                            lineUrl={lineUrl}
+                            design={designs[selectedDesign]}
+                        />
                     </div>
                 </div>
 

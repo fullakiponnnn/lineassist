@@ -21,31 +21,34 @@ const designs = [
 function PosterContent({ design, shopName, lineUrl, lineId }: { design: any, shopName: string, lineUrl: string, lineId: string }) {
     return (
         <div
-            className={`w-full h-full flex flex-col items-center justify-between p-20 text-center border-0 ${design.color} ${design.textColor}`}
+            className={`w-full h-full flex flex-col items-center justify-between py-16 px-12 text-center border-0 ${design.color} ${design.textColor}`}
             style={{ fontFamily: 'sans-serif' }}
         >
             {/* Header */}
-            <div className="space-y-6">
-                <p className="text-3xl font-bold opacity-70 tracking-widest uppercase">Official LINE</p>
-                <h1 className="text-6xl font-extrabold tracking-tight">{shopName}</h1>
-                <div className="w-24 h-1 bg-[#06C755] mx-auto mt-8"></div>
+            <div className="space-y-4">
+                <p className="text-2xl font-bold opacity-70 tracking-widest uppercase">Official LINE</p>
+                <h1 className="text-5xl font-extrabold tracking-tight">{shopName}</h1>
+                <div className="w-20 h-1 bg-[#06C755] mx-auto mt-6"></div>
             </div>
 
             {/* Main Content */}
-            <div className="space-y-10">
-                <p className="text-4xl font-bold leading-relaxed">
+            <div className="space-y-6 flex-1 flex flex-col justify-center">
+                <p className="text-3xl font-bold leading-relaxed">
                     来店記録・スタイル写真を<br />
                     LINEでお届けします
                 </p>
 
-                <div className="bg-white p-8 rounded-[40px] shadow-xl inline-block">
-                    <QRCode
-                        value={lineUrl}
-                        size={360}
-                        style={{ height: "auto", maxWidth: "100%", width: "360px" }}
-                        viewBox={`0 0 256 256`}
-                    />
+                <div className="my-4">
+                    <div className="bg-white p-6 rounded-[32px] shadow-xl inline-block">
+                        <QRCode
+                            value={lineUrl}
+                            size={300}
+                            style={{ height: "auto", maxWidth: "100%", width: "300px" }}
+                            viewBox={`0 0 256 256`}
+                        />
+                    </div>
                 </div>
+
                 <p className="text-2xl font-bold flex items-center justify-center gap-3">
                     <span className="bg-[#06C755] text-white px-4 py-1.5 rounded-full text-base">ID</span>
                     {lineId}
@@ -53,19 +56,19 @@ function PosterContent({ design, shopName, lineUrl, lineId }: { design: any, sho
             </div>
 
             {/* Footer */}
-            <div className="space-y-6 w-full px-8">
-                <div className={`flex items-center justify-center gap-6 text-left border-2 ${design.borderColor} p-8 rounded-3xl`}>
-                    <div className="bg-[#06C755] text-white w-14 h-14 rounded-full flex items-center justify-center font-bold text-2xl shrink-0">1</div>
+            <div className="space-y-4 w-full px-4">
+                <div className={`flex items-center justify-center gap-5 text-left border-2 ${design.borderColor} p-6 rounded-2xl`}>
+                    <div className="bg-[#06C755] text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-2xl shrink-0">1</div>
                     <div>
-                        <p className="font-bold text-2xl">QRコードをスキャン</p>
-                        <p className="text-base opacity-80">またはID検索で友だち追加</p>
+                        <p className="font-bold text-xl">QRコードをスキャン</p>
+                        <p className="text-sm opacity-80">またはID検索で友だち追加</p>
                     </div>
                 </div>
-                <div className={`flex items-center justify-center gap-6 text-left border-2 ${design.borderColor} p-8 rounded-3xl`}>
-                    <div className="bg-[#06C755] text-white w-14 h-14 rounded-full flex items-center justify-center font-bold text-2xl shrink-0">2</div>
+                <div className={`flex items-center justify-center gap-5 text-left border-2 ${design.borderColor} p-6 rounded-2xl`}>
+                    <div className="bg-[#06C755] text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-2xl shrink-0">2</div>
                     <div>
-                        <p className="font-bold text-2xl">連携用QRを提示</p>
-                        <p className="text-base opacity-80">スタッフが提示するコードを読み取って連携完了！</p>
+                        <p className="font-bold text-xl">連携用QRを提示</p>
+                        <p className="text-sm opacity-80">スタッフが提示するコードを読み取って連携完了！</p>
                     </div>
                 </div>
             </div>

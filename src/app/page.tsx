@@ -192,8 +192,14 @@ export default async function Dashboard() {
             <span className="font-bold text-xs">顧客一覧</span>
           </Link>
 
-          <Link href="/guide" className="col-span-2 bg-[#06C755]/10 text-[#06C755] border border-[#06C755]/20 p-3 rounded-xl flex items-center justify-center gap-2 hover:bg-[#06C755]/20 transition-all">
-            <span className="font-bold text-xs">LINE連携ガイドを見る</span>
+          <Link href="/guide" className="bg-[#06C755]/10 text-[#06C755] border border-[#06C755]/20 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-[#06C755]/20 transition-all aspect-[4/3]">
+            <MessageCircleQuestion className="w-6 h-6" />
+            <span className="font-bold text-xs">連携ガイド</span>
+          </Link>
+
+          <Link href="/settings" className="bg-slate-100 text-slate-700 border border-slate-200 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-slate-200 transition-all aspect-[4/3]">
+            <Settings className="w-6 h-6" />
+            <span className="font-bold text-xs">設定・ポスター</span>
           </Link>
         </div>
 

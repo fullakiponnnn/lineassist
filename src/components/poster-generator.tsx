@@ -3,7 +3,9 @@
 import React, { useRef, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { Download, Loader2, Image as ImageIcon } from 'lucide-react';
-import html2canvas from 'html2canvas';
+import { toPng } from 'html-to-image';
+
+// ... (rest of the file)
 
 type Props = {
     shopName: string;
@@ -86,29 +88,28 @@ export default function PosterGenerator({ shopName, lineId }: Props) {
 
         setIsGenerating(true);
         try {
-            // Wait for next tick to ensure any updates
-            await new Promise(resolve => setTimeout(resolve, 0));
+            // Allow state updates to settle
+            await new Promise(resolve => setTimeout(resolve, 100));
 
-            const canvas = await html2canvas(downloadRef.current, {
-                scale: 2, // High resolution
-                useCORS: true,
-                backgroundColor: null,
-                logging: false,
-                onclone: (clonedDoc) => {
-                    const el = clonedDoc.getElementById('poster-capture-target');
-                    if (el) {
-                        // Ensure it's treated as visible in the cloned document
-                        el.style.display = 'block';
-                        el.style.position = 'relative'; // Reset fixed position in clone if needed
-                        el.style.top = '0';
-                        el.style.left = '0';
-                    }
+            const dataUrl = await toPng(downloadRef.current, {
+                quality: 1.0,
+                pixelRatio: 2, // High resolution (300dpi eq)
+                width: 595,
+                height: 842,
+                cacheBust: true,
+                style: {
+                    // Ensure the element is captured exactly as designed regardless of parent context
+                    display: 'flex',
+                    visibility: 'visible',
+                    opacity: '1',
+                    position: 'relative',
+                    top: '0',
+                    left: '0',
                 }
             });
 
-            const image = canvas.toDataURL('image/png');
             const link = document.createElement('a');
-            link.href = image;
+            link.href = dataUrl;
             link.download = `line-poster-${shopName}-${designs[selectedDesign].name}.png`;
             link.click();
         } catch (err) {

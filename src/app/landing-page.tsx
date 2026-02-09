@@ -190,6 +190,7 @@ export default function LandingPage() {
                         <button onClick={() => scrollToSection('features')} className="text-sm font-medium text-slate-500 hover:text-primary transition-colors">機能</button>
                         <button onClick={() => scrollToSection('pricing')} className="text-sm font-medium text-slate-500 hover:text-primary transition-colors">料金</button>
                         <button onClick={() => scrollToSection('faq')} className="text-sm font-medium text-slate-500 hover:text-primary transition-colors">よくある質問</button>
+                        <Link href="/blog" className="text-sm font-medium text-slate-500 hover:text-primary transition-colors">ブログ</Link>
                     </div>
 
                     <div className="hidden md:flex items-center gap-4">
@@ -226,6 +227,7 @@ export default function LandingPage() {
                                 <button onClick={() => scrollToSection('features')} className="text-left py-2 font-medium text-slate-600">機能</button>
                                 <button onClick={() => scrollToSection('pricing')} className="text-left py-2 font-medium text-slate-600">料金</button>
                                 <button onClick={() => scrollToSection('faq')} className="text-left py-2 font-medium text-slate-600">よくある質問</button>
+                                <Link href="/blog" className="text-left py-2 font-medium text-slate-600">ブログ</Link>
                                 <div className="h-px bg-gray-100 my-2" />
                                 <Link href="/login" className="text-center py-3 font-bold text-slate-600 bg-gray-50 rounded-lg">ログイン</Link>
                                 <Link href="/login" className="text-center py-3 font-bold bg-primary text-white rounded-lg shadow-lg shadow-primary/20">無料で試す</Link>

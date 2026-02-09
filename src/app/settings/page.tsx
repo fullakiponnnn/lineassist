@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import SettingsForm from './settings-form'
 import { ArrowLeft, MessageCircleQuestion } from 'lucide-react'
 import Link from 'next/link'
+import PosterGenerator from '@/components/poster-generator'
 
 export default async function SettingsPage() {
     const supabase = await createClient()
@@ -39,6 +40,15 @@ export default async function SettingsPage() {
                     profileId={user.id}
                     profile={profile}
                 />
+
+                {profile?.bot_basic_id && profile?.shop_name && (
+                    <div className="mt-8">
+                        <PosterGenerator
+                            shopName={profile.shop_name}
+                            lineId={profile.bot_basic_id}
+                        />
+                    </div>
+                )}
 
                 <div className="mt-8 pt-8 border-t border-border/50 text-center">
                     <p className="text-sm text-muted-foreground mb-4">お困りですか？</p>

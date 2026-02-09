@@ -124,6 +124,22 @@ export async function POST(req: Request) {
                 ],
             };
 
+            // Setup support email notification
+            if (isSetupIncluded) {
+                const userEmail = session.customer_details?.email;
+                if (userEmail) {
+                    try {
+                        const { sendSetupEmail } = await import('@/utils/resend');
+                        await sendSetupEmail(userEmail, shopName, userId);
+                    } catch (emailError) {
+                        console.error('Failed to send setup email:', emailError);
+                    }
+                } else {
+                    console.warn('No email found directly in session for setup notification. UserId:', userId);
+                    // Optionally fetch user email from Supabase if critical
+                }
+            }
+
             try {
                 await fetch(process.env.DISCORD_WEBHOOK_URL, {
                     method: 'POST',

@@ -4,6 +4,7 @@ import { LogOut, Plus, Search, User, Calendar, Camera, Settings, QrCode, Message
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import LandingPage from './landing-page'
+import SetupRequestAlert from '@/components/setup-request-alert'
 
 export default async function Dashboard() {
   const supabase = await createClient()
@@ -116,6 +117,11 @@ export default async function Dashboard() {
       </header>
 
       <main className="container mx-auto px-4 py-6 space-y-6">
+        {/* Setup Alert */}
+        {profile?.is_setup_purchased && profile?.setup_status !== 'completed' && (
+          <SetupRequestAlert profileId={profile.id} />
+        )}
+
         {/* Search Bar */}
         <div className="relative">
           <Search className="absolute left-3 top-3 w-5 h-5 text-muted-foreground" />

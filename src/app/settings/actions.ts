@@ -67,3 +67,41 @@ export async function updateProfile(prevState: any, formData: FormData) {
     revalidatePath('/') // Dashboardの店名表示も更新
     return { success: true, message: '設定を保存しました' }
 }
+
+export async function completeSetup(prevState: any, formData: FormData) {
+    const supabase = await createClient()
+
+    const {
+        data: { user },
+    } = await supabase.auth.getUser()
+
+    if (!user) {
+        return { error: 'Unauthorized' }
+    }
+
+    const lineBasicId = formData.get('lineBasicId') as string
+
+    if (!lineBasicId || lineBasicId.trim() === '') {
+        return { error: 'LINE公式アカウントIDを入力してください' }
+    }
+
+    const updates: any = {
+        bot_basic_id: lineBasicId.trim(),
+        setup_status: 'completed',
+        updated_at: new Date().toISOString(),
+    }
+
+    const { error } = await supabase
+        .from('profiles')
+        .update(updates)
+        .eq('id', user.id)
+
+    if (error) {
+        console.error('Setup completion error', error)
+        return { error: '設定の完了処理に失敗しました' }
+    }
+
+    revalidatePath('/settings')
+    revalidatePath('/')
+    return { success: true, message: 'セットアップが完了しました！' }
+}

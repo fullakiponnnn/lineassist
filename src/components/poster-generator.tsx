@@ -160,9 +160,8 @@ export default function PosterGenerator({ shopName, lineId }: Props) {
                 </div>
 
                 {/* Capture Area - Hidden but rendered full size */}
-                {/* We use fixed positioning off-screen to ensure it renders correctly but isn't seen */}
-                <div style={{ position: 'fixed', top: '-9999px', left: '-9999px', display: 'block' }}>
-                    <div ref={downloadRef} id="poster-capture-target" className="bg-white">
+                <div style={{ position: 'fixed', left: '-10000px', top: 0 }}>
+                    <div ref={downloadRef} id="poster-capture-target" className="bg-white" style={{ width: '595px', height: '842px' }}>
                         {/* Added bg-white wrapper to ensure background IS captured if transparent otherwise */}
                         <PosterContent
                             shopName={shopName}

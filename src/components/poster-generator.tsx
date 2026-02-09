@@ -21,51 +21,51 @@ const designs = [
 function PosterContent({ design, shopName, lineUrl, lineId }: { design: any, shopName: string, lineUrl: string, lineId: string }) {
     return (
         <div
-            className={`w-[595px] h-[842px] flex flex-col items-center justify-between p-16 text-center border-0 ${design.color} ${design.textColor}`}
+            className={`w-full h-full flex flex-col items-center justify-between p-20 text-center border-0 ${design.color} ${design.textColor}`}
             style={{ fontFamily: 'sans-serif' }}
         >
             {/* Header */}
-            <div className="space-y-4">
-                <p className="text-2xl font-bold opacity-70 tracking-widest uppercase">Official LINE</p>
-                <h1 className="text-5xl font-extrabold tracking-tight">{shopName}</h1>
-                <div className="w-20 h-1 bg-[#06C755] mx-auto mt-6"></div>
+            <div className="space-y-6">
+                <p className="text-3xl font-bold opacity-70 tracking-widest uppercase">Official LINE</p>
+                <h1 className="text-6xl font-extrabold tracking-tight">{shopName}</h1>
+                <div className="w-24 h-1 bg-[#06C755] mx-auto mt-8"></div>
             </div>
 
             {/* Main Content */}
-            <div className="space-y-8">
-                <p className="text-3xl font-bold leading-relaxed">
+            <div className="space-y-10">
+                <p className="text-4xl font-bold leading-relaxed">
                     来店記録・スタイル写真を<br />
                     LINEでお届けします
                 </p>
 
-                <div className="bg-white p-6 rounded-3xl shadow-xl inline-block">
+                <div className="bg-white p-8 rounded-[40px] shadow-xl inline-block">
                     <QRCode
                         value={lineUrl}
-                        size={280}
-                        style={{ height: "auto", maxWidth: "100%", width: "280px" }}
+                        size={360}
+                        style={{ height: "auto", maxWidth: "100%", width: "360px" }}
                         viewBox={`0 0 256 256`}
                     />
                 </div>
-                <p className="text-xl font-bold flex items-center justify-center gap-2">
-                    <span className="bg-[#06C755] text-white px-3 py-1 rounded-full text-sm">ID</span>
+                <p className="text-2xl font-bold flex items-center justify-center gap-3">
+                    <span className="bg-[#06C755] text-white px-4 py-1.5 rounded-full text-base">ID</span>
                     {lineId}
                 </p>
             </div>
 
             {/* Footer */}
-            <div className="space-y-4 w-full px-4">
-                <div className={`flex items-center justify-center gap-4 text-left border-2 ${design.borderColor} p-6 rounded-2xl`}>
-                    <div className="bg-[#06C755] text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-2xl shrink-0">1</div>
+            <div className="space-y-6 w-full px-8">
+                <div className={`flex items-center justify-center gap-6 text-left border-2 ${design.borderColor} p-8 rounded-3xl`}>
+                    <div className="bg-[#06C755] text-white w-14 h-14 rounded-full flex items-center justify-center font-bold text-2xl shrink-0">1</div>
                     <div>
-                        <p className="font-bold text-xl">QRコードをスキャン</p>
-                        <p className="text-sm opacity-80">またはID検索で友だち追加</p>
+                        <p className="font-bold text-2xl">QRコードをスキャン</p>
+                        <p className="text-base opacity-80">またはID検索で友だち追加</p>
                     </div>
                 </div>
-                <div className={`flex items-center justify-center gap-4 text-left border-2 ${design.borderColor} p-6 rounded-2xl`}>
-                    <div className="bg-[#06C755] text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-2xl shrink-0">2</div>
+                <div className={`flex items-center justify-center gap-6 text-left border-2 ${design.borderColor} p-8 rounded-3xl`}>
+                    <div className="bg-[#06C755] text-white w-14 h-14 rounded-full flex items-center justify-center font-bold text-2xl shrink-0">2</div>
                     <div>
-                        <p className="font-bold text-xl">連携用QRを提示</p>
-                        <p className="text-sm opacity-80">スタッフが提示するコードを読み取って連携完了！</p>
+                        <p className="font-bold text-2xl">連携用QRを提示</p>
+                        <p className="text-base opacity-80">スタッフが提示するコードを読み取って連携完了！</p>
                     </div>
                 </div>
             </div>
@@ -94,8 +94,8 @@ export default function PosterGenerator({ shopName, lineId }: Props) {
             const dataUrl = await toPng(downloadRef.current, {
                 quality: 1.0,
                 pixelRatio: 2, // High resolution (300dpi eq)
-                width: 595,
-                height: 842,
+                width: 794,
+                height: 1123,
                 cacheBust: true,
                 style: {
                     // Ensure the element is captured exactly as designed regardless of parent context
@@ -149,19 +149,21 @@ export default function PosterGenerator({ shopName, lineId }: Props) {
 
                 {/* Preview Area - Scaled down visual representation */}
                 <div className="flex justify-center mb-6 overflow-hidden rounded-lg border border-slate-200 bg-slate-50 p-4">
-                    <div className="scale-[0.4] origin-top bg-white shadow-sm" style={{ height: '336px', width: '238px' }}> {/* 595*0.4, approx A4 aspect */}
-                        <PosterContent
-                            shopName={shopName}
-                            lineId={lineId}
-                            lineUrl={lineUrl}
-                            design={designs[selectedDesign]}
-                        />
+                    <div className="relative bg-white shadow-sm origin-top transform-gpu" style={{ width: '238px', height: '337px' }}>
+                        <div className="absolute top-0 left-0 origin-top-left scale-[0.3]" style={{ width: '794px', height: '1123px' }}>
+                            <PosterContent
+                                shopName={shopName}
+                                lineId={lineId}
+                                lineUrl={lineUrl}
+                                design={designs[selectedDesign]}
+                            />
+                        </div>
                     </div>
                 </div>
 
                 {/* Capture Area - Hidden but rendered full size */}
                 <div style={{ position: 'fixed', left: '-10000px', top: 0 }}>
-                    <div ref={downloadRef} id="poster-capture-target" className="bg-white" style={{ width: '595px', height: '842px' }}>
+                    <div ref={downloadRef} id="poster-capture-target" className="bg-white" style={{ width: '794px', height: '1123px' }}>
                         {/* Added bg-white wrapper to ensure background IS captured if transparent otherwise */}
                         <PosterContent
                             shopName={shopName}

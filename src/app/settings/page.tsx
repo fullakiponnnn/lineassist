@@ -4,13 +4,51 @@ import SettingsForm from './settings-form'
 import { ArrowLeft, MessageCircleQuestion } from 'lucide-react'
 import Link from 'next/link'
 import PosterGenerator from '@/components/poster-generator'
+import { stripe } from '@/utils/stripe'
 
-export default async function SettingsPage() {
+type Props = {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}
+
+export default async function SettingsPage(props: Props) {
+    const searchParams = await props.searchParams;
+    const sessionId = searchParams?.session_id as string | undefined;
+
     const supabase = await createClient()
 
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
         redirect('/login')
+    }
+
+    // If returning from Checkout, sync data immediately
+    if (sessionId) {
+        try {
+            const session = await stripe.checkout.sessions.retrieve(sessionId);
+            if (session.status === 'complete' || session.payment_status === 'paid') {
+                // If it's a subscription
+                if (session.subscription) {
+                    const subscription = await stripe.subscriptions.retrieve(session.subscription as string);
+
+                    await supabase.from('profiles').update({
+                        stripe_subscription_id: subscription.id,
+                        subscription_status: subscription.status,
+                        current_period_end: new Date((subscription as any).current_period_end * 1000).toISOString(),
+                        plan_tier: session.metadata?.plan_tier || 'standard', // Fallback or trust metadata
+                        plan_interval: session.metadata?.plan_interval || 'month'
+                    } as any).eq('id', user.id);
+                }
+                // If it's a one-time payment (setup fee)
+                else if (session.mode === 'payment') {
+                    await supabase.from('profiles').update({
+                        is_setup_purchased: true,
+                        setup_status: 'pending' // Start setup
+                    } as any).eq('id', user.id);
+                }
+            }
+        } catch (e) {
+            console.error('Failed to sync Stripe session:', e);
+        }
     }
 
     const { data: rawProfile } = await supabase

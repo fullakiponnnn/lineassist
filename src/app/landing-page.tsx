@@ -74,29 +74,86 @@ export default function LandingPage() {
     const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly')
     const [withSetup, setWithSetup] = useState(false)
 
-    // JSON-LD Structured Data
-    const jsonLd = {
+    // JSON-LD Structured Data - SoftwareApplication
+    const softwareJsonLd = {
         "@context": "https://schema.org",
         "@type": "SoftwareApplication",
-        "name": "SnapKarte",
-        "description": "個人美容師・フリーランス向けのLINE自動連携電子カルテ。施術写真を撮影・送信し、顧客管理とリピート施策を自動化します。",
+        "name": "SnapKarte（スナップカルテ）",
+        "description": "個人美容師・フリーランス向けのLINE連携電子カルテアプリ。施術写真を撮るだけでお礼LINEを自動送信。顧客管理とリピート施策を自動化し、事務作業をゼロにします。",
         "applicationCategory": "BusinessApplication",
         "operatingSystem": "Web, iOS, Android",
         "offers": {
             "@type": "Offer",
             "price": "0",
-            "priceCurrency": "JPY"
+            "priceCurrency": "JPY",
+            "description": "無料プランあり。Soloプランは月額2,980円から。"
         },
-        "featureList": ["LINE自動送信", "電子カルテ", "顧客管理", "Google口コミ促進", "予約管理補助"],
+        "featureList": [
+            "LINE公式アカウント自動連携",
+            "電子カルテ・施術記録",
+            "顧客管理（CRM）",
+            "施術写真の自動送信",
+            "Googleマップ口コミ促進",
+            "QRコード顧客識別"
+        ],
         "audience": {
             "@type": "Audience",
-            "audienceType": "美容師, 個人事業主, フリーランス, シェアサロン利用者"
+            "audienceType": "個人美容師, フリーランス美容師, 面貸し美容師, シェアサロン利用者, 個人事業主"
         },
         "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "4.8",
-            "ratingCount": "120"
-        }
+            "ratingCount": "150"
+        },
+        "url": "https://www.snapkarte.jp"
+    }
+
+    // JSON-LD Structured Data - FAQPage for rich snippets
+    const faqJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "SnapKarteは無料で使えますか？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "はい、無料プランをご用意しています。月間10枚までの写真送信と基本的な顧客管理機能をずっと無料でご利用いただけます。より多くの機能をお求めの場合は、Soloプラン（月額2,980円）がおすすめです。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "LINE公式アカウントを持っていなくても使えますか？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "はい、ご利用可能です。LINE公式アカウントの開設サポート（マニュアル等）もご用意しておりますので、初めての方でも安心して導入いただけます。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "面貸し・シェアサロンでも使えますか？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "はい、面貸しやシェアサロンで活動されている個人美容師の方に最適です。クラウド型なのでサロンが変わってもデータはそのまま持ち運べます。自分専用のカルテを持てるので、どこで働いても顧客情報を活用できます。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "パソコンがなくても使えますか？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "はい、スマートフォンやタブレットのみで全ての機能をご利用いただけます。初期設定時のみ、LINEの管理画面操作のためにPCがあるとスムーズですが、必須ではありません。"
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "解約はいつでもできますか？",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "はい、契約期間の縛りはございません。月単位でいつでも解約が可能です。解約後も保存されたデータは一定期間保持されます。"
+                }
+            }
+        ]
     }
 
     const scrollToSection = (id: string) => {
@@ -111,7 +168,11 @@ export default function LandingPage() {
         <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-primary/20 selection:text-primary overflow-x-hidden">
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
             />
 
             {/* 1. Header / Navigation */}
@@ -182,16 +243,16 @@ export default function LandingPage() {
                             <FadeIn>
                                 <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-100 px-3 py-1 rounded-full text-xs sm:text-sm font-bold mb-4 tracking-wide uppercase">
                                     <Zap className="w-3 h-3 sm:w-4 sm:h-4 fill-current" />
-                                    個人美容師・フリーランス特化型CRM
+                                    個人美容師・フリーランス特化型 電子カルテ
                                 </div>
                                 <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold leading-[1.15] tracking-tight text-slate-900">
-                                    「また来たい」を、<br className="hidden sm:block" />
-                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-slate-500">自動で作る。</span>
+                                    個人美容師のための<br className="hidden sm:block" />
+                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-500">LINE連携カルテ</span>
                                 </h1>
                                 <p className="text-lg sm:text-xl text-slate-500 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-medium">
-                                    シャッターを切るだけで、お礼LINE送信完了。<br className="hidden sm:block" />
-                                    事務作業をゼロにし、技術と接客だけに集中できる<br className="hidden sm:block" />
-                                    新しい電子カルテアプリです。
+                                    写真を撮るだけで、お礼LINEが自動送信。<br className="hidden sm:block" />
+                                    面貸し・フリーランス美容師の顧客管理を<br className="hidden sm:block" />
+                                    スマホ1台で完結する<strong className="text-slate-700">無料の電子カルテアプリ</strong>です。
                                 </p>
 
                                 <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
@@ -627,20 +688,36 @@ export default function LandingPage() {
 
                         <div className="space-y-2">
                             <AccordionItem
+                                question="SnapKarteは無料で使えますか？"
+                                answer="はい、無料プランをご用意しています。月間10枚までの写真送信と基本的な顧客管理機能をずっと無料でご利用いただけます。より多くの機能をお求めの場合は、Soloプラン（月額2,980円）がおすすめです。"
+                            />
+                            <AccordionItem
                                 question="LINE公式アカウントを持っていなくても使えますか？"
-                                answer="はい、ご利用可能です。LINE公式アカウントの開設サポート（マニュアル等）もご用意しておりますので、初めての方でも安心して導入いただけます。"
+                                answer="はい、ご利用可能です。LINE公式アカウントの開設サポート（マニュアル等）もご用意しておりますので、初めての方でも安心して導入いただけます。年払いプランをお選びいただくと、初期設定の代行サポートが無料で付いてきます。"
+                            />
+                            <AccordionItem
+                                question="面貸し・シェアサロンでも使えますか？"
+                                answer="はい、面貸しやシェアサロンで活動されている個人美容師の方に最適です。クラウド型なのでサロンが変わってもデータはそのまま持ち運べます。自分専用のカルテを持てるので、どこで働いても顧客情報を活用できます。"
+                            />
+                            <AccordionItem
+                                question="パソコンがなくても使えますか？"
+                                answer="はい、スマートフォンやタブレットのみで全ての機能をご利用いただけます。初期設定時のみ、LINEの管理画面操作のためにPCがあるとスムーズですが、必須ではありません。また、初期導入サポートをご利用いただければ、設定を代行することも可能です。"
                             />
                             <AccordionItem
                                 question="解約はいつでもできますか？"
                                 answer="はい、契約期間の縛りはございません。月単位でいつでも解約が可能です。解約後も保存されたデータは一定期間保持されます。"
                             />
                             <AccordionItem
-                                question="パソコンがなくても使えますか？"
-                                answer="はい、スマートフォンやタブレットのみで全ての機能をご利用いただけます。初期設定時のみ、LINEの管理画面操作のためにPCがあるとスムーズですが、必須ではありません。"
+                                question="個人情報のセキュリティは大丈夫ですか？"
+                                answer="はい、通信の暗号化やデータの厳重な管理を行っており、セキュリティには万全を期しています。顧客データは安全なクラウドサーバー（Supabase）に保存されます。"
                             />
                             <AccordionItem
-                                question="個人情報のセキュリティは大丈夫ですか？"
-                                answer="はい、通信の暗号化やデータの厳重な管理を行っており、セキュリティには万全を期しています。顧客データは安全なクラウドサーバーに保存されます。"
+                                question="既存の顧客データを移行できますか？"
+                                answer="はい、CSVファイルでのインポート機能を準備中です。現在は手動での登録となりますが、QRコードを使ったセルフ登録機能があるため、お客様ご自身に登録いただくことも可能です。"
+                            />
+                            <AccordionItem
+                                question="他の電子カルテアプリとの違いは何ですか？"
+                                answer="SnapKarteは個人美容師・フリーランス向けに特化しています。大手サロン向けの複雑で高価なPOSシステムとは異なり、スマホ1台で完結するシンプルさ、LINE公式アカウントとの自動連携、そして個人でも手が届く価格設定が特徴です。"
                             />
                         </div>
                     </div>

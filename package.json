@@ -21,6 +21,7 @@
     "qrcode.react": "^4.2.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "react-line-social": "^0.3.0",
     "react-qr-code": "^2.0.18",
     "resend": "^6.9.1",
     "stripe": "^20.3.0",

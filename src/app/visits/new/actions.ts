@@ -110,17 +110,24 @@ export async function createVisit(prevState: any, formData: FormData) {
 
         if (customer?.line_user_id) {
             try {
-                // Construct Public URL
-                // Supabase Storage Public URL format:
-                // https://[project-ref].supabase.co/storage/v1/object/public/[bucket]/[path]
-                const { data: { publicUrl } } = supabase.storage
+                // Construct Signed URL for LINE (Private Buckets)
+                // Using 24 hours expiry (86400 seconds) to ensure LINE can fetch it, 
+                // and user can view it for a while if they click.
+                const { data, error: signedUrlError } = await supabase.storage
                     .from('visit-photos')
-                    .getPublicUrl(photoPath)
+                    .createSignedUrl(photoPath, 86400)
+
+                if (signedUrlError || !data?.signedUrl) {
+                    console.error('Failed to create signed URL for LINE', signedUrlError)
+                    throw new Error('Image URL generation failed')
+                }
+
+                const imageUrl = data.signedUrl
 
                 const lineService = new LineService(token)
                 await lineService.sendVisitThankYou(
                     customer.line_user_id,
-                    publicUrl,
+                    imageUrl,
                     profile?.shop_name || '美容室'
                 )
                 console.log('LINE message sent successfully')

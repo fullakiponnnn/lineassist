@@ -63,19 +63,19 @@ export default function SetupThanksClient({ userId }: Props) {
                 </p>
 
                 <div className="flex flex-col md:flex-row items-center gap-6">
-                    {/* QR Code (for Desktop) */}
-                    <div className="shrink-0 bg-white p-2 rounded-lg border border-gray-100 shadow-sm hidden md:block">
+                    {/* QR Code */}
+                    <div className="shrink-0 bg-white p-2 rounded-lg border border-gray-100 shadow-sm mx-auto md:mx-0">
                         <QRCode
                             value={lineAddFriendUrl}
                             size={120}
-                            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                            style={{ height: "auto", maxWidth: "100%", width: "120px" }}
                             viewBox={`0 0 256 256`}
                         />
                         <p className="text-[10px] text-center text-gray-400 mt-1">スマホでスキャン</p>
                     </div>
 
-                    {/* Button (for Mobile/All) */}
-                    <div className="flex-1 w-full">
+                    {/* Button */}
+                    <div className="flex-1 w-full text-center md:text-left">
                         <p className="text-xs text-gray-500 mb-3">
                             以下のボタンから公式LINEを追加し、
                             <br />

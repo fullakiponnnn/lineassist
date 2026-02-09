@@ -216,7 +216,16 @@ export default function SettingsForm({ initialShopName, initialLineBasicId, hasT
                                 </p>
                                 {profile.subscription_status === 'active' && profile.current_period_end && (
                                     <p className="text-xs text-slate-400 mt-1">
-                                        次回更新日: {new Date(profile.current_period_end).toISOString().split('T')[0].replace(/-/g, '/')}
+                                        次回更新日: {(() => {
+                                            const val = profile.current_period_end;
+                                            if (!val) return '不明';
+                                            // Handle unix timestamp as seconds (e.g. Stripe API returns seconds)
+                                            // If number and less than 10000000000 (year 2286), assume seconds
+                                            const date = (typeof val === 'number' && val < 10000000000)
+                                                ? new Date(val * 1000)
+                                                : new Date(val);
+                                            return date.toLocaleDateString('ja-JP');
+                                        })()}
                                     </p>
                                 )}
                             </div>

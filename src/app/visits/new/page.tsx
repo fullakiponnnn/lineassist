@@ -7,6 +7,8 @@ import { createVisit } from './actions'
 import { useActionState } from 'react' // Next.js 15/React 19 hook
 import { useRouter } from 'next/navigation'
 
+import imageCompression from 'browser-image-compression'
+
 // Mock customers for now - in real app fetch from DB
 // We will implement a search/create customer later
 type Customer = { id: string; name: string }
@@ -37,7 +39,7 @@ export default function NewVisitPage() {
         fetchCustomers()
     }, [])
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const selectedFile = e.target.files[0]
             setFile(selectedFile)
@@ -46,46 +48,8 @@ export default function NewVisitPage() {
     }
 
     const handleFormSubmit = async (formData: FormData) => {
-        if (!file) {
-            // If no file, just submit data (allow optional photo?)
-            // For now, let's say photo is optional or handled by user choice
-        } else {
-            setUploading(true)
-            // 1. Upload file
-            const { data: userData } = await supabase.auth.getUser()
-            if (!userData.user) return
-
-            const fileExt = file.name.split('.').pop()
-            const fileName = `${Date.now()}.${fileExt}`
-            const filePath = `${userData.user.id}/${fileName}` // Folder by user ID
-
-            const { error: uploadError } = await supabase.storage
-                .from('visit-photos')
-                .upload(filePath, file)
-
-            if (uploadError) {
-                console.error(uploadError)
-                alert('写真のアップロードに失敗しました')
-                setUploading(false)
-                return
-            }
-
-            // Append storage path to formData
-            formData.set('photoPath', filePath)
-        }
-
-        // 2. Call server action
-        startTransition(() => {
-            formAction(formData)
-        })
+        // This function is unused in manualSubmit mode but kept for reference
     }
-
-    // Helper for transition since useActionState returns [state, action, isPending]
-    // We need to wrap custom submit logic.
-    // Actually, simpler approach:
-    // We can't easily intercept formData with useActionState's action directly if we do async stuff BEFORE it.
-    // So we will trigger the upload, then programmatically call a hidden button or similar,
-    // OR just manually call the server action function (but then we lose useActionState hook benefits like pending state easily)
 
     // Refined approach: Single submit handler that does it all.
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -101,7 +65,27 @@ export default function NewVisitPage() {
             const { data: { user } } = await supabase.auth.getUser()
             if (!user) return // Should redirect
 
-            const fileExt = file.name.split('.').pop()
+            let uploadFile = file;
+            let fileExt = file.name.split('.').pop();
+
+            // Compress image to save storage
+            try {
+                if (file.type.startsWith('image/')) {
+                    const options = {
+                        maxSizeMB: 0.6, // Target < 600KB
+                        maxWidthOrHeight: 1400, // Resize to reasonable width
+                        useWebWorker: true,
+                        fileType: 'image/jpeg' // Convert to JPEG
+                    }
+                    const compressedFile = await imageCompression(file, options);
+                    uploadFile = compressedFile;
+                    fileExt = 'jpg';
+                    console.log(`Compressed: ${(file.size / 1024 / 1024).toFixed(2)}MB -> ${(compressedFile.size / 1024 / 1024).toFixed(2)}MB`);
+                }
+            } catch (error) {
+                console.error('Compression skipped', error);
+            }
+
             // Security: Use UUID to prevent guessing other users' photos
             const fileName = `${crypto.randomUUID()}.${fileExt}`
             // Path: {userId}/{uuid}.ext
@@ -109,7 +93,7 @@ export default function NewVisitPage() {
 
             const { error } = await supabase.storage
                 .from('visit-photos')
-                .upload(filePath, file)
+                .upload(filePath, uploadFile)
 
             if (error) {
                 console.error(error)

@@ -108,33 +108,38 @@ export default function BlogPage() {
                     <h2 className="text-2xl font-bold text-gray-900 mb-8">最新記事</h2>
                     <div className="space-y-6">
                         {articles.map((article) => (
-                            <article
+                            <Link
                                 key={article.slug}
-                                className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+                                href={`/blog/${article.slug}`}
+                                className="block"
                             >
-                                <div className="flex flex-col sm:flex-row sm:items-start gap-4">
-                                    <div className="flex-1">
-                                        <div className="flex items-center gap-3 mb-2">
-                                            <span className="text-xs font-bold px-2 py-1 bg-primary/10 text-primary rounded-full">
-                                                {article.category}
-                                            </span>
-                                            <time className="text-xs text-gray-400">{article.date}</time>
+                                <article
+                                    className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                                >
+                                    <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                                        <div className="flex-1">
+                                            <div className="flex items-center gap-3 mb-2">
+                                                <span className="text-xs font-bold px-2 py-1 bg-primary/10 text-primary rounded-full">
+                                                    {article.category}
+                                                </span>
+                                                <time className="text-xs text-gray-400">{article.date}</time>
+                                            </div>
+                                            <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-primary transition-colors">
+                                                {article.title}
+                                            </h3>
+                                            <p className="text-sm text-gray-600 leading-relaxed">
+                                                {article.excerpt}
+                                            </p>
                                         </div>
-                                        <h3 className="text-lg font-bold text-gray-900 mb-2 hover:text-primary transition-colors">
-                                            {article.title}
-                                        </h3>
-                                        <p className="text-sm text-gray-600 leading-relaxed">
-                                            {article.excerpt}
-                                        </p>
+                                        <div className="sm:self-center">
+                                            <span className="inline-flex items-center text-sm font-bold text-primary">
+                                                続きを読む
+                                                <ChevronRight className="w-4 h-4 ml-1" />
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div className="sm:self-center">
-                                        <span className="inline-flex items-center text-sm font-bold text-primary">
-                                            続きを読む
-                                            <ChevronRight className="w-4 h-4 ml-1" />
-                                        </span>
-                                    </div>
-                                </div>
-                            </article>
+                                </article>
+                            </Link>
                         ))}
                     </div>
                 </section>

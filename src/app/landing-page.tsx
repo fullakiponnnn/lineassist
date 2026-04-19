@@ -5,23 +5,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-    Camera,
-    Send,
-    Save,
-    Clock,
-    Smartphone,
-    Search,
-    Check,
-    ChevronDown,
-    Menu,
-    X,
-    MessageCircle,
-    Image as ImageIcon,
-    Zap
+    Camera, Send, Save, Clock, Menu, X, MessageCircle,
+    ImageIcon, Zap, PlayCircle, BookOpen, Layers,
+    Star, Share, Check, ChevronDown, CheckCircle2
 } from 'lucide-react'
 
 // --- Components ---
-
 const FadeIn = ({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) => (
     <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -38,123 +27,28 @@ const AccordionItem = ({ question, answer }: { question: string, answer: string 
     const [isOpen, setIsOpen] = useState(false)
 
     return (
-        <div className="border-b border-gray-100 last:border-0">
-            <button
-                className="flex items-center justify-between w-full py-4 text-left group"
-                onClick={() => setIsOpen(!isOpen)}
-            >
-                <span className="font-bold text-slate-800 group-hover:text-primary transition-colors">{question}</span>
-                <ChevronDown
-                    className={`w-5 h-5 text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
-                />
-            </button>
+        <details className="group bg-surface rounded-xl overflow-hidden shadow-sm" open={isOpen} onClick={(e) => { e.preventDefault(); setIsOpen(!isOpen) }}>
+            <summary className="flex justify-between items-center p-6 cursor-pointer list-none">
+                <span className="font-bold text-primary">{question}</span>
+                <ChevronDown className={`w-5 h-5 text-on-surface-variant transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+            </summary>
             <AnimatePresence>
                 {isOpen && (
-                    <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: "easeInOut" }}
-                        className="overflow-hidden"
-                    >
-                        <p className="pb-4 text-slate-500 leading-relaxed text-sm">
+                    <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }} className="overflow-hidden">
+                        <div className="px-6 pb-6 text-on-surface-variant text-sm leading-relaxed whitespace-pre-wrap">
                             {answer}
-                        </p>
+                        </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </div>
+        </details>
     )
 }
-
-// --- Main Landing Page Component ---
 
 export default function LandingPage() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly')
     const [withSetup, setWithSetup] = useState(false)
-
-    // JSON-LD Structured Data - SoftwareApplication
-    const softwareJsonLd = {
-        "@context": "https://schema.org",
-        "@type": "SoftwareApplication",
-        "name": "SnapKarte（スナップカルテ）",
-        "description": "個人美容師・フリーランス向けのLINE連携電子カルテアプリ。施術写真を撮るだけでお礼LINEを自動送信。顧客管理とリピート施策を自動化し、事務作業をゼロにします。",
-        "applicationCategory": "BusinessApplication",
-        "operatingSystem": "Web, iOS, Android",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "JPY",
-            "description": "無料プランあり。Soloプランは月額2,980円から。"
-        },
-        "featureList": [
-            "LINE公式アカウント自動連携",
-            "電子カルテ・施術記録",
-            "顧客管理（CRM）",
-            "施術写真の自動送信",
-            "Googleマップ口コミ促進",
-            "QRコード顧客識別"
-        ],
-        "audience": {
-            "@type": "Audience",
-            "audienceType": "個人美容師, フリーランス美容師, 面貸し美容師, シェアサロン利用者, 個人事業主"
-        },
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.8",
-            "ratingCount": "150"
-        },
-        "url": "https://www.snapkarte.jp"
-    }
-
-    // JSON-LD Structured Data - FAQPage for rich snippets
-    const faqJsonLd = {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-            {
-                "@type": "Question",
-                "name": "SnapKarteは無料で使えますか？",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "はい、無料プランをご用意しています。月間10枚までの写真送信と基本的な顧客管理機能をずっと無料でご利用いただけます。より多くの機能をお求めの場合は、Soloプラン（月額2,980円）がおすすめです。"
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "LINE公式アカウントを持っていなくても使えますか？",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "はい、ご利用可能です。LINE公式アカウントの開設サポート（マニュアル等）もご用意しておりますので、初めての方でも安心して導入いただけます。"
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "面貸し・シェアサロンでも使えますか？",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "はい、面貸しやシェアサロンで活動されている個人美容師の方に最適です。クラウド型なのでサロンが変わってもデータはそのまま持ち運べます。自分専用のカルテを持てるので、どこで働いても顧客情報を活用できます。"
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "パソコンがなくても使えますか？",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "はい、スマートフォンやタブレットのみで全ての機能をご利用いただけます。初期設定時のみ、LINEの管理画面操作のためにPCがあるとスムーズですが、必須ではありません。"
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "解約はいつでもできますか？",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "はい、契約期間の縛りはございません。月単位でいつでも解約が可能です。解約後も保存されたデータは一定期間保持されます。"
-                }
-            }
-        ]
-    }
 
     const scrollToSection = (id: string) => {
         const element = document.getElementById(id)
@@ -165,54 +59,43 @@ export default function LandingPage() {
     }
 
     return (
-        <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-primary/20 selection:text-primary overflow-x-hidden">
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }}
-            />
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
-            />
+        <div className="min-h-screen bg-surface font-body selection:bg-primary-fixed-dim selection:text-on-primary-fixed">
 
-            {/* 1. Header / Navigation */}
-            <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 h-16 sm:h-20">
-                <div className="container mx-auto px-4 h-full flex items-center justify-between">
-                    <Link href="/" className="flex items-center gap-2 group">
-                        <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-primary to-emerald-400 rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20 group-hover:shadow-primary/40 transition-all duration-300">
-                            <Camera className="w-5 h-5 sm:w-6 sm:h-6" />
-                        </div>
-                        <span className="font-bold text-lg sm:text-xl tracking-tight text-slate-800">SnapKarte</span>
+            {/* TopAppBar */}
+            <header className="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 shadow-[0_40px_40px_-15px_rgba(27,28,26,0.06)]">
+                <nav className="flex justify-between items-center px-4 sm:px-8 py-4 max-w-7xl mx-auto">
+                    <Link href="/" className="flex items-center gap-2">
+                        <Camera className="w-8 h-8 text-primary-stitch" />
+                        <h1 className="text-xl sm:text-2xl font-headline font-bold text-primary-stitch">SnapKarte</h1>
                     </Link>
 
-                    {/* Desktop Links */}
-                    <div className="hidden md:flex items-center gap-8">
-                        <button onClick={() => scrollToSection('features')} className="text-sm font-medium text-slate-500 hover:text-primary transition-colors">機能</button>
-                        <button onClick={() => scrollToSection('pricing')} className="text-sm font-medium text-slate-500 hover:text-primary transition-colors">料金</button>
-                        <button onClick={() => scrollToSection('faq')} className="text-sm font-medium text-slate-500 hover:text-primary transition-colors">よくある質問</button>
-                        <Link href="/blog" className="text-sm font-medium text-slate-500 hover:text-primary transition-colors">ブログ</Link>
+                    <div className="hidden md:flex gap-8 items-center">
+                        <button onClick={() => scrollToSection('features')} className="text-on-surface-variant hover:text-primary-stitch transition-colors duration-300 font-medium tracking-wide">機能</button>
+                        <button onClick={() => scrollToSection('pricing')} className="text-on-surface-variant hover:text-primary-stitch transition-colors duration-300 font-medium tracking-wide">料金</button>
+                        <button onClick={() => scrollToSection('faq')} className="text-on-surface-variant hover:text-primary-stitch transition-colors duration-300 font-medium tracking-wide">FAQ</button>
+                        <Link href="/blog" className="text-on-surface-variant hover:text-primary-stitch transition-colors duration-300 font-medium tracking-wide">ブログ</Link>
                     </div>
 
-                    <div className="hidden md:flex items-center gap-4">
-                        <Link href="/login" className="text-sm font-bold text-slate-600 hover:text-primary transition-colors">
-                            ログイン
-                        </Link>
+                    <div className="flex items-center gap-4">
+                        <div className="hidden sm:block">
+                            <Link href="/login" className="text-sm font-bold text-primary-stitch hover:opacity-80 transition-opacity">
+                                ログイン
+                            </Link>
+                        </div>
                         <Link
                             href="/login"
-                            className="px-6 py-2.5 bg-slate-900 text-white text-sm font-bold rounded-full hover:bg-slate-800 hover:shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+                            className="bg-primary-container text-on-primary-container px-4 sm:px-6 py-2.5 rounded-full font-semibold scale-95 hover:scale-100 active:scale-90 transition-transform shadow-sm"
                         >
-                            無料で試す
+                            無料で始める
                         </Link>
+                        <button
+                            className="md:hidden p-2 text-primary-stitch"
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        >
+                            {isMobileMenuOpen ? <X /> : <Menu />}
+                        </button>
                     </div>
-
-                    {/* Mobile Menu Button */}
-                    <button
-                        className="md:hidden p-2 text-slate-600"
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    >
-                        {isMobileMenuOpen ? <X /> : <Menu />}
-                    </button>
-                </div>
+                </nav>
 
                 {/* Mobile Menu Overlay */}
                 <AnimatePresence>
@@ -226,133 +109,101 @@ export default function LandingPage() {
                             <div className="flex flex-col p-4 gap-4">
                                 <button onClick={() => scrollToSection('features')} className="text-left py-2 font-medium text-slate-600">機能</button>
                                 <button onClick={() => scrollToSection('pricing')} className="text-left py-2 font-medium text-slate-600">料金</button>
-                                <button onClick={() => scrollToSection('faq')} className="text-left py-2 font-medium text-slate-600">よくある質問</button>
+                                <button onClick={() => scrollToSection('faq')} className="text-left py-2 font-medium text-slate-600">FAQ</button>
                                 <Link href="/blog" className="text-left py-2 font-medium text-slate-600">ブログ</Link>
                                 <div className="h-px bg-gray-100 my-2" />
                                 <Link href="/login" className="text-center py-3 font-bold text-slate-600 bg-gray-50 rounded-lg">ログイン</Link>
-                                <Link href="/login" className="text-center py-3 font-bold bg-primary text-white rounded-lg shadow-lg shadow-primary/20">無料で試す</Link>
                             </div>
                         </motion.div>
                     )}
                 </AnimatePresence>
-            </nav>
+            </header>
 
-            <main className="pt-20 sm:pt-24">
-                {/* 2. Hero Section */}
-                <section className="container mx-auto px-4 py-10 sm:py-20 lg:py-28">
-                    <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-                        <div className="flex-1 text-center lg:text-left space-y-8 z-10">
-                            <FadeIn>
-                                <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-700 border border-emerald-100 px-3 py-1 rounded-full text-xs sm:text-sm font-bold mb-4 tracking-wide uppercase">
-                                    <Zap className="w-3 h-3 sm:w-4 sm:h-4 fill-current" />
-                                    個人美容師・フリーランス特化型 電子カルテ
-                                </div>
-                                <h1 className="text-4xl sm:text-5xl lg:text-7xl font-extrabold leading-[1.15] tracking-tight text-slate-900">
-                                    個人美容師のための<br className="hidden sm:block" />
-                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-500">LINE連携カルテ</span>
-                                </h1>
-                                <p className="text-lg sm:text-xl text-slate-500 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-medium">
-                                    写真を撮るだけで、お礼LINEが自動送信。<br className="hidden sm:block" />
-                                    面貸し・フリーランス美容師の顧客管理を<br className="hidden sm:block" />
-                                    スマホ1台で完結する<strong className="text-slate-700">無料の電子カルテアプリ</strong>です。
-                                </p>
-
-                                <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
-                                    <Link
-                                        href="/login"
-                                        className="w-full sm:w-auto px-8 py-4 bg-primary text-white text-lg font-bold rounded-full shadow-xl shadow-primary/30 hover:shadow-primary/40 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2"
-                                    >
-                                        無料でアカウント作成
-                                        <Send className="w-5 h-5" />
-                                    </Link>
-                                    <Link
-                                        href="#how-it-works"
-                                        onClick={(e) => { e.preventDefault(); scrollToSection('how-it-works'); }}
-                                        className="w-full sm:w-auto px-8 py-4 bg-white text-slate-600 border border-gray-200 text-lg font-bold rounded-full hover:bg-gray-50 hover:border-gray-300 transition-all"
-                                    >
-                                        仕組みを見る
-                                    </Link>
-                                </div>
-                            </FadeIn>
-                        </div>
-
-                        {/* Hero Visual */}
-                        <FadeIn delay={0.2} className="flex-1 w-full relative">
-                            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl border border-gray-100 group">
+            <main className="pt-24 overflow-x-hidden">
+                {/* Hero Section */}
+                <section className="relative px-4 sm:px-8 py-20 lg:py-32 max-w-7xl mx-auto">
+                    <div className="grid lg:grid-cols-2 gap-16 items-center">
+                        <FadeIn className="z-10">
+                            <span className="inline-block px-4 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label text-xs uppercase tracking-widest mb-6">Solo Stylist Edition</span>
+                            <h2 className="text-4xl sm:text-5xl lg:text-7xl font-headline font-black text-primary leading-tight mb-8">
+                                カルテを、<br />
+                                <span className="text-tertiary">インスピレーション</span>の<br />
+                                アーカイブへ。
+                            </h2>
+                            <p className="text-lg text-on-surface-variant max-w-md mb-10 leading-relaxed">
+                                忙しいサロンワークの合間に、スマホひとつで完璧なスタイル履歴を。面倒な事務作業から解放され、よりクリエイティブな時間を。
+                            </p>
+                            <div className="flex flex-col sm:flex-row gap-4">
+                                <Link href="/login" className="bg-primary-stitch text-center hover:opacity-90 text-white px-8 py-4 rounded-xl text-lg font-semibold shadow-[0_40px_40px_-15px_rgba(27,28,26,0.06)] hover:scale-105 transition-all">
+                                    今すぐ無料で体験する
+                                </Link>
+                                <Link href="#features" onClick={(e) => { e.preventDefault(); scrollToSection('how-it-works'); }} className="flex justify-center items-center gap-2 px-8 py-4 text-primary-stitch font-bold hover:bg-surface-container-low rounded-xl transition-all">
+                                    <PlayCircle className="w-5 h-5" />
+                                    使い方を見る
+                                </Link>
+                            </div>
+                        </FadeIn>
+                        <FadeIn delay={0.2} className="relative lg:h-[600px]">
+                            <div className="absolute inset-0 bg-primary-fixed-dim rounded-xl -rotate-3 translate-x-4 translate-y-4 opacity-20"></div>
+                            <div className="relative w-full h-[400px] sm:h-[500px] lg:h-full bg-gray-100 rounded-xl overflow-hidden shadow-[0_40px_40px_-15px_rgba(27,28,26,0.06)]">
                                 <Image
+                                    className="object-cover"
                                     src="/hero-image.png"
-                                    alt="美容師がスマートフォンで写真を撮影している様子"
+                                    alt="Modern minimalist hair salon with professional stylist"
                                     fill
-                                    className="object-cover transition-transform duration-700 group-hover:scale-105"
                                     priority
                                 />
-
-                                {/* Floating Notification UI Element */}
-                                <motion.div
-                                    initial={{ opacity: 0, x: 20, scale: 0.9 }}
-                                    animate={{ opacity: 1, x: 0, scale: 1 }}
-                                    transition={{ delay: 1, duration: 0.5, type: "spring" }}
-                                    className="absolute bottom-6 right-6 sm:bottom-10 sm:right-10 bg-white/95 backdrop-blur-sm p-4 rounded-2xl shadow-xl border border-gray-100 max-w-[280px]"
-                                >
-                                    <div className="flex items-start gap-3">
-                                        <div className="w-10 h-10 bg-[#06C755] rounded-xl flex items-center justify-center shrink-0">
-                                            <MessageCircle className="w-6 h-6 text-white text-fill" fill="currentColor" />
-                                        </div>
-                                        <div>
-                                            <p className="text-xs font-bold text-gray-400 mb-1">LINE • 今</p>
-                                            <p className="text-sm font-bold text-slate-800">ご来店ありがとうございます！</p>
-                                            <p className="text-xs text-slate-500 mt-1">本日の仕上がりのお写真です✨</p>
-                                        </div>
-                                    </div>
-                                </motion.div>
+                            </div>
+                            <div className="absolute -bottom-8 -left-2 sm:-left-8 bg-white/80 backdrop-blur-md p-6 rounded-xl shadow-[0_40px_40px_-15px_rgba(27,28,26,0.06)] max-w-[240px]">
+                                <div className="flex items-center gap-3 mb-2">
+                                    <BookOpen className="w-5 h-5 text-tertiary" />
+                                    <span className="text-sm font-bold text-primary-stitch">自動カルテ作成</span>
+                                </div>
+                                <p className="text-xs text-on-surface-variant leading-relaxed">写真を撮るだけで、施術内容をスマートに整理します。</p>
                             </div>
                         </FadeIn>
                     </div>
                 </section>
 
-                {/* 3. Pain Points */}
-                <section className="py-20 bg-slate-50 border-t border-b border-gray-100" id="features">
-                    <div className="container mx-auto px-4">
-                        <FadeIn>
-                            <div className="text-center max-w-3xl mx-auto mb-16">
-                                <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-6">
-                                    ひとりサロンの「限界」を<br className="sm:hidden" />突破しませんか？
-                                </h2>
-                                <p className="text-lg text-slate-500">
-                                    施術、接客、予約管理、SNS更新、経理...<br />
-                                    個人美容師の仕事は多すぎます。<br />
-                                    せめて「お礼連絡」と「カルテ管理」は、まるごと自動化しましょう。
-                                </p>
+                {/* Value Prop / Pain Points */}
+                <section className="bg-surface-container-low rounded-t-[3rem] py-32 px-4 sm:px-8 scroll-mt-24" id="features">
+                    <div className="max-w-7xl mx-auto">
+                        <FadeIn className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+                            <div className="max-w-2xl">
+                                <p className="text-tertiary font-label text-sm font-bold uppercase tracking-widest mb-4">Problem vs Solution</p>
+                                <h3 className="text-3xl sm:text-4xl font-headline text-primary-stitch leading-tight">もう、営業時間後の事務作業に<br />追われる必要はありません。</h3>
                             </div>
+                            <p className="text-on-surface-variant max-w-sm">SnapKarteは、スタイリストの「面倒」を「心地よい」に変えるために設計されました。</p>
                         </FadeIn>
 
                         <div className="grid md:grid-cols-3 gap-8">
                             {[
                                 {
-                                    icon: <Clock className="w-8 h-8 text-rose-500" />,
-                                    title: "営業後の「見えない残業」",
-                                    desc: "疲れ切った営業後、一人ひとりにお礼LINEを打っていませんか？SnapKarteなら、施術直後に完了しているので、ハサミを置いたら即帰宅できます。"
+                                    icon: <Clock className="w-8 h-8 text-primary-stitch" />,
+                                    title: "残業ゼロのカルテ管理",
+                                    desc: "手書きやPC入力は不要。施術直後にスマホで完結。平均30分の残業時間を削減します。",
+                                    translateY: ""
                                 },
                                 {
-                                    icon: <Search className="w-8 h-8 text-amber-500" />,
-                                    title: "「前の髪型」が見つからない",
-                                    desc: "カメラロールに埋もれた数千枚の写真から、お客様の過去スタイルを探すのは時間の無駄。QRコードをかざすだけで、0秒で履歴を呼び出せます。"
+                                    icon: <Layers className="w-8 h-8 text-tertiary" />,
+                                    title: "視覚的なスタイル履歴",
+                                    desc: "「前回の仕上がり」が一目で分かる。写真中心のレイアウトで、再現性の高い施術をサポート。",
+                                    translateY: "md:translate-y-6"
                                 },
                                 {
-                                    icon: <MessageCircle className="w-8 h-8 text-[#06C755]" />,
-                                    title: "Google口コミが増えない",
-                                    desc: "「口コミ書いてください」とは言いづらいもの。サンキューメッセージに依頼リンクを自動で埋め込めば、自然と高評価レビューが集まります。"
+                                    icon: <MessageCircle className="w-8 h-8 text-secondary-stitch" />,
+                                    title: "LINE連携でリピート率UP",
+                                    desc: "カルテから直接メッセージ。適切なタイミングでの提案が、顧客との深い信頼関係を作ります。",
+                                    translateY: ""
                                 }
                             ].map((item, i) => (
-                                <FadeIn delay={i * 0.1} key={i} className="h-full">
-                                    <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
-                                        <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-6">
+                                <FadeIn delay={i * 0.1} key={i}>
+                                    <div className={`bg-surface-container-lowest p-8 sm:p-10 rounded-xl shadow-[0_40px_40px_-15px_rgba(27,28,26,0.06)] flex flex-col h-full ${item.translateY}`}>
+                                        <div className={`w-14 h-14 flex items-center justify-center rounded-lg mb-8 ${i === 0 ? 'bg-primary-fixed' : i === 1 ? 'bg-tertiary-fixed' : 'bg-secondary-fixed'}`}>
                                             {item.icon}
                                         </div>
-                                        <h3 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h3>
-                                        <p className="text-slate-500 leading-relaxed text-sm sm:text-base">
-                                            {item.desc}
-                                        </p>
+                                        <h4 className="text-xl font-headline font-bold text-primary-stitch mb-4">{item.title}</h4>
+                                        <p className="text-on-surface-variant leading-relaxed">{item.desc}</p>
                                     </div>
                                 </FadeIn>
                             ))}
@@ -360,165 +211,145 @@ export default function LandingPage() {
                     </div>
                 </section>
 
-                {/* 4. How it Works */}
-                <section className="py-24 bg-white" id="how-it-works">
-                    <div className="container mx-auto px-4">
-                        <FadeIn>
-                            <h2 className="text-3xl sm:text-4xl font-extrabold text-center text-slate-900 mb-16">
-                                操作はたったの3ステップ
-                            </h2>
-                        </FadeIn>
+                {/* Step-by-Step Guide */}
+                <section className="py-32 px-4 sm:px-8 scroll-mt-24" id="how-it-works">
+                    <FadeIn className="max-w-4xl mx-auto text-center mb-20">
+                        <h3 className="text-3xl sm:text-4xl font-headline text-primary-stitch mb-6">驚くほどシンプルな3ステップ</h3>
+                        <p className="text-on-surface-variant leading-relaxed">複雑な設定は一切なし。明日からのサロンワークにすぐ取り入れられます。</p>
+                    </FadeIn>
 
-                        <div className="relative">
-                            {/* Connector Line (Desktop) */}
-                            <div className="hidden md:block absolute top-[60px] left-[16%] right-[16%] h-0.5 bg-gradient-to-r from-gray-200 via-primary/30 to-gray-200 -z-10" />
-
-                            <div className="grid md:grid-cols-3 gap-12">
-                                {[
-                                    {
-                                        step: "STEP 1",
-                                        icon: <Camera className="w-8 h-8 text-white" />,
-                                        title: "撮る",
-                                        desc: "アプリ内のカメラで施術写真を撮影するか、ライブラリから選択します。",
-                                        color: "bg-slate-900"
-                                    },
-                                    {
-                                        step: "STEP 2",
-                                        icon: <Save className="w-8 h-8 text-white" />,
-                                        title: "保存",
-                                        desc: "お客様を選んで保存ボタンをタップ。これだけで作業は完了です。",
-                                        color: "bg-primary"
-                                    },
-                                    {
-                                        step: "STEP 3",
-                                        icon: <Send className="w-8 h-8 text-white" />,
-                                        title: "送信完了",
-                                        desc: "自動でお客様のLINEに写真とお礼メッセージが届きます。",
-                                        color: "bg-[#06C755]"
-                                    }
-                                ].map((item, i) => (
-                                    <FadeIn delay={i * 0.2} key={i} className="relative bg-white pt-4">
-                                        <div className="flex flex-col items-center text-center">
-                                            <div className={`w-20 h-20 ${item.color} rounded-3xl shadow-xl flex items-center justify-center mb-8 relative z-10 transform transition-transform hover:scale-110`}>
-                                                {item.icon}
-                                                <div className="absolute -top-3 -right-3 bg-white border border-gray-100 shadow-sm px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider text-slate-400">
-                                                    {item.step}
-                                                </div>
-                                            </div>
-                                            <h3 className="text-2xl font-bold text-slate-900 mb-4">{item.title}</h3>
-                                            <p className="text-slate-500 leading-relaxed max-w-xs mx-auto">
-                                                {item.desc}
-                                            </p>
-                                        </div>
-                                    </FadeIn>
-                                ))}
-                            </div>
-                        </div>
+                    <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-8 md:gap-4 relative">
+                        <div className="hidden md:block absolute top-[4.5rem] left-0 w-full h-[2px] bg-outline-variant/30"></div>
+                        {[
+                            { num: "1", title: "Take", desc: "施術後、自慢の仕上がりをスマホで撮影。" },
+                            { num: "2", title: "Save", desc: "タグ付けやメモを添えて、10秒で保存。" },
+                            { num: "3", title: "Send", desc: "必要に応じてLINEで顧客へアドバイスを送信。" }
+                        ].map((step, i) => (
+                            <FadeIn delay={0.1 * i} key={i}>
+                                <div className="relative bg-surface p-8 mx-4 sm:mx-0 rounded-xl flex flex-col items-center text-center shadow-sm border border-outline-variant/20 hover:shadow-md transition-shadow">
+                                    <div className="w-16 h-16 bg-primary-stitch text-white flex items-center justify-center rounded-full text-2xl font-bold mb-6 z-10 shadow-lg shadow-primary-stitch/30">{step.num}</div>
+                                    <h5 className="text-lg font-bold text-primary-stitch mb-2">{step.title}</h5>
+                                    <p className="text-sm text-on-surface-variant">{step.desc}</p>
+                                </div>
+                            </FadeIn>
+                        ))}
                     </div>
                 </section>
 
-                {/* 5. Key Benefits */}
-                <section className="py-24 bg-slate-900 text-white relative overflow-hidden">
-                    {/* Background decoration */}
-                    <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
-                        <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-primary to-transparent rounded-full blur-[200px]" />
-                        <div className="absolute top-1/2 right-0 w-2/3 h-2/3 bg-gradient-to-tl from-emerald-500 to-transparent rounded-full blur-[200px]" />
-                    </div>
-
-                    <div className="container mx-auto px-4 relative z-10">
-                        <div className="grid lg:grid-cols-2 gap-16 items-center">
-                            <FadeIn>
-                                <div className="space-y-8">
-                                    <h2 className="text-3xl sm:text-5xl font-extrabold leading-tight">
-                                        SnapKarteが<br />
-                                        選ばれる理由
-                                    </h2>
-                                    <p className="text-slate-400 text-lg">
-                                        美容師の使いやすさを極限まで追求しました。<br />
-                                        シンプル機能で、導入したその日から効果を実感。
-                                    </p>
-
-                                    <div className="space-y-6 pt-4">
-                                        {[
-                                            { title: "LINE公式アカウント完全連携", desc: "あなたのお店の名前でお礼が届きます。ブロックされにくい信頼設計。" },
-                                            { title: "Googleマップ口コミ収集", desc: "お礼メッセージにリンクを貼るだけで、自然に高評価レビューが集まります。" },
-                                            { title: "スタイルギャラリー", desc: "お客様ごとに過去のスタイルが自動で整理され、カウンセリングがスムーズに。" }
-                                        ].map((feature, i) => (
-                                            <div key={i} className="flex gap-4">
-                                                <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center shrink-0 border border-white/10">
-                                                    <Check className="w-6 h-6 text-primary" />
+                {/* Feature Showcase (Mockups) */}
+                <section className="bg-primary-stitch py-32 px-4 sm:px-8 text-white overflow-hidden rounded-[3rem] mx-2 sm:mx-4">
+                    <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
+                        <FadeIn className="relative flex justify-center">
+                            {/* Mockup Simulation */}
+                            <div className="w-[280px] h-[580px] bg-sky-950 rounded-[3rem] border-8 border-[#30312e] relative overflow-hidden shadow-2xl">
+                                <div className="absolute top-0 w-full h-6 bg-[#30312e] flex justify-center items-end pb-1 z-20">
+                                    <div className="w-20 h-4 bg-sky-950 rounded-full"></div>
+                                </div>
+                                <div className="absolute inset-0 bg-surface-container- lowest overflow-y-auto">
+                                    <div className="relative h-[300px] w-full bg-surface-container-high rounded-b-3xl">
+                                        <Image
+                                            src="/sample-hair.png"
+                                            alt="Hair styles preview"
+                                            fill
+                                            className="object-cover"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                    </div>
+                                    <div className="p-6 -mt-16 relative z-10">
+                                        <div className="bg-white p-5 rounded-2xl shadow-xl space-y-4">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
+                                                    <Camera className="w-5 h-5 text-emerald-600" />
                                                 </div>
                                                 <div>
-                                                    <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                                                    <p className="text-slate-400 text-sm leading-relaxed">{feature.desc}</p>
+                                                    <div className="h-2 w-20 bg-slate-200 rounded mb-2"></div>
+                                                    <div className="h-3 w-32 bg-slate-300 rounded"></div>
                                                 </div>
                                             </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </FadeIn>
-
-                            <FadeIn delay={0.3}>
-                                <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-3xl p-8 relative">
-                                    {/* Simplified chat UI representation */}
-                                    <div className="space-y-4">
-                                        {/* Message from Salon */}
-                                        <div className="flex gap-3">
-                                            <div className="w-10 h-10 bg-gray-200 rounded-full shrink-0" />
-                                            <div className="space-y-2 max-w-[80%]">
-                                                <div className="bg-white rounded-2xl rounded-tl-none p-4 text-slate-800 text-sm shadow-lg">
-                                                    <p>本日はご来店ありがとうございました！</p>
-                                                    <p className="mt-2">今回の仕上がりのお写真をお送りしますね📸</p>
-                                                </div>
-                                                <div className="bg-white p-2 rounded-2xl rounded-tl-none shadow-lg w-48">
-                                                    <div className="bg-gray-100 rounded-xl overflow-hidden aspect-[3/4] relative">
-                                                        <Image
-                                                            src="/sample-hair.png"
-                                                            alt="仕上がり写真"
-                                                            fill
-                                                            className="object-cover"
-                                                        />
-                                                    </div>
-                                                </div>
+                                            <div className="h-px w-full bg-slate-100 my-2"></div>
+                                            <div className="space-y-2">
+                                                <div className="h-2 w-full bg-slate-100 rounded"></div>
+                                                <div className="h-2 w-4/5 bg-slate-100 rounded"></div>
+                                                <div className="h-2 w-2/3 bg-slate-100 rounded"></div>
                                             </div>
-                                        </div>
-
-                                        {/* Reply from Customer */}
-                                        <div className="flex gap-3 flex-row-reverse">
-                                            <div className="w-10 h-10 bg-primary/20 rounded-full shrink-0" />
-                                            <div className="bg-[#06C755] rounded-2xl rounded-tr-none p-4 text-white text-sm shadow-lg max-w-[80%]">
-                                                <p>わあ！ありがとうございます！✨</p>
-                                                <p>今回の色味すごく気に入りました😊</p>
-                                                <p>また来月もお願いします！</p>
+                                            <div className="mt-4 flex justify-center">
+                                                <div className="w-full h-10 bg-[#06C755] rounded-xl flex items-center justify-center gap-2 text-white font-bold text-sm shadow-md shadow-[#06c755]/30">
+                                                    <Send className="w-4 h-4" />
+                                                    LINEで送付する
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </FadeIn>
-                        </div>
+                            </div>
+
+                            {/* Secondary floating element */}
+                            <motion.div
+                                initial={{ opacity: 0, x: -20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.5 }}
+                                className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 hidden md:block"
+                            >
+                                <div className="bg-white p-6 rounded-xl shadow-[0_40px_40px_-15px_rgba(27,28,26,0.3)] text-primary-stitch w-64 border border-white/20">
+                                    <div className="flex items-center gap-1 mb-4 text-amber-400">
+                                        <Star className="w-5 h-5 fill-current" />
+                                        <Star className="w-5 h-5 fill-current" />
+                                        <Star className="w-5 h-5 fill-current" />
+                                        <Star className="w-5 h-5 fill-current" />
+                                        <Star className="w-5 h-5 fill-current" />
+                                    </div>
+                                    <p className="text-sm font-bold mb-1">Google口コミの増加</p>
+                                    <p className="text-xs text-on-surface-variant leading-relaxed">「丁寧なカウンセリング」の口コミが増えました！</p>
+                                </div>
+                            </motion.div>
+                        </FadeIn>
+
+                        <FadeIn>
+                            <h3 className="text-3xl sm:text-4xl font-headline mb-12">繋がるカルテ、広がる信頼。</h3>
+                            <div className="space-y-10">
+                                <div className="flex gap-6">
+                                    <div className="shrink-0 w-14 h-14 rounded-full border border-primary-fixed-dim/30 bg-white/5 flex items-center justify-center">
+                                        <Share className="w-6 h-6 text-primary-fixed-dim" />
+                                    </div>
+                                    <div>
+                                        <h6 className="text-xl font-bold mb-3">LINE連携・共有機能</h6>
+                                        <p className="text-primary-fixed-dim leading-relaxed text-sm sm:text-base">作成したカルテの内容を、そのまま顧客のLINEへ。アフターフォローの手間を劇的に減らします。</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-6">
+                                    <div className="shrink-0 w-14 h-14 rounded-full border border-primary-fixed-dim/30 bg-white/5 flex items-center justify-center">
+                                        <Star className="w-6 h-6 text-primary-fixed-dim" />
+                                    </div>
+                                    <div>
+                                        <h6 className="text-xl font-bold mb-3">Googleマイビジネス連携</h6>
+                                        <p className="text-primary-fixed-dim leading-relaxed text-sm sm:text-base">満足度の高いお客様へ、スマートに口コミを依頼。集客の好循環を生み出します。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </FadeIn>
                     </div>
                 </section>
 
                 {/* --- New Section: Ideal for Solopreneurs --- */}
-                <section className="py-20 bg-emerald-50">
+                <section className="py-20 bg-surface">
                     <div className="container mx-auto px-4 text-center">
                         <FadeIn>
-                            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-8">
-                                個人美容師・面貸しの方に<br className="sm:hidden" />最適です
+                            <h2 className="text-3xl sm:text-4xl font-headline font-bold text-primary-stitch mb-8">
+                                個人美容師・面貸しの方に最適
                             </h2>
-                            <p className="text-lg text-slate-600 max-w-3xl mx-auto mb-12">
+                            <p className="text-lg text-on-surface-variant max-w-3xl mx-auto mb-12 leading-relaxed">
                                 大手サロン向けの複雑で高価なPOSレジは必要ありません。<br />
                                 SnapKarteは、個人のスマートフォン1台で<br className="hidden sm:block" />
                                 最高の顧客体験（CX）を提供するために作られました。
                             </p>
                             <div className="flex flex-wrap justify-center gap-4">
-                                <span className="px-6 py-3 bg-white rounded-full text-emerald-700 font-bold shadow-sm">
+                                <span className="px-6 py-3 bg-surface-container-low rounded-full text-secondary-stitch font-bold border border-outline-variant/20 shadow-sm text-sm">
                                     # クレジットカード登録不要
                                 </span>
-                                <span className="px-6 py-3 bg-white rounded-full text-emerald-700 font-bold shadow-sm">
+                                <span className="px-6 py-3 bg-surface-container-low rounded-full text-secondary-stitch font-bold border border-outline-variant/20 shadow-sm text-sm">
                                     # パソコン不要
                                 </span>
-                                <span className="px-6 py-3 bg-white rounded-full text-emerald-700 font-bold shadow-sm">
+                                <span className="px-6 py-3 bg-surface-container-low rounded-full text-secondary-stitch font-bold border border-outline-variant/20 shadow-sm text-sm">
                                     # 初期費用0円
                                 </span>
                             </div>
@@ -526,232 +357,216 @@ export default function LandingPage() {
                     </div>
                 </section>
 
-                {/* 6. Pricing */}
-                <section className="py-24 bg-gray-50 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]" id="pricing">
-                    <div className="container mx-auto px-4">
-                        <FadeIn>
-                            <h2 className="text-3xl sm:text-4xl font-extrabold text-center text-slate-900 mb-8">
-                                シンプルで透明な<span className="text-primary">料金プラン</span>
-                            </h2>
+                {/* Pricing Section */}
+                <section className="py-32 px-4 sm:px-8 bg-surface-container-low scroll-mt-24" id="pricing">
+                    <div className="max-w-7xl mx-auto">
+                        <FadeIn className="text-center mb-16">
+                            <h3 className="text-3xl sm:text-4xl font-headline text-primary-stitch mb-8">すべてのスタイリストに、<br className="sm:hidden" />最適なプランを。</h3>
 
                             {/* Billing Cycle Toggle */}
-                            <div className="flex justify-center mb-12">
-                                <div className="bg-gray-200 p-1 rounded-full inline-flex relative">
-                                    <div className="absolute top-[-30px] right-[-20px] bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full animate-bounce">
-                                        年額ならセットアップ無料！
-                                    </div>
-                                    <button
-                                        onClick={() => setBillingCycle('monthly')}
-                                        className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${billingCycle === 'monthly' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-                                    >
-                                        月払い
-                                    </button>
-                                    <button
-                                        onClick={() => setBillingCycle('yearly')}
-                                        className={`px-6 py-2 rounded-full text-sm font-bold transition-all ${billingCycle === 'yearly' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
-                                    >
-                                        年払い <span className="text-emerald-600 text-xs ml-1">(-17%)</span>
-                                    </button>
+                            <div className="flex items-center justify-center gap-4 relative max-w-sm mx-auto">
+                                <div className="absolute -top-10 right-0 bg-tertiary text-white text-[10px] font-bold px-3 py-1.5 rounded-full animate-bounce shadow-md">
+                                    年額ならセットアップ無料！
                                 </div>
+                                <span className={`text-sm font-bold ${billingCycle === 'monthly' ? 'text-primary-stitch' : 'text-on-surface-variant'}`}>月払い</span>
+                                <div
+                                    className="w-16 h-8 bg-surface-container-highest rounded-full p-1 cursor-pointer flex items-center relative border border-outline-variant/30"
+                                    onClick={() => setBillingCycle(prev => prev === 'monthly' ? 'yearly' : 'monthly')}
+                                >
+                                    <motion.div
+                                        animate={{ x: billingCycle === 'yearly' ? 32 : 0 }}
+                                        transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                                        className="w-6 h-6 bg-primary-stitch rounded-full shadow-md"
+                                    />
+                                </div>
+                                <span className={`text-sm font-bold ${billingCycle === 'yearly' ? 'text-primary-stitch' : 'text-on-surface-variant'}`}>
+                                    年払い <span className="text-tertiary font-bold ml-1">(20% OFF)</span>
+                                </span>
                             </div>
                         </FadeIn>
 
-                        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                        <div className="grid md:grid-cols-3 gap-8 items-stretch pt-4">
                             {/* Free Plan */}
-                            <motion.div
-                                initial={{ opacity: 0, x: -20 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: 0.1 }}
-                                whileHover={{ y: -8 }}
-                                className="bg-white p-8 rounded-3xl border border-gray-200 shadow-sm hover:shadow-xl transition-all h-full flex flex-col"
-                            >
-                                <div className="mb-6">
-                                    <h3 className="text-xl font-bold text-slate-500 mb-2">Free</h3>
-                                    <div className="flex items-baseline gap-1">
-                                        <span className="text-4xl font-extrabold text-slate-900">¥0</span>
+                            <FadeIn delay={0.1}>
+                                <div className="bg-white p-8 sm:p-10 rounded-2xl border border-outline-variant/20 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+                                    <h4 className="text-lg font-headline font-bold text-on-surface-variant mb-4">Starter</h4>
+                                    <div className="mb-8">
+                                        <span className="text-4xl font-black text-primary-stitch">¥0</span>
+                                        <span className="text-on-surface-variant text-sm font-medium ml-1">/ 月</span>
                                     </div>
-                                    <p className="text-xs text-slate-400 mt-2">ずっと無料</p>
+                                    <ul className="space-y-5 mb-10 text-sm flex-1">
+                                        <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> 顧客登録 30名まで</li>
+                                        <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> 写真保存 1枚/カルテ</li>
+                                        <li className="flex gap-3 text-slate-400 font-medium leading-relaxed"><X className="w-5 h-5 text-slate-300 shrink-0" /> LINE連携機能</li>
+                                    </ul>
+                                    <Link href="/login" className="w-full block text-center py-4 rounded-xl font-bold bg-surface-container text-on-surface-variant hover:bg-surface-variant transition-all">
+                                        無料で始める
+                                    </Link>
                                 </div>
-                                <ul className="space-y-4 mb-8 flex-1">
-                                    <li className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-5 h-5 text-primary shrink-0" /> 月間10枚まで送信</li>
-                                    <li className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-5 h-5 text-primary shrink-0" /> 基本的な顧客管理</li>
-                                    <li className="flex items-center gap-3 text-sm text-slate-600"><Check className="w-5 h-5 text-primary shrink-0" /> LINE手動連携</li>
-                                </ul>
-                                <Link href="/login" className="w-full py-3 rounded-xl border-2 border-slate-900 text-slate-900 font-bold text-center hover:bg-slate-900 hover:text-white transition-all">
-                                    無料で試す
-                                </Link>
-                            </motion.div>
+                            </FadeIn>
 
                             {/* Solo Plan (Highlighted) */}
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.9, y: 40 }}
-                                whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ type: "spring", stiffness: 100, delay: 0.2 }}
-                                whileHover={{ scale: 1.03 }}
-                                className="relative transform md:-translate-y-4"
-                            >
-                                <motion.div
-                                    animate={{ y: [0, -4, 0] }}
-                                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                                    className="absolute -top-4 inset-x-0 mx-auto w-max px-4 py-1 bg-gradient-to-r from-primary to-emerald-400 text-white text-xs font-bold rounded-full shadow-lg z-20"
-                                >
-                                    一番人気
-                                </motion.div>
-                                <div className="bg-white p-8 rounded-3xl border-2 border-primary shadow-2xl transition-all h-full flex flex-col relative overflow-hidden">
-                                    <div className="mb-6 relative z-10">
-                                        <h3 className="text-xl font-bold text-primary mb-2">Solo</h3>
-                                        <div className="flex items-baseline gap-1">
-                                            <span className="text-5xl font-extrabold text-slate-900">
-                                                {billingCycle === 'monthly' ? '¥2,980' : '¥29,800'}
-                                            </span>
-                                            <span className="text-slate-500">
-                                                / {billingCycle === 'monthly' ? '月' : '年'}
-                                            </span>
-                                        </div>
-                                        <p className="text-xs text-slate-400 mt-2">
-                                            {billingCycle === 'yearly' ? '実質2ヶ月分無料！' : '個人事業主・フリーランス向け'}
-                                        </p>
+                            <FadeIn delay={0.2} className="relative z-10 md:-mt-6 md:-mb-6">
+                                <div className="bg-primary-stitch p-8 sm:p-10 rounded-[2rem] shadow-[0_30px_60px_-15px_rgba(19,66,49,0.3)] flex flex-col h-full relative border border-primary-fixed-dim/20">
+                                    <div className="absolute -top-4 right-8 bg-tertiary text-white px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest shadow-md">Most Popular</div>
+                                    <h4 className="text-lg font-headline font-bold text-primary-fixed-dim mb-4">Solo Pro</h4>
+                                    <div className="mb-8 text-white relative z-10">
+                                        <span className="text-5xl font-black">{billingCycle === 'monthly' ? '¥2,980' : '¥29,800'}</span>
+                                        <span className="text-primary-fixed-dim text-sm font-medium ml-1">/ {billingCycle === 'monthly' ? '月' : '年'}</span>
                                     </div>
-                                    <ul className="space-y-4 mb-8 flex-1 relative z-10">
-                                        <li className="flex items-center gap-3 text-sm font-bold text-slate-800"><Check className="w-5 h-5 text-primary shrink-0" /> 無制限の写真送信</li>
-                                        <li className="flex items-center gap-3 text-sm font-bold text-slate-800"><Check className="w-5 h-5 text-primary shrink-0" /> 顧客データ無制限</li>
-                                        <li className="flex items-center gap-3 text-sm font-bold text-slate-800"><Check className="w-5 h-5 text-primary shrink-0" /> 優先サポート</li>
+                                    <ul className="space-y-5 mb-10 text-sm text-primary-fixed-dim flex-1 relative z-10">
+                                        <li className="flex gap-3 text-white font-medium leading-relaxed"><CheckCircle2 className="w-5 h-5 text-tertiary shrink-0" /> 顧客登録・写真保存 無制限</li>
+                                        <li className="flex gap-3 text-white font-medium leading-relaxed"><CheckCircle2 className="w-5 h-5 text-tertiary shrink-0" /> LINE連携・無制限送信</li>
+                                        <li className="flex gap-3 text-white font-medium leading-relaxed"><CheckCircle2 className="w-5 h-5 text-tertiary shrink-0" /> 売上分析ダッシュボード</li>
 
                                         {/* Setup Support Feature */}
-                                        <li className={`flex items-start gap-3 text-sm font-bold p-2 rounded-lg ${billingCycle === 'yearly' ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'text-slate-500'}`}>
-                                            <div className="mt-0.5"><Zap className={`w-4 h-4 ${billingCycle === 'yearly' ? 'text-amber-500 fill-amber-500' : 'text-slate-400'}`} /></div>
+                                        <li className={`flex gap-3 mt-8 p-3 rounded-xl border ${billingCycle === 'yearly' ? 'border-tertiary/50 bg-tertiary/10' : 'border-white/10'}`}>
+                                            <div className="mt-0.5"><Zap className={`w-5 h-5 ${billingCycle === 'yearly' ? 'text-tertiary fill-tertiary' : 'text-primary-fixed-dim'}`} /></div>
                                             <div className="w-full">
-                                                <div className="flex justify-between items-center">
-                                                    <span>初期導入サポート</span>
+                                                <div className="flex justify-between items-center mb-1">
+                                                    <span className="text-white font-bold">初期導入サポート</span>
                                                     {billingCycle === 'monthly' && (
                                                         <label className="inline-flex items-center cursor-pointer">
                                                             <input type="checkbox" className="sr-only peer" checked={withSetup} onChange={(e) => setWithSetup(e.target.checked)} />
-                                                            <div className="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+                                                            <div className="relative w-11 h-6 bg-primary-container peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-tertiary/50 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-tertiary"></div>
                                                         </label>
                                                     )}
                                                 </div>
-                                                <div className={`text-xs mt-1 ${billingCycle === 'yearly' ? 'text-amber-700 font-extrabold' : 'text-slate-400 font-normal'}`}>
+                                                <div className={`text-xs ${billingCycle === 'yearly' ? 'text-tertiary-fixed font-bold' : 'text-primary-fixed-dim'}`}>
                                                     {billingCycle === 'yearly' ? (
-                                                        '👉 年払いなら無料特典！'
+                                                        '★ 年払いなら無料特典！'
                                                     ) : (
-                                                        withSetup ? <span className="text-primary font-bold">+ ¥29,800 (一回払い)</span> : '※ オプションで追加可能'
+                                                        withSetup ? <span className="text-white font-bold">+ ¥29,800 (一回払い)</span> : 'オプションで追加可能'
                                                     )}
                                                 </div>
                                             </div>
                                         </li>
                                     </ul>
-                                    <Link href={`/login?plan=${billingCycle}&with_setup=${billingCycle === 'yearly' ? 'true' : withSetup}`} className="w-full py-4 rounded-xl bg-primary text-white font-bold text-center shadow-lg shadow-primary/30 hover:shadow-primary/50 transition-all relative z-10 block">
-                                        {billingCycle === 'monthly' && withSetup ? '総額 ¥32,780 で始める' : '今すぐ始める'}
+                                    <Link href={`/login?plan=${billingCycle}&with_setup=${billingCycle === 'yearly' ? 'true' : withSetup}`} className="w-full block text-center py-4 rounded-xl font-bold bg-white text-primary-stitch hover:bg-primary-fixed-dim hover:text-emerald-900 transition-all shadow-lg relative z-10">
+                                        {billingCycle === 'monthly' && withSetup ? '総額 ¥32,780 で始める' : 'プロプランを試す'}
                                     </Link>
-                                    {/* Shining effect background */}
-                                    <div className="absolute top-0 right-0 -mr-16 -mt-16 w-32 h-32 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
                                 </div>
-                            </motion.div>
+                            </FadeIn>
 
-                            {/* Standard Plan */}
-                            <motion.div
-                                initial={{ opacity: 0, x: 20 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: 0.3 }}
-                                whileHover={{ y: -8 }}
-                                className="bg-white p-8 rounded-3xl border border-gray-200 shadow-sm transition-all h-full flex flex-col opacity-80"
-                            >
-                                <div className="mb-6">
-                                    <h3 className="text-xl font-bold text-slate-500 mb-2">Standard</h3>
-                                    <div className="flex items-baseline gap-1">
-                                        <span className="text-2xl font-bold text-slate-400">Coming Soon</span>
+                            {/* Salon Plan */}
+                            <FadeIn delay={0.3}>
+                                <div className="bg-white p-8 sm:p-10 rounded-2xl border border-outline-variant/20 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+                                    <h4 className="text-lg font-headline font-bold text-on-surface-variant mb-4">Salon Team</h4>
+                                    <div className="mb-8">
+                                        <span className="text-4xl font-black text-primary-stitch">¥4,980</span>
+                                        <span className="text-on-surface-variant text-sm font-medium ml-1">/ 月〜</span>
+                                        <div className="mt-2 text-xs font-bold text-amber-600 bg-amber-50 inline-block px-2 py-1 rounded">Coming Soon</div>
                                     </div>
-                                    <p className="text-xs text-slate-400 mt-2">小規模サロン向け（準備中）</p>
+                                    <ul className="space-y-5 mb-10 text-sm flex-1 opacity-60">
+                                        <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> 最大5名まで利用可能</li>
+                                        <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> 顧客データ共有・一括管理</li>
+                                        <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> 予約システム連携</li>
+                                    </ul>
+                                    <button disabled className="w-full py-4 rounded-xl font-bold bg-surface-container text-on-surface-variant cursor-not-allowed">
+                                        準備中
+                                    </button>
                                 </div>
-                                <ul className="space-y-4 mb-8 flex-1">
-                                    <li className="flex items-center gap-3 text-sm text-slate-400"><Check className="w-5 h-5 text-slate-300 shrink-0" /> すべてのSolo機能</li>
-                                    <li className="flex items-center gap-3 text-sm text-slate-400"><Check className="w-5 h-5 text-slate-300 shrink-0" /> スタッフ管理機能</li>
-                                    <li className="flex items-center gap-3 text-sm text-slate-400"><Check className="w-5 h-5 text-slate-300 shrink-0" /> 顧客分析レポート</li>
-                                </ul>
-                                <button disabled className="w-full py-3 rounded-xl border border-gray-100 text-gray-300 font-bold text-center cursor-not-allowed">
-                                    準備中
-                                </button>
-                            </motion.div>
+                            </FadeIn>
                         </div>
                     </div>
                 </section>
 
-                {/* 7. FAQ */}
-                <section className="py-24 bg-white" id="faq">
-                    <div className="container mx-auto px-4 max-w-3xl">
+                {/* FAQ */}
+                <section className="py-32 px-4 sm:px-8 bg-surface-container scroll-mt-24" id="faq">
+                    <div className="max-w-3xl mx-auto">
                         <FadeIn>
-                            <h2 className="text-3xl font-extrabold text-center text-slate-900 mb-12">
-                                よくある質問
-                            </h2>
+                            <h3 className="text-3xl sm:text-4xl font-headline text-center text-primary-stitch mb-16">
+                                よくあるご質問
+                            </h3>
                         </FadeIn>
-
-                        <div className="space-y-2">
+                        <div className="space-y-4">
                             <AccordionItem
                                 question="SnapKarteは無料で使えますか？"
                                 answer="はい、無料プランをご用意しています。月間10枚までの写真送信と基本的な顧客管理機能をずっと無料でご利用いただけます。より多くの機能をお求めの場合は、Soloプラン（月額2,980円）がおすすめです。"
                             />
                             <AccordionItem
                                 question="LINE公式アカウントを持っていなくても使えますか？"
-                                answer="はい、ご利用可能です。LINE公式アカウントの開設サポート（マニュアル等）もご用意しておりますので、初めての方でも安心して導入いただけます。年払いプランをお選びいただくと、初期設定の代行サポートが無料で付いてきます。"
+                                answer={`はい、ご利用可能です。LINE公式アカウントの開設サポート（マニュアル等）もご用意しておりますので、初めての方でも安心して導入いただけます。\n\n年払いプランをお選びいただくと、初期設定の代行サポートが無料で付いてきます。`}
                             />
                             <AccordionItem
-                                question="面貸し・シェアサロンでも使えますか？"
-                                answer="はい、面貸しやシェアサロンで活動されている個人美容師の方に最適です。クラウド型なのでサロンが変わってもデータはそのまま持ち運べます。自分専用のカルテを持てるので、どこで働いても顧客情報を活用できます。"
+                                question="オフラインでも使えますか？"
+                                answer="はい、一時的なオフライン状態でもデータの保存機能が一部動作します。ただしLINE連携の送信や画像アップロードはインターネット接続環境で行う必要があります。"
                             />
                             <AccordionItem
                                 question="パソコンがなくても使えますか？"
-                                answer="はい、スマートフォンやタブレットのみで全ての機能をご利用いただけます。初期設定時のみ、LINEの管理画面操作のためにPCがあるとスムーズですが、必須ではありません。また、初期導入サポートをご利用いただければ、設定を代行することも可能です。"
+                                answer="はい、スマートフォンやタブレットのみで全ての機能をご利用いただけます。初期化設定や分析ダッシュボードもスマホ画面に最適化されています。"
                             />
                             <AccordionItem
-                                question="解約はいつでもできますか？"
-                                answer="はい、契約期間の縛りはございません。月単位でいつでも解約が可能です。解約後も保存されたデータは一定期間保持されます。"
-                            />
-                            <AccordionItem
-                                question="個人情報のセキュリティは大丈夫ですか？"
-                                answer="はい、通信の暗号化やデータの厳重な管理を行っており、セキュリティには万全を期しています。顧客データは安全なクラウドサーバー（Supabase）に保存されます。"
-                            />
-                            <AccordionItem
-                                question="既存の顧客データを移行できますか？"
-                                answer="はい、CSVファイルでのインポート機能を準備中です。現在は手動での登録となりますが、QRコードを使ったセルフ登録機能があるため、お客様ご自身に登録いただくことも可能です。"
-                            />
-                            <AccordionItem
-                                question="他の電子カルテアプリとの違いは何ですか？"
-                                answer="SnapKarteは個人美容師・フリーランス向けに特化しています。大手サロン向けの複雑で高価なPOSシステムとは異なり、スマホ1台で完結するシンプルさ、LINE公式アカウントとの自動連携、そして個人でも手が届く価格設定が特徴です。"
+                                question="解約はいつでも可能ですか？"
+                                answer="はい。契約期間の縛りはなく、いつでもマイページから解約手続きが可能です。解約後も一定期間はデータの閲覧が可能です。"
                             />
                         </div>
                     </div>
                 </section>
 
-                {/* 8. Footer */}
-                <footer className="bg-slate-50 pt-20 pb-10 border-t border-gray-200">
-                    <div className="container mx-auto px-4 text-center">
-                        <FadeIn>
-                            <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-8">
-                                業務効率化と顧客満足度を<br />
-                                同時に手に入れよう。
-                            </h2>
-                            <Link
-                                href="/login"
-                                className="inline-flex items-center justify-center px-10 py-4 bg-primary text-white text-lg font-bold rounded-full shadow-xl shadow-primary/30 hover:scale-105 hover:shadow-primary/40 transition-all mb-16"
-                            >
-                                無料でアカウント作成
+                {/* Final CTA */}
+                <section className="relative py-40 px-4 sm:px-8 flex justify-center items-center overflow-hidden">
+                    <div className="absolute inset-0 z-0">
+                        <Image
+                            src="/hero-image.png"
+                            alt="Dreamy modern beauty salon background"
+                            fill
+                            className="object-cover brightness-[0.3]"
+                        />
+                    </div>
+                    <FadeIn className="relative z-10 text-center text-white max-w-3xl border border-white/10 bg-black/20 backdrop-blur-sm p-8 sm:p-16 rounded-[3rem]">
+                        <h3 className="text-3xl sm:text-5xl lg:text-5xl font-headline font-black mb-8 leading-tight">
+                            あなたの指先から、<br />サロン体験を再定義する。
+                        </h3>
+                        <p className="text-lg sm:text-xl text-primary-fixed-dim mb-12 opacity-90 leading-relaxed font-medium">
+                            SnapKarteで、もっと自由で創造的な毎日を始めましょう。
+                        </p>
+                        <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
+                            <Link href="/login" className="bg-white text-primary-stitch px-10 py-5 rounded-full text-lg font-bold shadow-[0_20px_40px_-15px_rgba(255,255,255,0.3)] hover:scale-105 transition-all w-full sm:w-auto">
+                                無料で今すぐ始める
                             </Link>
-                        </FadeIn>
+                            <p className="text-sm font-medium text-emerald-200">
+                                クレジットカード登録不要 / 10秒でセットアップ
+                            </p>
+                        </div>
+                    </FadeIn>
+                </section>
+            </main>
 
-                        <div className="border-t border-gray-200 pt-10 flex flex-col md:flex-row items-center justify-between text-sm text-slate-500 gap-4">
-                            <p>&copy; {new Date().getFullYear()} SnapKarte. All rights reserved.</p>
-                            <div className="flex gap-6">
-                                <Link href="/legal/terms" className="hover:text-primary transition-colors">利用規約</Link>
-                                <Link href="/legal/privacy" className="hover:text-primary transition-colors">プライバシーポリシー</Link>
-                                <Link href="/legal/tokusho" className="hover:text-primary transition-colors">特定商取引法に基づく表記</Link>
-                            </div>
+            {/* Footer */}
+            <footer className="w-full bg-surface-container-low pt-20">
+                <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center px-8 py-12 gap-10">
+                    <div className="flex flex-col gap-5">
+                        <div className="flex items-center gap-3">
+                            <Camera className="w-6 h-6 text-primary-stitch" />
+                            <span className="font-headline text-2xl font-bold text-primary-stitch">SnapKarte</span>
+                        </div>
+                        <p className="text-sm font-medium tracking-wide text-on-surface-variant max-w-sm leading-relaxed">
+                            スタイリストの創造性を引き出す、<br />デジタルカルテ・ソリューション。
+                        </p>
+                    </div>
+
+                    <div className="flex flex-row flex-wrap gap-x-8 gap-y-4">
+                        <div className="flex flex-col gap-3">
+                            <button onClick={() => scrollToSection('features')} className="text-left text-sm font-medium text-emerald-800/60 hover:text-emerald-900 transition-colors">機能</button>
+                            <button onClick={() => scrollToSection('pricing')} className="text-left text-sm font-medium text-emerald-800/60 hover:text-emerald-900 transition-colors">料金</button>
+                            <button onClick={() => scrollToSection('faq')} className="text-left text-sm font-medium text-emerald-800/60 hover:text-emerald-900 transition-colors">FAQ</button>
+                        </div>
+                        <div className="flex flex-col gap-3">
+                            <Link href="/blog" className="text-left text-sm font-medium text-emerald-800/60 hover:text-emerald-900 transition-colors">ブログ</Link>
+                            <Link href="/legal/privacy" className="text-left text-sm font-medium text-emerald-800/60 hover:text-emerald-900 transition-colors">プライバシーポリシー</Link>
+                            <Link href="/legal/terms" className="text-left text-sm font-medium text-emerald-800/60 hover:text-emerald-900 transition-colors">利用規約</Link>
+                            <Link href="/legal/tokusho" className="text-left text-sm font-medium text-emerald-800/60 hover:text-emerald-900 transition-colors">特商法表記</Link>
                         </div>
                     </div>
-                </footer>
-            </main>
+                </div>
+
+                <div className="border-t border-outline-variant/20 py-8 px-8 flex justify-center text-center">
+                    <p className="text-xs font-medium tracking-wider text-emerald-800/50 uppercase">
+                        &copy; {new Date().getFullYear()} SnapKarte Digital Atelier. All rights reserved.
+                    </p>
+                </div>
+            </footer>
         </div >
     )
 }

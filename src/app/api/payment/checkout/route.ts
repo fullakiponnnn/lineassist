@@ -62,6 +62,9 @@ export async function POST(request: Request) {
         }
 
         const getSiteUrl = () => {
+            if (process.env.NODE_ENV === 'development') {
+                return 'http://localhost:3000';
+            }
             if (process.env.NODE_ENV === 'production') {
                 return 'https://www.snapkarte.jp';
             }

@@ -1,5 +1,5 @@
 import { createClient } from '@/utils/supabase/server'
-import { ArrowLeft, Calendar, User, MessageCircle } from 'lucide-react'
+import { ArrowLeft, Calendar, User, MessageCircle, Camera } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import DeleteCustomerButton from './delete-button'

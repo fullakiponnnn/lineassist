@@ -16,62 +16,62 @@ const faqs = [
 
 export default function GuidePage() {
     return (
-        <div className="min-h-screen bg-muted/20 pb-20">
+        <div className="min-h-screen bg-[#fbf9f5] pb-20 font-sans text-slate-800">
             {/* Header */}
-            <header className="bg-card sticky top-0 z-10 border-b border-border">
-                <div className="container mx-auto px-4 h-14 flex items-center gap-4">
-                    <Link href="/" className="p-2 -ml-2 rounded-full hover:bg-muted transition-colors">
-                        <ArrowLeft className="w-5 h-5 text-muted-foreground" />
+            <header className="bg-[#ffffff]/80 backdrop-blur-xl sticky top-0 z-10 shadow-sm">
+                <div className="container mx-auto px-4 h-16 flex items-center gap-4">
+                    <Link href="/" className="p-2 -ml-2 rounded-full hover:bg-slate-50 transition-colors text-slate-400 hover:text-[#134231]">
+                        <ArrowLeft className="w-5 h-5" />
                     </Link>
-                    <h1 className="font-bold text-lg">マニュアル / 使い方ガイド</h1>
+                    <h1 className="font-serif font-bold text-lg text-[#134231]">マニュアル / 使い方</h1>
                 </div>
             </header>
 
-            <main className="container mx-auto px-4 py-6 max-w-2xl space-y-8">
+            <main className="container mx-auto px-4 py-8 max-w-2xl space-y-10">
 
                 {/* Introduction */}
-                <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl p-6 border border-primary/10">
-                    <h2 className="text-xl font-bold text-primary mb-2 flex items-center gap-2">
+                <div className="bg-[#ffffff] rounded-[2rem] p-8 shadow-sm">
+                    <h2 className="text-xl font-serif font-bold text-[#134231] mb-3 flex items-center gap-2">
                         <Book className="w-6 h-6" />
                         SnapKarteへようこそ
                     </h2>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
+                    <p className="text-sm text-slate-600 leading-relaxed font-medium">
                         SnapKarte（スナップカルテ）は、LINE公式アカウントと連携して、顧客管理・カルテ作成・予約管理をスマホひとつで完結できるサービスです。まずは基本的な使い方をマスターしましょう。
                     </p>
                 </div>
 
                 {/* Section 1: Initial Setup */}
                 <section>
-                    <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-foreground">
-                        <span className="bg-slate-800 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">1</span>
+                    <h3 className="text-lg font-serif font-bold mb-5 flex items-center gap-3 text-[#134231]">
+                        <span className="bg-[#134231] text-[#fbf9f5] w-7 h-7 rounded-full flex items-center justify-center text-sm font-sans">1</span>
                         初期設定（LINE連携）
                     </h3>
-                    <div className="bg-card rounded-xl border border-border overflow-hidden">
-                        <div className="p-4 border-b border-border/50">
-                            <h4 className="font-bold text-sm mb-2 flex items-center gap-2">
-                                <Settings className="w-4 h-4 text-primary" />
+                    <div className="bg-[#ffffff] rounded-[2rem] shadow-sm overflow-hidden">
+                        <div className="p-6">
+                            <h4 className="font-bold text-sm mb-3 flex items-center gap-2 text-slate-800">
+                                <Settings className="w-4 h-4 text-[#134231]" />
                                 連携に必要なもの
                             </h4>
-                            <p className="text-xs text-muted-foreground mb-3">
+                            <p className="text-xs text-slate-500 mb-4 leading-relaxed">
                                 SnapKarteを利用するには、お店の「LINE公式アカウント」が必要です。まだお持ちでない方は、LINE for Businessからアカウントを作成してください。
                             </p>
-                            <ul className="text-xs space-y-2 bg-muted/50 p-3 rounded-lg">
+                            <ul className="text-xs space-y-3 bg-slate-50 p-4 rounded-2xl">
                                 <li className="flex items-start gap-2">
-                                    <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />
-                                    <span>LINE Developers コンソールでの「チャネルアクセストークン」の発行</span>
+                                    <CheckCircle className="w-4 h-4 text-[#134231] shrink-0" />
+                                    <span className="font-medium text-slate-700">LINE Developers コンソールでの「チャネルアクセストークン」の発行</span>
                                 </li>
                                 <li className="flex items-start gap-2">
-                                    <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0" />
-                                    <span>Webhook URLの設定（設定画面に表示されているURLをLINE側に登録）</span>
+                                    <CheckCircle className="w-4 h-4 text-[#134231] shrink-0" />
+                                    <span className="font-medium text-slate-700">Webhook URLの設定（設定画面に表示されているURLをLINE側に登録）</span>
                                 </li>
                             </ul>
                         </div>
-                        <div className="bg-muted/30 p-4 text-center">
-                            <Link href="/settings" className="text-xs text-primary font-bold hover:underline flex items-center justify-center gap-1">
+                        <div className="bg-slate-50 p-4 text-center">
+                            <Link href="/settings" className="text-xs text-[#134231] font-bold hover:underline flex items-center justify-center gap-1">
                                 設定画面で連携情報を確認する <ArrowLeft className="w-3 h-3 rotate-180" />
                             </Link>
                         </div>
-                        <div className="p-4 text-xs text-muted-foreground border-t border-border/50">
+                        <div className="p-5 text-[11px] text-slate-400 border-t border-slate-100 text-center font-medium">
                             <p>※ 設定が難しい場合は、プロが全て代行する「初期導入サポート」をご利用ください。</p>
                         </div>
                     </div>
@@ -79,22 +79,22 @@ export default function GuidePage() {
 
                 {/* Section 2: Customer Register */}
                 <section>
-                    <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-foreground">
-                        <span className="bg-slate-800 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">2</span>
+                    <h3 className="text-lg font-serif font-bold mb-5 flex items-center gap-3 text-[#134231]">
+                        <span className="bg-[#134231] text-[#fbf9f5] w-7 h-7 rounded-full flex items-center justify-center text-sm font-sans">2</span>
                         お客様の登録方法
                     </h3>
                     <div className="grid gap-4 md:grid-cols-2">
-                        <div className="bg-card p-4 rounded-xl border border-border">
-                            <Smartphone className="w-8 h-8 text-primary mb-3" />
-                            <h4 className="font-bold text-sm mb-2">QRコードで友だち追加</h4>
-                            <p className="text-xs text-muted-foreground leading-relaxed">
+                        <div className="bg-[#ffffff] p-6 rounded-[2rem] shadow-sm">
+                            <Smartphone className="w-8 h-8 text-[#134231] mb-4" />
+                            <h4 className="font-bold text-sm mb-2 text-slate-800">QRコードで友だち追加</h4>
+                            <p className="text-xs text-slate-500 leading-relaxed font-medium">
                                 お店のLINE公式アカウントの友だち追加QRコードをお客様に提示してください。友だち追加するだけで、自動的にSnapKarteの顧客リストに追加されます。
                             </p>
                         </div>
-                        <div className="bg-card p-4 rounded-xl border border-border">
-                            <Users className="w-8 h-8 text-primary mb-3" />
-                            <h4 className="font-bold text-sm mb-2">顧客情報の紐付け</h4>
-                            <p className="text-xs text-muted-foreground leading-relaxed">
+                        <div className="bg-[#ffffff] p-6 rounded-[2rem] shadow-sm">
+                            <Users className="w-8 h-8 text-[#134231] mb-4" />
+                            <h4 className="font-bold text-sm mb-2 text-slate-800">顧客情報の紐付け</h4>
+                            <p className="text-xs text-slate-500 leading-relaxed font-medium">
                                 友だち追加されたお客様が、初回アンケートやお名前を送信すると、SnapKarte上の「顧客一覧」にお名前が表示されるようになります。
                             </p>
                         </div>
@@ -103,22 +103,23 @@ export default function GuidePage() {
 
                 {/* Section 3: Daily Works */}
                 <section>
-                    <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-foreground">
-                        <span className="bg-slate-800 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">3</span>
+                    <h3 className="text-lg font-serif font-bold mb-5 flex items-center gap-3 text-[#134231]">
+                        <span className="bg-[#134231] text-[#fbf9f5] w-7 h-7 rounded-full flex items-center justify-center text-sm font-sans">3</span>
                         日々の業務
                     </h3>
                     <div className="space-y-4">
-                        <div className="bg-card p-5 rounded-xl border border-border flex gap-4">
-                            <div className="bg-primary/10 p-3 rounded-full h-fit">
-                                <Camera className="w-6 h-6 text-primary" />
+                        <div className="bg-[#ffffff] p-6 rounded-[2rem] shadow-sm flex flex-col sm:flex-row gap-5 items-start">
+                            <div className="bg-[#fbf9f5] p-4 rounded-2xl shrink-0">
+                                <Camera className="w-6 h-6 text-[#134231]" />
                             </div>
                             <div>
-                                <h4 className="font-bold text-sm mb-1">来店記録をつける・写真を撮る</h4>
-                                <p className="text-xs text-muted-foreground leading-relaxed mb-2">
+                                <h4 className="font-bold text-sm mb-2 text-slate-800">来店記録をつける・写真を撮る</h4>
+                                <p className="text-xs text-slate-500 leading-relaxed font-medium mb-3">
                                     ダッシュボードの「来店記録を作成」ボタンから、今日のお客様を選んで記録を開始します。施術前・施術後の写真をスマホで撮影してその場でアップロードできます。
                                 </p>
-                                <p className="text-xs text-muted-foreground bg-muted p-2 rounded">
-                                    💡 記録した写真は、自動的にお客様の「マイページ」にも反映され、お客様自身のスマホでいつでも確認できるようになります。
+                                <p className="text-[11px] text-[#134231] bg-emerald-50 p-3 rounded-xl font-medium flex items-start gap-2">
+                                    <span className="text-base leading-none">💡</span>
+                                    記録した写真は、自動的にお客様の「マイページ」にも反映され、お客様自身のスマホでいつでも確認できるようになります。
                                 </p>
                             </div>
                         </div>
@@ -127,25 +128,27 @@ export default function GuidePage() {
 
                 {/* Section 4: FAQ */}
                 <section>
-                    <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-foreground">
-                        <span className="bg-slate-800 text-white w-6 h-6 rounded-full flex items-center justify-center text-xs">4</span>
+                    <h3 className="text-lg font-serif font-bold mb-5 flex items-center gap-3 text-[#134231]">
+                        <span className="bg-[#134231] text-[#fbf9f5] w-7 h-7 rounded-full flex items-center justify-center text-sm font-sans">4</span>
                         よくある質問
                     </h3>
                     <div className="space-y-3">
                         {faqs.map((faq, index) => (
-                            <details key={index} className="group bg-card rounded-xl border border-border open:ring-2 open:ring-primary/10 transition-all">
-                                <summary className="flex items-center justify-between p-4 font-bold text-sm cursor-pointer list-none">
-                                    <span className="flex items-center gap-2">
-                                        <span className="text-primary font-extrabold text-xs">Q.</span>
-                                        {faq.q}
+                            <details key={index} className="group bg-[#ffffff] rounded-2xl shadow-sm open:shadow-md transition-all">
+                                <summary className="flex items-center justify-between p-5 font-bold text-sm cursor-pointer list-none text-slate-800">
+                                    <span className="flex items-center gap-3">
+                                        <span className="text-[#134231] font-black text-sm">Q.</span>
+                                        <span className="leading-snug">{faq.q}</span>
                                     </span>
-                                    <span className="transform group-open:rotate-180 transition-transform text-muted-foreground text-[10px]">
+                                    <span className="transform group-open:rotate-180 transition-transform text-slate-400 text-xs shrink-0 ml-2">
                                         ▼
                                     </span>
                                 </summary>
-                                <div className="px-4 pb-4 pt-2 text-xs text-muted-foreground leading-relaxed border-t border-border/50">
-                                    <span className="font-bold text-foreground mr-1">A.</span>
-                                    {faq.a}
+                                <div className="px-5 pb-5 pt-1 text-xs text-slate-600 leading-relaxed font-medium">
+                                    <div className="flex items-start gap-3 bg-slate-50 p-4 rounded-xl">
+                                        <span className="font-black text-slate-400 text-sm">A.</span>
+                                        <span className="pt-0.5">{faq.a}</span>
+                                    </div>
                                 </div>
                             </details>
                         ))}
@@ -153,15 +156,15 @@ export default function GuidePage() {
                 </section>
 
                 {/* Contact */}
-                <div className="mt-8 pt-8 border-t border-border/50 text-center">
-                    <p className="text-sm text-muted-foreground mb-4">使い方がわからない場合は？</p>
+                <div className="mt-12 pt-8 text-center pb-8">
+                    <p className="text-sm font-bold text-[#134231] mb-4 font-serif">使い方がわからない場合は？</p>
                     <a
                         href="https://lin.ee/O3ydcSf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#06C755] text-white font-bold text-sm shadow-md hover:bg-[#05b54d] transition-colors"
+                        className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-[2rem] bg-[#06C755] text-white font-bold text-sm shadow-lg shadow-[#06C755]/20 hover:scale-105 transition-all"
                     >
-                        <MessageCircleQuestion className="w-4 h-4" />
+                        <MessageCircleQuestion className="w-5 h-5" />
                         LINEでサポートに質問する
                     </a>
                 </div>

@@ -198,8 +198,8 @@ export default function LandingPage() {
                                 }
                             ].map((item, i) => (
                                 <FadeIn delay={i * 0.1} key={i}>
-                                    <div className={`bg-surface-container-lowest p-8 sm:p-10 rounded-xl shadow-[0_40px_40px_-15px_rgba(27,28,26,0.06)] flex flex-col h-full ${item.translateY}`}>
-                                        <div className={`w-14 h-14 flex items-center justify-center rounded-lg mb-8 ${i === 0 ? 'bg-primary-fixed' : i === 1 ? 'bg-tertiary-fixed' : 'bg-secondary-fixed'}`}>
+                                    <div className={`bg-surface-container-lowest p-8 sm:p-10 rounded-[2rem] shadow-sm flex flex-col h-full ${item.translateY}`}>
+                                        <div className={`w-14 h-14 flex items-center justify-center rounded-2xl mb-8 ${i === 0 ? 'bg-primary-fixed' : i === 1 ? 'bg-tertiary-fixed' : 'bg-secondary-fixed'}`}>
                                             {item.icon}
                                         </div>
                                         <h4 className="text-xl font-headline font-bold text-primary-stitch mb-4">{item.title}</h4>
@@ -226,7 +226,7 @@ export default function LandingPage() {
                             { num: "3", title: "Send", desc: "必要に応じてLINEで顧客へアドバイスを送信。" }
                         ].map((step, i) => (
                             <FadeIn delay={0.1 * i} key={i}>
-                                <div className="relative bg-surface p-8 mx-4 sm:mx-0 rounded-xl flex flex-col items-center text-center shadow-sm border border-outline-variant/20 hover:shadow-md transition-shadow">
+                                <div className="relative bg-surface p-8 mx-4 sm:mx-0 rounded-[2rem] flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow">
                                     <div className="w-16 h-16 bg-primary-stitch text-white flex items-center justify-center rounded-full text-2xl font-bold mb-6 z-10 shadow-lg shadow-primary-stitch/30">{step.num}</div>
                                     <h5 className="text-lg font-bold text-primary-stitch mb-2">{step.title}</h5>
                                     <p className="text-sm text-on-surface-variant">{step.desc}</p>
@@ -388,7 +388,7 @@ export default function LandingPage() {
                         <div className="grid md:grid-cols-3 gap-8 items-stretch pt-4">
                             {/* Free Plan */}
                             <FadeIn delay={0.1}>
-                                <div className="bg-white p-8 sm:p-10 rounded-2xl border border-outline-variant/20 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+                                <div className="bg-white p-8 sm:p-10 rounded-[2rem] flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
                                     <h4 className="text-lg font-headline font-bold text-on-surface-variant mb-4">Starter</h4>
                                     <div className="mb-8">
                                         <span className="text-4xl font-black text-primary-stitch">¥0</span>
@@ -450,7 +450,7 @@ export default function LandingPage() {
 
                             {/* Salon Plan */}
                             <FadeIn delay={0.3}>
-                                <div className="bg-white p-8 sm:p-10 rounded-2xl border border-outline-variant/20 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+                                <div className="bg-white p-8 sm:p-10 rounded-[2rem] flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
                                     <h4 className="text-lg font-headline font-bold text-on-surface-variant mb-4">Salon Team</h4>
                                     <div className="mb-8">
                                         <span className="text-4xl font-black text-primary-stitch">¥4,980</span>

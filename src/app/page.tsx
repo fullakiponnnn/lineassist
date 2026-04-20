@@ -82,32 +82,32 @@ export default async function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-muted/20 pb-32">
+    <div className="min-h-screen bg-[#fbf9f5] pb-32 font-sans text-slate-800">
       {/* Header */}
-      <header className="bg-card border-b border-border sticky top-0 z-10 safe-area-top">
+      <header className="bg-[#ffffff]/80 backdrop-blur-xl sticky top-0 z-10 safe-area-top shadow-sm">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <h1 className="font-bold text-lg text-foreground">
+          <h1 className="font-serif font-bold text-xl text-[#134231] tracking-wide">
             {profile?.shop_name || 'SnapKarte'}
           </h1>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
             <a
               href="https://lin.ee/O3ydcSf"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 text-muted-foreground hover:text-primary transition-colors rounded-full hover:bg-muted"
+              className="p-2 text-slate-400 hover:text-[#134231] transition-colors rounded-full hover:bg-slate-50"
             >
               <MessageCircleQuestion className="w-5 h-5" />
             </a>
             <Link
               href="/settings"
-              className="p-2 text-muted-foreground hover:text-primary transition-colors rounded-full hover:bg-muted"
+              className="p-2 text-slate-400 hover:text-[#134231] transition-colors rounded-full hover:bg-slate-50"
             >
               <Settings className="w-5 h-5" />
             </Link>
             <form action={signOut}>
               <button
                 type="submit"
-                className="p-2 text-muted-foreground hover:text-destructive transition-colors rounded-full hover:bg-muted"
+                className="p-2 text-slate-400 hover:text-red-500 transition-colors rounded-full hover:bg-slate-50"
               >
                 <LogOut className="w-5 h-5" />
               </button>
@@ -116,7 +116,7 @@ export default async function Dashboard() {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-6 space-y-6">
+      <main className="container mx-auto px-4 py-6 space-y-8">
         {/* Setup Alert */}
         {profile?.is_setup_purchased && profile?.setup_status !== 'completed' && (
           <SetupRequestAlert profileId={profile.id} />
@@ -124,51 +124,51 @@ export default async function Dashboard() {
 
         {/* Search Bar */}
         <div className="relative">
-          <Search className="absolute left-3 top-3 w-5 h-5 text-muted-foreground" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
           <input
             type="text"
             placeholder="顧客名やタグで検索..."
-            className="w-full bg-card border border-border rounded-xl px-10 py-3 shadow-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-muted-foreground/60"
+            className="w-full bg-[#ffffff] rounded-2xl pl-12 pr-4 py-4 shadow-sm focus:outline-none focus:shadow-md transition-shadow placeholder:text-slate-400 text-sm"
           />
         </div>
 
         {/* Free Plan Usage Limit */}
         {profile?.plan_tier === 'free' && (
-          <div className="bg-card border border-border rounded-xl p-4 shadow-sm">
-            <div className="flex items-center justify-between mb-2">
-              <h3 className="text-sm font-bold text-muted-foreground flex items-center gap-2">
+          <div className="bg-[#ffffff] rounded-[2rem] p-6 shadow-sm">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-bold text-slate-500 flex items-center gap-2">
                 <span>利用状況 (今月)</span>
-                <span className={`text-xs px-2 py-0.5 rounded-full ${monthlyCount >= 10 ? 'bg-destructive/10 text-destructive' : 'bg-primary/10 text-primary'}`}>
+                <span className={`text-xs px-2.5 py-1 rounded-full ${monthlyCount >= 10 ? 'bg-red-50 text-red-600' : 'bg-emerald-50 text-emerald-700'}`}>
                   Freeプラン
                 </span>
               </h3>
-              <span className={`text-sm font-bold ${monthlyCount >= 10 ? 'text-destructive' : 'text-foreground'}`}>
+              <span className={`text-sm font-bold ${monthlyCount >= 10 ? 'text-red-600' : 'text-[#134231]'}`}>
                 {monthlyCount} / 10
               </span>
             </div>
 
             {/* Progress Bar */}
-            <div className="w-full bg-muted rounded-full h-2 overflow-hidden mb-3">
+            <div className="w-full bg-slate-100 rounded-full h-2 overflow-hidden mb-4">
               <div
-                className={`h-full rounded-full transition-all duration-500 ${monthlyCount >= 10 ? 'bg-destructive' : 'bg-primary'}`}
+                className={`h-full rounded-full transition-all duration-500 ${monthlyCount >= 10 ? 'bg-red-500' : 'bg-gradient-to-r from-[#134231] to-[#2d5a47]'}`}
                 style={{ width: `${Math.min((monthlyCount / 10) * 100, 100)}%` }}
               />
             </div>
 
             {monthlyCount >= 10 ? (
               <div className="text-center">
-                <p className="text-xs text-destructive font-bold mb-2">今月の上限に達しました</p>
-                <Link href="/settings" className="block w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-center py-2 rounded-lg text-sm font-bold shadow-md hover:opacity-90 transition-opacity">
+                <p className="text-xs text-red-600 font-bold mb-3">今月の上限に達しました</p>
+                <Link href="/settings" className="block w-full bg-gradient-to-r from-[#134231] to-[#2d5a47] text-white text-center py-3 rounded-xl text-sm font-bold shadow-md hover:opacity-90 transition-opacity">
                   無制限プランにアップグレード
                 </Link>
               </div>
             ) : (
-              <div className="space-y-3">
-                <p className="text-xs text-muted-foreground text-right">
+              <div className="space-y-4">
+                <p className="text-xs text-slate-500 text-right font-medium">
                   あと {10 - monthlyCount} 件登録できます
                 </p>
-                <Link href="/settings" className="block w-full bg-slate-900/5 hover:bg-slate-900/10 text-slate-600 dark:bg-white/10 dark:hover:bg-white/20 dark:text-slate-200 text-center py-2 rounded-lg text-xs font-bold transition-colors flex items-center justify-center gap-2">
-                  <span className="bg-gradient-to-r from-indigo-500 to-purple-500 text-transparent bg-clip-text">✦</span> プロプランを見る
+                <Link href="/settings" className="block w-full bg-slate-50 hover:bg-slate-100 text-slate-700 text-center py-3 rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-2 shadow-sm">
+                  <span className="text-[#134231]">✦</span> プロプランを見る
                 </Link>
               </div>
             )}
@@ -177,53 +177,53 @@ export default async function Dashboard() {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-2 gap-3">
-          <Link href="/visits/new" className="col-span-2 bg-primary text-primary-foreground p-5 rounded-2xl shadow-lg shadow-primary/20 flex items-center justify-center gap-3 hover:scale-[1.01] active:scale-[0.99] transition-all">
+          <Link href="/visits/new" className="col-span-2 bg-gradient-to-r from-[#134231] to-[#2d5a47] text-white p-6 rounded-[2rem] shadow-lg shadow-[#134231]/20 flex items-center justify-center gap-3 hover:scale-[1.02] active:scale-[0.98] transition-all">
             <Camera className="w-6 h-6" />
-            <span className="font-bold text-lg">来店記録を作成</span>
+            <span className="font-bold text-lg tracking-wide">来店記録を作成</span>
           </Link>
 
-          <Link href="/scan" className="bg-card text-foreground border border-border p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 hover:bg-muted/50 transition-all aspect-[4/3]">
-            <QrCode className="w-6 h-6 text-primary" />
-            <span className="font-bold text-xs">QR受付</span>
+          <Link href="/scan" className="bg-[#ffffff] text-slate-700 p-5 rounded-[2rem] shadow-sm flex flex-col items-center justify-center gap-3 hover:shadow-md transition-all aspect-[4/3]">
+            <QrCode className="w-7 h-7 text-[#134231]" />
+            <span className="font-bold text-xs tracking-wide">QR受付</span>
           </Link>
 
-          <Link href="/customers" className="bg-card text-foreground border border-border p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 hover:bg-muted/50 transition-all aspect-[4/3]">
-            <User className="w-6 h-6 text-primary" />
-            <span className="font-bold text-xs">顧客一覧</span>
+          <Link href="/customers" className="bg-[#ffffff] text-slate-700 p-5 rounded-[2rem] shadow-sm flex flex-col items-center justify-center gap-3 hover:shadow-md transition-all aspect-[4/3]">
+            <User className="w-7 h-7 text-[#134231]" />
+            <span className="font-bold text-xs tracking-wide">顧客一覧</span>
           </Link>
 
-          <Link href="/guide" className="bg-[#06C755]/10 text-[#06C755] border border-[#06C755]/20 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-[#06C755]/20 transition-all aspect-[4/3]">
-            <MessageCircleQuestion className="w-6 h-6" />
-            <span className="font-bold text-xs">連携ガイド</span>
+          <Link href="/guide" className="bg-[#06C755]/10 text-[#06C755] p-5 rounded-[2rem] flex flex-col items-center justify-center gap-3 hover:bg-[#06C755]/20 transition-all aspect-[4/3] shadow-sm">
+            <MessageCircleQuestion className="w-7 h-7" />
+            <span className="font-bold text-xs tracking-wide">連携ガイド</span>
           </Link>
 
-          <Link href="/settings" className="bg-slate-100 text-slate-700 border border-slate-200 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 hover:bg-slate-200 transition-all aspect-[4/3]">
-            <Settings className="w-6 h-6" />
-            <span className="font-bold text-xs">設定・ポスター</span>
+          <Link href="/settings" className="bg-slate-100 text-slate-700 p-5 rounded-[2rem] flex flex-col items-center justify-center gap-3 hover:bg-slate-200 transition-all aspect-[4/3] shadow-sm">
+            <Settings className="w-7 h-7" />
+            <span className="font-bold text-xs tracking-wide">設定・ポスター</span>
           </Link>
         </div>
 
         {/* Recent Visits */}
         <div>
-          <h2 className="text-sm font-bold text-muted-foreground mb-3 uppercase tracking-wider pl-1">
-            最近の来店
+          <h2 className="text-sm font-serif font-bold text-slate-400 mb-4 uppercase tracking-widest pl-2">
+            Recent Visits
           </h2>
           <div className="space-y-3">
             {recentVisits.length > 0 ? (
               recentVisits.map((visit) => (
                 <div
                   key={visit.id}
-                  className="bg-card rounded-xl p-4 border border-border shadow-sm flex items-center gap-4 hover:border-primary/30 transition-colors"
+                  className="bg-[#ffffff] rounded-2xl p-4 shadow-sm flex items-center gap-4 hover:shadow-md transition-shadow"
                 >
-                  <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center text-lg font-bold text-muted-foreground">
+                  <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-lg font-serif font-bold text-[#134231]">
                     {visit.customer[0]}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between mb-1">
-                      <h3 className="font-bold text-foreground truncate">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <h3 className="font-bold text-slate-800 truncate">
                         {visit.customer}
                       </h3>
-                      <span className="text-xs text-muted-foreground flex items-center gap-1">
+                      <span className="text-[11px] font-medium text-slate-400 flex items-center gap-1 bg-slate-50 px-2 py-0.5 rounded-full">
                         <Calendar className="w-3 h-3" />
                         {visit.date}
                       </span>
@@ -232,7 +232,7 @@ export default async function Dashboard() {
                       {visit.tags.map((tag: string) => (
                         <span
                           key={tag}
-                          className="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-medium border border-primary/10"
+                          className="px-2 py-0.5 rounded-full bg-emerald-50 text-[#134231] text-[10px] font-bold"
                         >
                           {tag}
                         </span>
@@ -242,15 +242,14 @@ export default async function Dashboard() {
                 </div>
               ))
             ) : (
-              <div className="text-center py-8 text-muted-foreground text-sm bg-card rounded-xl border border-dashed border-border">
+              <div className="text-center py-10 text-slate-400 text-sm bg-[#ffffff] rounded-[2rem] shadow-sm">
+                <Calendar className="w-8 h-8 mx-auto mb-3 opacity-20" />
                 来店履歴はまだありません
               </div>
             )}
           </div>
         </div>
       </main>
-
-      {/* Floating Action Button removed in favor of BottomNav */}
     </div>
   )
 }

@@ -62,15 +62,14 @@ export default async function SettingsPage(props: Props) {
     const hasToken = !!(profile?.line_channel_token && profile.line_channel_token.length > 0)
 
     return (
-        <div className="min-h-screen bg-muted/20 pb-32">
-            <header className="bg-card sticky top-0 z-10 border-b border-border">
+        <div className="min-h-screen bg-[#fbf9f5] text-[#1b1c1a] font-sans pb-32">
+            <header className="sticky top-0 z-50 bg-[#fbf9f5]/80 backdrop-blur-xl p-4 flex items-center justify-between">
                 <div className="container mx-auto px-4 h-14 flex items-center gap-4">
-
-                    <h1 className="font-bold text-lg">設定</h1>
+                    <h1 className="font-serif font-bold text-xl tracking-wide text-[#1b1c1a]">設定</h1>
                 </div>
             </header>
 
-            <main className="container mx-auto px-4 py-6 max-w-lg">
+            <main className="container mx-auto px-4 py-8 max-w-lg">
                 <SettingsForm
                     initialShopName={profile?.shop_name || null}
                     initialLineBasicId={profile?.line_basic_id || null}
@@ -88,15 +87,15 @@ export default async function SettingsPage(props: Props) {
                     </div>
                 )}
 
-                <div className="mt-8 pt-8 border-t border-border/50 text-center">
-                    <p className="text-sm text-muted-foreground mb-4">お困りですか？</p>
+                <div className="mt-12 pt-8 text-center">
+                    <p className="text-sm font-bold text-[#414944] mb-4">お困りですか？</p>
                     <a
                         href="https://lin.ee/O3ydcSf"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-white border border-slate-200 shadow-sm text-slate-700 font-bold text-sm hover:bg-slate-50 transition-colors"
+                        className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-[#ffffff] shadow-[0_8px_24px_rgba(27,28,26,0.04)] hover:shadow-[0_12px_32px_rgba(27,28,26,0.08)] text-[#134231] font-bold text-sm hover:-translate-y-0.5 transition-all duration-300"
                     >
-                        <MessageCircleQuestion className="w-4 h-4" />
+                        <MessageCircleQuestion className="w-5 h-5" />
                         LINEでサポートに問い合わせる
                     </a>
                 </div>

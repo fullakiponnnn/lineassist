@@ -152,6 +152,62 @@ export async function POST(req: Request) {
                 console.error('Failed to send Discord notification:', error);
             }
         }
+    } else if (event.type === 'customer.subscription.updated' || event.type === 'customer.subscription.deleted') {
+        const subscription = event.data.object as any;
+        const supabaseAdmin = createAdminClient();
+
+        const currentPeriodEnd = subscription.current_period_end
+            ? new Date(subscription.current_period_end * 1000).toISOString()
+            : new Date().toISOString();
+
+        const updateData: any = {
+            subscription_status: subscription.status,
+            current_period_end: currentPeriodEnd,
+        };
+
+        // 解約（canceled）または未払い（unpaid）の場合はフリープランへダウングレード
+        if (subscription.status === 'canceled' || subscription.status === 'unpaid') {
+            updateData.plan_tier = 'free';
+        }
+
+        await supabaseAdmin
+            .from('profiles')
+            .update(updateData)
+            .eq('stripe_subscription_id', subscription.id);
+
+        // 解約時のDiscord通知
+        if ((subscription.status === 'canceled' || subscription.status === 'unpaid') && process.env.DISCORD_WEBHOOK_URL) {
+            const discordPayload = {
+                embeds: [
+                    {
+                        title: '⚠️ サブスクリプション解約・停止',
+                        color: 15548997, // Red
+                        fields: [
+                            {
+                                name: 'Subscription ID',
+                                value: subscription.id,
+                                inline: false,
+                            },
+                            {
+                                name: 'Status',
+                                value: subscription.status,
+                                inline: true,
+                            }
+                        ],
+                        timestamp: new Date().toISOString(),
+                    },
+                ],
+            };
+            try {
+                await fetch(process.env.DISCORD_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(discordPayload),
+                });
+            } catch (error) {
+                console.error('Failed to send Discord cancellation notification:', error);
+            }
+        }
     }
 
     return NextResponse.json({ received: true });

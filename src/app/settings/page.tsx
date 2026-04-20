@@ -5,6 +5,7 @@ import { ArrowLeft, MessageCircleQuestion } from 'lucide-react'
 import Link from 'next/link'
 import PosterGenerator from '@/components/poster-generator'
 import { stripe } from '@/utils/stripe'
+import { createAdminClient } from '@/utils/supabase/admin'
 
 type Props = {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>
@@ -26,11 +27,12 @@ export default async function SettingsPage(props: Props) {
         try {
             const session = await stripe.checkout.sessions.retrieve(sessionId);
             if (session.status === 'complete' || session.payment_status === 'paid') {
+                const supabaseAdmin = createAdminClient();
                 // If it's a subscription
                 if (session.subscription) {
                     const subscription = await stripe.subscriptions.retrieve(session.subscription as string);
 
-                    await supabase.from('profiles').update({
+                    await supabaseAdmin.from('profiles').update({
                         stripe_subscription_id: subscription.id,
                         subscription_status: subscription.status,
                         current_period_end: new Date((subscription as any).current_period_end * 1000).toISOString(),
@@ -40,7 +42,7 @@ export default async function SettingsPage(props: Props) {
                 }
                 // If it's a one-time payment (setup fee)
                 else if (session.mode === 'payment') {
-                    await supabase.from('profiles').update({
+                    await supabaseAdmin.from('profiles').update({
                         is_setup_purchased: true,
                         setup_status: 'pending' // Start setup
                     } as any).eq('id', user.id);

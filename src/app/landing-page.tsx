@@ -395,9 +395,9 @@ export default function LandingPage() {
                                         <span className="text-on-surface-variant text-sm font-medium ml-1">/ 月</span>
                                     </div>
                                     <ul className="space-y-5 mb-10 text-sm flex-1">
-                                        <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> 顧客登録 30名まで</li>
-                                        <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> 写真保存 1枚/カルテ</li>
-                                        <li className="flex gap-3 text-slate-400 font-medium leading-relaxed"><X className="w-5 h-5 text-slate-300 shrink-0" /> LINE連携機能</li>
+                                        <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> 顧客登録 無制限</li>
+                                        <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> 写真保存 無制限</li>
+                                        <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> LINE連携機能あり</li>
                                     </ul>
                                     <Link href="/login" className="w-full block text-center py-4 rounded-xl font-bold bg-surface-container text-on-surface-variant hover:bg-surface-variant transition-all">
                                         無料で始める
@@ -415,9 +415,9 @@ export default function LandingPage() {
                                         <span className="text-primary-fixed-dim text-sm font-medium ml-1">/ {billingCycle === 'monthly' ? '月' : '年'}</span>
                                     </div>
                                     <ul className="space-y-5 mb-10 text-sm text-primary-fixed-dim flex-1 relative z-10">
-                                        <li className="flex gap-3 text-white font-medium leading-relaxed"><CheckCircle2 className="w-5 h-5 text-tertiary shrink-0" /> 顧客登録・写真保存 無制限</li>
-                                        <li className="flex gap-3 text-white font-medium leading-relaxed"><CheckCircle2 className="w-5 h-5 text-tertiary shrink-0" /> LINE連携・無制限送信</li>
-                                        <li className="flex gap-3 text-white font-medium leading-relaxed"><CheckCircle2 className="w-5 h-5 text-tertiary shrink-0" /> 売上分析ダッシュボード</li>
+                                        <li className="flex gap-3 text-white font-medium leading-relaxed"><CheckCircle2 className="w-5 h-5 text-tertiary shrink-0" /> Starterの全機能</li>
+                                        <li className="flex gap-3 text-white font-medium leading-relaxed"><CheckCircle2 className="w-5 h-5 text-tertiary shrink-0" /> 高度な分析ダッシュボード</li>
+                                        <li className="flex gap-3 text-white font-medium leading-relaxed"><CheckCircle2 className="w-5 h-5 text-tertiary shrink-0" /> 新機能の先行アクセス・優先サポート</li>
 
                                         {/* Setup Support Feature */}
                                         <li className={`flex gap-3 mt-8 p-3 rounded-xl border ${billingCycle === 'yearly' ? 'border-tertiary/50 bg-tertiary/10' : 'border-white/10'}`}>
@@ -482,7 +482,7 @@ export default function LandingPage() {
                         <div className="space-y-4">
                             <AccordionItem
                                 question="SnapKarteは無料で使えますか？"
-                                answer="はい、無料プランをご用意しています。月間10枚までの写真送信と基本的な顧客管理機能をずっと無料でご利用いただけます。より多くの機能をお求めの場合は、Soloプラン（月額2,980円）がおすすめです。"
+                                answer="はい、顧客登録や写真の保存、LINE連携など、カルテ管理に必要な基本機能はすべて無料で無制限にご利用いただけます。将来的に提供される「高度な売上分析機能」や「優先サポート」をお求めの場合にのみ、Soloプランへのアップグレードをご検討ください。"
                             />
                             <AccordionItem
                                 question="LINE公式アカウントを持っていなくても使えますか？"

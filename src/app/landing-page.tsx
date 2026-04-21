@@ -126,9 +126,9 @@ export default function LandingPage() {
                         <FadeIn className="z-10">
                             <span className="inline-block px-4 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label text-xs uppercase tracking-widest mb-6">Solo Stylist Edition</span>
                             <h2 className="text-4xl sm:text-5xl lg:text-7xl font-headline font-black text-primary leading-tight mb-8">
-                                カルテを、<br />
-                                <span className="text-tertiary">インスピレーション</span>の<br />
-                                アーカイブへ。
+                                <span className="inline-block whitespace-nowrap">カルテを、</span><br />
+                                <span className="inline-block whitespace-nowrap"><span className="text-tertiary">インスピレーション</span>の</span><br />
+                                <span className="inline-block whitespace-nowrap">アーカイブへ。</span>
                             </h2>
                             <p className="text-lg text-on-surface-variant max-w-md mb-10 leading-relaxed">
                                 忙しいサロンワークの合間に、スマホひとつで完璧なスタイル履歴を。面倒な事務作業から解放され、よりクリエイティブな時間を。
@@ -171,7 +171,10 @@ export default function LandingPage() {
                         <FadeIn className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
                             <div className="max-w-2xl">
                                 <p className="text-tertiary font-label text-sm font-bold uppercase tracking-widest mb-4">Problem vs Solution</p>
-                                <h3 className="text-3xl sm:text-4xl font-headline text-primary-stitch leading-tight">もう、営業時間後の事務作業に<br />追われる必要はありません。</h3>
+                                <h3 className="text-3xl sm:text-4xl font-headline text-primary-stitch leading-tight">
+                                    <span className="inline-block whitespace-nowrap">もう、営業時間後の事務作業に</span><br className="hidden md:block" />
+                                    <span className="inline-block whitespace-nowrap">追われる必要はありません。</span>
+                                </h3>
                             </div>
                             <p className="text-on-surface-variant max-w-sm">SnapKarteは、スタイリストの「面倒」を「心地よい」に変えるために設計されました。</p>
                         </FadeIn>

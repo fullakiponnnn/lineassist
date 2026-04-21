@@ -208,6 +208,8 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings: "rlig" 1, "calt" 1, "palt" 1;
+    word-break: auto-phrase; /* 最新ブラウザでの文節改行 */
+    overflow-wrap: anywhere;
   }
 }

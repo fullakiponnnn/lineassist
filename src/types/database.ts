@@ -15,6 +15,10 @@ export interface Database {
           email: string
           line_channel_token: string | null
           shop_name: string | null
+          subscription_status: string | null
+          plan_tier: string | null
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
           created_at: string
           updated_at: string
         }
@@ -23,6 +27,10 @@ export interface Database {
           email: string
           line_channel_token?: string | null
           shop_name?: string | null
+          subscription_status?: string | null
+          plan_tier?: string | null
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -31,6 +39,10 @@ export interface Database {
           email?: string
           line_channel_token?: string | null
           shop_name?: string | null
+          subscription_status?: string | null
+          plan_tier?: string | null
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -50,6 +62,7 @@ export interface Database {
           line_user_id: string
           display_name: string | null
           last_visit_date: string | null
+          member_code: string | null
           created_at: string
           updated_at: string
         }
@@ -59,6 +72,7 @@ export interface Database {
           line_user_id: string
           display_name?: string | null
           last_visit_date?: string | null
+          member_code?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -68,6 +82,7 @@ export interface Database {
           line_user_id?: string
           display_name?: string | null
           last_visit_date?: string | null
+          member_code?: string | null
           created_at?: string
           updated_at?: string
         }

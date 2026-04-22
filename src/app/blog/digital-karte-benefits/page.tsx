@@ -1,6 +1,8 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { Camera, Check, ChevronRight, Cloud, Smartphone, Shield, AlertTriangle } from 'lucide-react'
+import BlogCTA from '@/components/blog-cta'
+import BlogStructuredData from '@/components/blog-structured-data'
 
 export const metadata: Metadata = {
     title: '紙カルテから電子カルテへ移行するメリットと注意点',
@@ -52,6 +54,12 @@ export default function DigitalKarteBenefitsArticle() {
 
                 {/* Article Header */}
                 <article>
+                    <BlogStructuredData 
+                        headline="紙カルテから電子カルテへ移行するメリットと注意点"
+                        description="シェアサロンや面貸しで働く個人美容師にとって、クラウド型電子カルテがなぜ必須なのか。紙カルテからの移行メリットと注意点を徹底解説します。"
+                        datePublished="2026-02-09T00:00:00.000Z"
+                        url="https://www.snapkarte.jp/blog/digital-karte-benefits"
+                    />
                     <header className="mb-16">
                         <div className="flex items-center gap-4 mb-6">
                             <span className="text-xs font-bold px-4 py-1.5 bg-[#f5f3ef] text-[#134231] rounded-full uppercase tracking-wider">
@@ -198,52 +206,8 @@ export default function DigitalKarteBenefitsArticle() {
                             </div>
                         </section>
 
-                        <section id="snapkarte" className="scroll-mt-32 bg-[#134231] rounded-[3rem] p-10 sm:p-14 relative overflow-hidden">
-                            {/* Decorative element */}
-                            <div className="absolute top-0 right-0 w-64 h-64 bg-[#2d5a47] rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/3"></div>
-                            
-                            <div className="relative z-10">
-                                <h2 className="font-serif text-3xl sm:text-4xl text-[#ffffff] mb-6 tracking-tight">
-                                    SnapKarteなら<br className="sm:hidden" />簡単に始められる
-                                </h2>
-                                <p className="text-[#bcedd4] text-lg leading-relaxed mb-10 max-w-xl">
-                                    SnapKarteは、個人美容師のために設計されたクラウド型電子カルテです。
-                                </p>
-                                <ul className="space-y-4 mb-10 max-w-xl">
-                                    <li className="flex items-center gap-4">
-                                        <div className="w-6 h-6 rounded-full bg-[#2d5a47] flex items-center justify-center shrink-0">
-                                            <Check className="w-3.5 h-3.5 text-[#bcedd4]" />
-                                        </div>
-                                        <span className="text-[#ffffff] text-lg"><strong className="text-[#ffffff]">無料プラン</strong>で始められる（月10枚まで）</span>
-                                    </li>
-                                    <li className="flex items-center gap-4">
-                                        <div className="w-6 h-6 rounded-full bg-[#2d5a47] flex items-center justify-center shrink-0">
-                                            <Check className="w-3.5 h-3.5 text-[#bcedd4]" />
-                                        </div>
-                                        <span className="text-[#ffffff] text-lg">スマホだけで完結、<strong className="text-[#ffffff]">PCなしでOK</strong></span>
-                                    </li>
-                                    <li className="flex items-center gap-4">
-                                        <div className="w-6 h-6 rounded-full bg-[#2d5a47] flex items-center justify-center shrink-0">
-                                            <Check className="w-3.5 h-3.5 text-[#bcedd4]" />
-                                        </div>
-                                        <span className="text-[#ffffff] text-lg">QRコードで<strong className="text-[#ffffff]">お客様自身に登録してもらえる</strong></span>
-                                    </li>
-                                    <li className="flex items-center gap-4">
-                                        <div className="w-6 h-6 rounded-full bg-[#2d5a47] flex items-center justify-center shrink-0">
-                                            <Check className="w-3.5 h-3.5 text-[#bcedd4]" />
-                                        </div>
-                                        <span className="text-[#ffffff] text-lg">LINE連携で<strong className="text-[#ffffff]">お礼メッセージを自動送信</strong></span>
-                                    </li>
-                                </ul>
-                                <Link
-                                    href="/login"
-                                    className="inline-flex items-center justify-center px-8 py-4 bg-[#fbf9f5] text-[#134231] text-lg font-bold rounded-full hover:bg-white transition-colors w-full sm:w-auto shadow-[0_8px_16px_rgba(0,0,0,0.1)]"
-                                >
-                                    無料でSnapKarteを始める
-                                    <ChevronRight className="w-5 h-5 ml-2" />
-                                </Link>
-                            </div>
-                        </section>
+                        {/* CTA */}
+                        <BlogCTA />
 
                         {/* Conclusion */}
                         <section className="scroll-mt-32">

@@ -26,17 +26,13 @@ export async function createVisit(prevState: any, formData: FormData) {
     const profile: any = data
 
     // ---------------------------------------------------------
-    // Limit Check for Free Plan
+    // Limit Check for Free Plan (Max 10 LINE automated sends/visits per month)
     // ---------------------------------------------------------
-    if (profile?.plan_tier === 'free') {
+    if (profile?.subscription_status !== 'active') {
         const now = new Date()
         const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
         const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString()
 
-        // We assume RLS Policies restrict access to own customers/visits.
-        // We link visits via customers table if RLS is not implicit on visits regarding profile_id, 
-        // but typically RLS 'visits' policy uses `customer_id IN (select id from customers where profile_id = auth.uid())`
-        // So a simple select count should work for the authenticated user.
         const { count } = await supabase
             .from('visits')
             .select('*', { count: 'exact', head: true })
@@ -44,7 +40,7 @@ export async function createVisit(prevState: any, formData: FormData) {
             .lte('created_at', endOfMonth)
 
         if (count !== null && count >= 10) {
-            return { error: '⚠️ Freeプランの上限(月間10件)に達しました。\n設定画面からSoloプランへアップグレードすると無制限に利用できます。' }
+            return { error: 'FREE_PLAN_LIMIT_REACHED_VISITS' }
         }
     }
 

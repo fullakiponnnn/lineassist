@@ -6,6 +6,7 @@ import { createClient } from '@/utils/supabase/client'
 import { createVisit } from './actions'
 import { useActionState } from 'react' // Next.js 15/React 19 hook
 import { useRouter } from 'next/navigation'
+import PaywallModal from '@/components/paywall-modal'
 
 import imageCompression from 'browser-image-compression'
 
@@ -53,6 +54,7 @@ export default function NewVisitPage() {
 
     // Refined approach: Single submit handler that does it all.
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [showPaywall, setShowPaywall] = useState(false)
 
     const manualSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -106,7 +108,10 @@ export default function NewVisitPage() {
 
         // Call server action directly
         const result = await createVisit(null, formData)
-        if (result?.error) {
+        if (result?.error === 'FREE_PLAN_LIMIT_REACHED_VISITS') {
+            setShowPaywall(true)
+            setIsSubmitting(false)
+        } else if (result?.error) {
             alert(result.error)
             setIsSubmitting(false)
         }
@@ -115,6 +120,12 @@ export default function NewVisitPage() {
 
     return (
         <div className="min-h-screen bg-[#fbf9f5] text-[#1b1c1a] font-sans pb-20">
+            <PaywallModal
+                isOpen={showPaywall}
+                onClose={() => setShowPaywall(false)}
+                title="LINE自動送信の上限に達しました"
+                description={`無料のStarterプランでは、月に10回までLINE自動送信（カルテ保存）が可能です。\n\n今月の上限に達したため、引き続き利用するにはSoloプランへのアップグレードをご検討ください。`}
+            />
             <header className="sticky top-0 z-50 bg-[#fbf9f5]/80 backdrop-blur-xl p-4 flex items-center gap-4">
                 <button onClick={() => router.back()} className="p-3 -ml-2 hover:bg-[#f5f3ef] text-[#414944] hover:text-[#134231] rounded-full transition-colors">
                     <X className="w-5 h-5" />

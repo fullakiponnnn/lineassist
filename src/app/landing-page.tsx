@@ -398,9 +398,9 @@ export default function LandingPage() {
                                         <span className="text-on-surface-variant text-sm font-medium ml-1">/ 月</span>
                                     </div>
                                     <ul className="space-y-5 mb-10 text-sm flex-1">
-                                        <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> 顧客登録 無制限</li>
+                                        <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> カルテ登録 最大30件まで</li>
                                         <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> 写真保存 無制限</li>
-                                        <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> LINE連携機能あり</li>
+                                        <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> LINE自動送信 月10回まで</li>
                                     </ul>
                                     <Link href="/login" className="w-full block text-center py-4 rounded-xl font-bold bg-surface-container text-on-surface-variant hover:bg-surface-variant transition-all">
                                         無料で始める
@@ -412,7 +412,7 @@ export default function LandingPage() {
                             <FadeIn delay={0.2} className="relative z-10 md:-mt-6 md:-mb-6">
                                 <div className="bg-primary-stitch p-8 sm:p-10 rounded-[2rem] shadow-[0_30px_60px_-15px_rgba(19,66,49,0.3)] flex flex-col h-full relative border border-primary-fixed-dim/20">
                                     <div className="absolute -top-4 right-8 bg-tertiary text-white px-5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest shadow-md">Most Popular</div>
-                                    <h4 className="text-lg font-headline font-bold text-primary-fixed-dim mb-4">Solo Pro</h4>
+                                    <h4 className="text-lg font-headline font-bold text-primary-fixed-dim mb-4">Soloプラン</h4>
                                     <div className="mb-8 text-white relative z-10">
                                         <span className="text-5xl font-black">{billingCycle === 'monthly' ? '¥2,980' : '¥29,800'}</span>
                                         <span className="text-primary-fixed-dim text-sm font-medium ml-1">/ {billingCycle === 'monthly' ? '月' : '年'}</span>

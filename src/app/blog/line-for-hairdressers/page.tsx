@@ -1,6 +1,8 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft, Camera, MessageCircle, Users, Star, Check, Zap, ChevronRight } from 'lucide-react'
+import BlogCTA from '@/components/blog-cta'
+import BlogStructuredData from '@/components/blog-structured-data'
 
 export const metadata: Metadata = {
     title: '個人美容師がLINE公式アカウントを活用すべき5つの理由',
@@ -52,6 +54,12 @@ export default function LineForHairdressersArticle() {
 
                 {/* Article Header */}
                 <article>
+                    <BlogStructuredData 
+                        headline="個人美容師がLINE公式アカウントを活用すべき5つの理由"
+                        description="フリーランス・面貸し美容師が自分の顧客を管理し、リピート率を上げるためにLINE公式アカウントが最強のツールである理由を解説します。"
+                        datePublished="2026-02-09T00:00:00.000Z"
+                        url="https://www.snapkarte.jp/blog/line-for-hairdressers"
+                    />
                     <header className="mb-12">
                         <div className="flex items-center gap-3 mb-4">
                             <span className="text-xs font-bold px-3 py-1 bg-[#06C755]/10 text-[#06C755] rounded-full">
@@ -192,14 +200,9 @@ export default function LineForHairdressersArticle() {
                                     <span className="text-gray-700">顧客ごとの施術履歴管理</span>
                                 </li>
                             </ul>
-                            <Link
-                                href="/login"
-                                className="inline-flex items-center px-6 py-3 bg-primary text-white font-bold rounded-full hover:bg-primary/90 transition-colors"
-                            >
-                                無料でSnapKarteを始める
-                                <ChevronRight className="w-5 h-5 ml-2" />
-                            </Link>
                         </section>
+
+                        <BlogCTA />
 
                         {/* Conclusion */}
                         <section className="mb-12">

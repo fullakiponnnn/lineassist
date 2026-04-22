@@ -64,9 +64,9 @@ export default async function Dashboard() {
       }))
     }
 
-    // Freeプランの場合、月間利用件数を取得
+    // Starterプランの場合、月間利用件数を取得
     // @ts-ignore
-    if (profile?.plan_tier === 'free') {
+    if (profile?.subscription_status !== 'active') {
       const now = new Date()
       const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString()
       const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString()
@@ -132,14 +132,14 @@ export default async function Dashboard() {
           />
         </div>
 
-        {/* Free Plan Usage Limit */}
-        {profile?.plan_tier === 'free' && (
+        {/* Starter Plan Usage Limit */}
+        {profile?.subscription_status !== 'active' && (
           <div className="bg-[#ffffff] rounded-[2rem] p-6 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-bold text-slate-500 flex items-center gap-2">
                 <span>利用状況 (今月)</span>
                 <span className={`text-xs px-2.5 py-1 rounded-full ${monthlyCount >= 10 ? 'bg-red-50 text-red-600' : 'bg-emerald-50 text-emerald-700'}`}>
-                  Freeプラン
+                  Starterプラン
                 </span>
               </h3>
               <span className={`text-sm font-bold ${monthlyCount >= 10 ? 'text-red-600' : 'text-[#134231]'}`}>
@@ -159,7 +159,7 @@ export default async function Dashboard() {
               <div className="text-center">
                 <p className="text-xs text-red-600 font-bold mb-3">今月の上限に達しました</p>
                 <Link href="/settings" className="block w-full bg-gradient-to-r from-[#134231] to-[#2d5a47] text-white text-center py-3 rounded-xl text-sm font-bold shadow-md hover:opacity-90 transition-opacity">
-                  無制限プランにアップグレード
+                  Soloプランにアップグレード
                 </Link>
               </div>
             ) : (
@@ -168,7 +168,7 @@ export default async function Dashboard() {
                   あと {10 - monthlyCount} 件登録できます
                 </p>
                 <Link href="/settings" className="block w-full bg-slate-50 hover:bg-slate-100 text-slate-700 text-center py-3 rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-2 shadow-sm">
-                  <span className="text-[#134231]">✦</span> プロプランを見る
+                  <span className="text-[#134231]">✦</span> Soloプランを見る
                 </Link>
               </div>
             )}

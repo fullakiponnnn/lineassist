@@ -1,6 +1,8 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { Camera, Check, ChevronRight, MessageCircle, Star, Heart, Repeat } from 'lucide-react'
+import BlogCTA from '@/components/blog-cta'
+import BlogStructuredData from '@/components/blog-structured-data'
 
 export const metadata: Metadata = {
     title: '美容師のリピート率を劇的に上げる3つの施策',
@@ -52,6 +54,12 @@ export default function IncreaseRepeatRateArticle() {
 
                 {/* Article Header */}
                 <article>
+                    <BlogStructuredData 
+                        headline="美容師のリピート率を劇的に上げる3つの施策"
+                        description="お礼メッセージの自動化、施術写真の共有、Google口コミ促進など、今すぐ実践できるリピート率向上施策を紹介します。"
+                        datePublished="2026-02-09T00:00:00.000Z"
+                        url="https://www.snapkarte.jp/blog/increase-repeat-rate"
+                    />
                     <header className="mb-12">
                         <div className="flex items-center gap-3 mb-4">
                             <span className="text-xs font-bold px-3 py-1 bg-amber-500/10 text-amber-600 rounded-full">
@@ -236,14 +244,9 @@ export default function IncreaseRepeatRateArticle() {
                                 あなたがやることは「写真を撮って保存」だけ。
                                 あとはSnapKarteが全部やってくれます。
                             </p>
-                            <Link
-                                href="/login"
-                                className="inline-flex items-center px-6 py-3 bg-primary text-white font-bold rounded-full hover:bg-primary/90 transition-colors"
-                            >
-                                無料でSnapKarteを始める
-                                <ChevronRight className="w-5 h-5 ml-2" />
-                            </Link>
                         </section>
+                        
+                        <BlogCTA />
 
                         {/* Conclusion */}
                         <section className="mb-12">

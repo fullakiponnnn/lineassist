@@ -16,6 +16,26 @@ export async function createCustomer(prevState: any, formData: FormData) {
     return { error: 'Unauthorized' }
   }
 
+  // ---------------------------------------------------------
+  // Limit Check for Free Plan (Max 30 Karters)
+  // ---------------------------------------------------------
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('subscription_status')
+    .eq('id', user.id)
+    .single()
+
+  if (profile?.subscription_status !== 'active') {
+    const { count } = await supabase
+      .from('customers')
+      .select('*', { count: 'exact', head: true })
+      .eq('profile_id', user.id)
+
+    if (count !== null && count >= 30) {
+      return { error: 'FREE_PLAN_LIMIT_REACHED' }
+    }
+  }
+
   const name = formData.get('name') as string
   const lineUserId = formData.get('lineUserId') as string // Optional for now, strictly should be required for LINE integration
 

@@ -1,6 +1,7 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowLeft, Camera, MessageCircle, Star, Users, Zap, ChevronRight } from 'lucide-react'
+import BlogCTA from '@/components/blog-cta'
 
 export const metadata: Metadata = {
     title: '個人美容師のためのLINE活用術・電子カルテ導入ガイド',
@@ -145,22 +146,7 @@ export default function BlogPage() {
                 </section>
 
                 {/* CTA */}
-                <section className="mt-16 bg-gradient-to-r from-primary to-emerald-500 rounded-3xl p-8 sm:p-12 text-center text-white">
-                    <Zap className="w-12 h-12 mx-auto mb-4 opacity-80" />
-                    <h2 className="text-2xl sm:text-3xl font-bold mb-4">
-                        今すぐSnapKarteを無料で始めよう
-                    </h2>
-                    <p className="text-white/80 mb-6 max-w-xl mx-auto">
-                        写真を撮るだけでお礼LINEが自動送信。
-                        個人美容師の事務作業をゼロにする電子カルテアプリです。
-                    </p>
-                    <Link
-                        href="/login"
-                        className="inline-block px-8 py-4 bg-white text-primary font-bold rounded-full shadow-lg hover:shadow-xl transition-all"
-                    >
-                        無料でアカウント作成
-                    </Link>
-                </section>
+                <BlogCTA />
             </main>
 
             {/* Footer */}

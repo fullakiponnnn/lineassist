@@ -105,7 +105,7 @@ function PlanSelector({ profileId, isSetupOnly = false }: { profileId: string, i
 
                 <div className="flex justify-between items-start mb-6 relative z-10">
                     <div>
-                        <h3 className="font-serif font-bold text-xl tracking-wide">Solo Plan</h3>
+                        <h3 className="font-serif font-bold text-xl tracking-wide">Soloプラン</h3>
                         <p className="text-sm text-white/70 mt-1">個人事業主・フリーランス向け</p>
                     </div>
                     <div className="text-right">
@@ -205,8 +205,8 @@ export default function SettingsForm({ initialShopName, initialLineBasicId, hasT
                         <div className="flex items-center justify-between mb-6">
                             <div>
                                 <p className="text-3xl font-serif font-bold flex items-center gap-3">
-                                    {profile.plan_tier === 'free' ? 'Free Plan' :
-                                        profile.plan_tier === 'solo' ? 'Solo Plan' : 'Standard Plan'}
+                                    {profile.plan_tier === 'free' ? 'Starterプラン' :
+                                        profile.plan_tier === 'solo' ? 'Soloプラン' : 'Standardプラン'}
                                     <span className={`text-[10px] px-3 py-1 rounded-full font-sans tracking-widest uppercase ${profile.subscription_status === 'active'
                                         ? 'bg-[#ffffff] text-[#134231] font-bold shadow-sm'
                                         : 'bg-white/10 text-white/80'

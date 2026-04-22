@@ -4,10 +4,12 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { X, User, Loader2, Save } from 'lucide-react'
 import { createCustomer } from './actions'
+import PaywallModal from '@/components/paywall-modal'
 
 export default function NewCustomerPage() {
     const router = useRouter()
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const [showPaywall, setShowPaywall] = useState(false)
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault()
@@ -16,7 +18,10 @@ export default function NewCustomerPage() {
         const formData = new FormData(e.currentTarget)
         const res = await createCustomer(null, formData)
 
-        if (res?.error) {
+        if (res?.error === 'FREE_PLAN_LIMIT_REACHED') {
+            setShowPaywall(true)
+            setIsSubmitting(false)
+        } else if (res?.error) {
             alert(res.error)
             setIsSubmitting(false)
         } else if (res?.success) {
@@ -27,6 +32,12 @@ export default function NewCustomerPage() {
 
     return (
         <div className="min-h-screen bg-[#fbf9f5] text-[#1b1c1a] font-sans flex flex-col">
+            <PaywallModal
+                isOpen={showPaywall}
+                onClose={() => setShowPaywall(false)}
+                title="カルテ登録数の上限に達しました"
+                description={`無料のStarterプランでは、カルテを最大30件まで登録できます。\n\n引き続き新しいカルテを登録・管理するには、Soloプランへのアップグレードをご検討ください。`}
+            />
             <header className="sticky top-0 z-50 bg-[#fbf9f5]/80 backdrop-blur-xl p-4 flex items-center gap-4">
                 <button onClick={() => router.back()} className="p-3 -ml-2 hover:bg-[#f5f3ef] text-[#414944] hover:text-[#134231] rounded-full transition-colors">
                     <X className="w-5 h-5" />

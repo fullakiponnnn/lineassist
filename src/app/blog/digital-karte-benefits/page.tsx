@@ -252,7 +252,7 @@ export default function DigitalKarteBenefitsArticle() {
                         <Link href="/legal/privacy" className="hover:text-[#134231] transition-colors">プライバシーポリシー</Link>
                         <Link href="/" className="hover:text-[#134231] transition-colors">トップページ</Link>
                     </div>
-                    <p className="text-sm text-[#a1a1a0]">&copy; {new Date().getFullYear()} SnapKarte. All rights reserved.</p>
+                    <p className="text-sm text-[#a1a1a0]">&copy; {new Date().getFullYear()} BlackSwan logic. All rights reserved.</p>
                 </div>
             </footer>
         </div>

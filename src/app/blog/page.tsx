@@ -15,6 +15,13 @@ export const metadata: Metadata = {
 export default function BlogPage() {
     const articles = [
         {
+            slug: 'freelance-customer-management',
+            title: 'フリーランス美容師がデジタル顧客管理に移行すべき理由とおすすめアプリ',
+            excerpt: '独立してから顧客管理が自分任せになって悩んでいませんか？フリーランス・個人美容師の方がお金と時間をかけずに顧客管理を整える方法を解説します。',
+            date: '2026-04-23',
+            category: '顧客管理',
+        },
+        {
             slug: 'line-for-hairdressers',
             title: '個人美容師がLINE公式アカウントを活用すべき5つの理由',
             excerpt: 'フリーランス・面貸し美容師が自分の顧客を管理し、リピート率を上げるためにLINE公式アカウントが最強のツールである理由を解説します。',
@@ -152,7 +159,7 @@ export default function BlogPage() {
             {/* Footer */}
             <footer className="bg-white border-t border-gray-200 py-8 mt-16">
                 <div className="container mx-auto px-4 text-center text-sm text-gray-500">
-                    <p>&copy; {new Date().getFullYear()} SnapKarte. All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} BlackSwan logic. All rights reserved.</p>
                     <div className="flex justify-center gap-6 mt-4">
                         <Link href="/legal/terms" className="hover:text-primary">利用規約</Link>
                         <Link href="/legal/privacy" className="hover:text-primary">プライバシーポリシー</Link>

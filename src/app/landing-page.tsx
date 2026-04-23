@@ -566,7 +566,7 @@ export default function LandingPage() {
 
                 <div className="border-t border-outline-variant/20 py-8 px-8 flex justify-center text-center">
                     <p className="text-xs font-medium tracking-wider text-emerald-800/50 uppercase">
-                        &copy; {new Date().getFullYear()} SnapKarte Digital Atelier. All rights reserved.
+                        &copy; {new Date().getFullYear()} BlackSwan logic. All rights reserved.
                     </p>
                 </div>
             </footer>

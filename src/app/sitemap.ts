@@ -26,9 +26,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
         // Blog pages (SEO content)
         {
             url: `${baseUrl}/blog`,
-            lastModified: new Date('2026-02-09'),
+            lastModified: new Date(),
             changeFrequency: 'weekly' as const,
             priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/blog/freelance-customer-management`,
+            lastModified: new Date('2026-04-23'),
+            changeFrequency: 'monthly' as const,
+            priority: 0.7,
         },
         {
             url: `${baseUrl}/blog/line-for-hairdressers`,

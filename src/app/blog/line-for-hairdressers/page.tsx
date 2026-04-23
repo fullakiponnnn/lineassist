@@ -241,7 +241,7 @@ export default function LineForHairdressersArticle() {
             {/* Footer */}
             <footer className="bg-gray-50 border-t border-gray-200 py-8 mt-16">
                 <div className="container mx-auto px-4 text-center text-sm text-gray-500">
-                    <p>&copy; {new Date().getFullYear()} SnapKarte. All rights reserved.</p>
+                    <p>&copy; {new Date().getFullYear()} BlackSwan logic. All rights reserved.</p>
                     <div className="flex justify-center gap-6 mt-4">
                         <Link href="/legal/terms" className="hover:text-primary">利用規約</Link>
                         <Link href="/legal/privacy" className="hover:text-primary">プライバシーポリシー</Link>

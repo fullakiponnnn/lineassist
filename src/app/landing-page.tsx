@@ -601,41 +601,39 @@ export default function LandingPage() {
                     </div>
                 </section>
 
-                {/* --- Testimonials / Social Proof --- */}
+                {/* --- Our Promise / Values --- */}
                 <section className="py-24 px-4 sm:px-8 bg-surface">
                     <div className="max-w-6xl mx-auto">
                         <FadeIn className="text-center mb-16">
-                            <p className="text-tertiary font-label text-sm font-bold uppercase tracking-widest mb-4">Voice</p>
-                            <h3 className="text-3xl sm:text-4xl font-headline text-primary-stitch">導入されたスタイリストの声</h3>
+                            <p className="text-tertiary font-label text-sm font-bold uppercase tracking-widest mb-4">Our Promise</p>
+                            <h3 className="text-3xl sm:text-4xl font-headline text-primary-stitch mb-4">私たちが約束する「新しい日常」</h3>
+                            <p className="text-on-surface-variant max-w-2xl mx-auto text-lg">
+                                架空のレビューではなく、システムとして確実に提供できる3つの体験
+                            </p>
                         </FadeIn>
                         <div className="grid md:grid-cols-3 gap-8">
                             {[
                                 {
-                                    name: "A.K 様",
-                                    role: "フリーランス美容師 / 東京",
-                                    quote: "カルテ作成が本当に10秒で終わるので、次のお客様の準備に集中できるようになりました。LINE送信も自動なので、お客様から『写真ありがとう！』と喜ばれています。"
+                                    title: "紙より速いカルテ入力",
+                                    icon: "⏱️",
+                                    description: "「入力が面倒」という課題を根本から解決。直感的な操作と写真の自動整理により、カルテ作成は10秒で完結。次のお客様をすぐにお迎えできます。"
                                 },
                                 {
-                                    name: "M.S 様",
-                                    role: "面貸しスタイリスト / 大阪",
-                                    quote: "以前は紙のカルテで管理していましたが、写真付きで履歴が残るのが本当に便利。お客様の前回のスタイルをすぐに確認できるので、提案の質が上がりました。"
+                                    title: "退店後30分の感動体験",
+                                    icon: "💌",
+                                    description: "お客様の気持ちが最も高まっている帰り道に、仕上がり写真とお礼が自動で届く。忘れられない接客体験が、自然な再来店を生み出します。"
                                 },
                                 {
-                                    name: "Y.T 様",
-                                    role: "個人サロンオーナー / 名古屋",
-                                    quote: "QR受付のおかげで、お客様が来店された瞬間にカルテを開けます。会員証もデジタルで管理でき、紙の管理から解放されました。無料でここまでできるのは驚きです。"
+                                    title: "あなた専用に育つツール",
+                                    icon: "🌱",
+                                    description: "完成品を押し付ける気はありません。現場の皆様の要望を何よりも大切にし、日々のリアルな声を取り入れながら、最高のツールへと進化し続けます。"
                                 }
-                            ].map((t, i) => (
+                            ].map((p, i) => (
                                 <FadeIn delay={i * 0.1} key={i}>
-                                    <div className="bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm flex flex-col h-full">
-                                        <div className="flex items-center gap-1 mb-6 text-amber-400">
-                                            {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-current" />)}
-                                        </div>
-                                        <p className="text-on-surface-variant text-sm leading-relaxed flex-1 mb-6">「{t.quote}」</p>
-                                        <div className="border-t border-outline-variant/20 pt-4">
-                                            <p className="font-bold text-primary-stitch text-sm">{t.name}</p>
-                                            <p className="text-xs text-on-surface-variant">{t.role}</p>
-                                        </div>
+                                    <div className="bg-surface-container-lowest p-10 rounded-[2rem] shadow-sm flex flex-col h-full border border-outline-variant/10">
+                                        <div className="text-5xl mb-6">{p.icon}</div>
+                                        <h4 className="text-xl font-headline font-bold text-primary-stitch mb-4">{p.title}</h4>
+                                        <p className="text-on-surface-variant text-base leading-relaxed">{p.description}</p>
                                     </div>
                                 </FadeIn>
                             ))}

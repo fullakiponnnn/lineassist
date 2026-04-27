@@ -31,6 +31,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
             priority: 0.8,
         },
         {
+            url: `${baseUrl}/blog/hospitality-photo-karte`,
+            lastModified: new Date('2026-04-23'),
+            changeFrequency: 'monthly' as const,
+            priority: 0.7,
+        },
+        {
             url: `${baseUrl}/blog/freelance-customer-management`,
             lastModified: new Date('2026-04-23'),
             changeFrequency: 'monthly' as const,

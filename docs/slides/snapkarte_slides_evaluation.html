@@ -1,0 +1,186 @@
+
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .wrap { padding: 1.5rem 0; }
+  .section-title { font-size: 11px; font-weight: 500; letter-spacing: .08em; color: var(--color-text-tertiary); text-transform: uppercase; margin: 0 0 12px; }
+  .score-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 12px; }
+  .score-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .score-label { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+  .score-num { font-size: 18px; font-weight: 500; }
+  .bar-track { height: 6px; border-radius: 3px; background: var(--color-background-tertiary); overflow: hidden; margin-bottom: 8px; }
+  .bar-fill { height: 100%; border-radius: 3px; transition: width .8s cubic-bezier(.4,0,.2,1); }
+  .score-note { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+  .badge { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500; margin-right: 4px; }
+  .badge-ok  { background: var(--color-background-success); color: var(--color-text-success); }
+  .badge-ng  { background: var(--color-background-danger);  color: var(--color-text-danger);  }
+  .badge-warn{ background: var(--color-background-warning); color: var(--color-text-warning); }
+  .issue-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .issue-item:last-child { border-bottom: none; }
+  .issue-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .issue-body { flex: 1; }
+  .issue-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 3px; }
+  .issue-desc  { font-size: 12px; color: var(--color-text-secondary); line-height: 1.6; margin: 0; }
+  .issue-fix   { font-size: 12px; color: var(--color-text-info); margin: 4px 0 0; line-height: 1.5; }
+  .total-ring  { display: flex; align-items: center; gap: 20px; background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 20px; }
+  .ring-num    { font-size: 48px; font-weight: 500; color: var(--color-text-primary); line-height: 1; }
+  .ring-denom  { font-size: 20px; color: var(--color-text-tertiary); }
+  .ring-label  { font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; }
+  .verdict     { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+  .verdict-sub { font-size: 12px; color: var(--color-text-secondary); margin-top: 4px; line-height: 1.5; }
+  .divider     { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 20px 0; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  @media (max-width: 480px) { .grid2 { grid-template-columns: 1fr; } }
+  .mini-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: .75rem 1rem; }
+  .mini-card .mc-label { font-size: 11px; color: var(--color-text-tertiary); margin: 0 0 4px; }
+  .mini-card .mc-val   { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+  .mini-card .mc-sub   { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+</style>
+
+<div class="wrap">
+  <p class="section-title">総合評価</p>
+  <div class="total-ring">
+    <div>
+      <div><span class="ring-num">71</span><span class="ring-denom">/100</span></div>
+      <div class="ring-label">顧客向け説明資料スコア</div>
+    </div>
+    <div>
+      <div class="verdict">ビジュアルは高品質、<br>論理構造に改善余地あり</div>
+      <div class="verdict-sub">デザイン・コンセプトは十分に魅力的。<br>一方、意思決定を後押しする情報（競合比較・ROI・導入ステップ）が不足。</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="mini-card"><p class="mc-label">スライド枚数</p><p class="mc-val">12</p><p class="mc-sub">適切な分量</p></div>
+    <div class="mini-card"><p class="mc-label">CTA設置</p><p class="mc-val">1か所</p><p class="mc-sub">最終スライドのみ（要追加）</p></div>
+    <div class="mini-card"><p class="mc-label">社会的証明</p><p class="mc-val">3件</p><p class="mc-sub">実名・地域入りで信頼性△</p></div>
+    <div class="mini-card"><p class="mc-label">価格提示</p><p class="mc-val">あり</p><p class="mc-sub">ただし比較軸が弱い</p></div>
+  </div>
+
+  <hr class="divider">
+  <p class="section-title">評価項目別スコア</p>
+
+  <div class="score-card">
+    <div class="score-header">
+      <span class="score-label">① デザイン・ビジュアル品質</span>
+      <span class="score-num" style="color:#639922">92<small style="font-size:13px;color:var(--color-text-tertiary)">/100</small></span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" style="width:92%;background:#639922"></div></div>
+    <p class="score-note"><span class="badge badge-ok">強み</span>ダークグリーン×ゴールドの配色は高級感があり、ターゲット（個人スタイリスト）の美意識に合致。アプリのモックアップ画像も実装イメージを明確に伝えている。フォントサイズ・余白も全体的にバランスが取れている。</p>
+  </div>
+
+  <div class="score-card">
+    <div class="score-header">
+      <span class="score-label">② 課題提起の共感度</span>
+      <span class="score-num" style="color:#639922">80<small style="font-size:13px;color:var(--color-text-tertiary)">/100</small></span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" style="width:80%;background:#639922"></div></div>
+    <p class="score-note"><span class="badge badge-ok">強み</span>「78%が事務作業を課題」「月15時間のロス」など数値を使った課題提起は説得力がある。3つの課題（カルテ・写真・フォロー）の整理も明快。<span class="badge badge-warn" style="margin-left:6px">要確認</span>「78%」の調査出典が不明。顧客が提示元を確認できないと信頼性が下がる。</p>
+  </div>
+
+  <div class="score-card">
+    <div class="score-header">
+      <span class="score-label">③ 機能説明の明瞭さ</span>
+      <span class="score-num" style="color:#BA7517">70<small style="font-size:13px;color:var(--color-text-tertiary)">/100</small></span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" style="width:70%;background:#BA7517"></div></div>
+    <p class="score-note"><span class="badge badge-ok">強み</span>3ステップのHow it worksは直感的で分かりやすい。<span class="badge badge-ng">課題</span>Feature 01〜03の情報密度にばらつきがあり、Feature 02（QR連携）はスクリーンショットのみでユースケースの説明が薄い。「LINEアカウント必須」という前提条件がFAQまで登場しない点も初見ユーザーには不親切。</p>
+  </div>
+
+  <div class="score-card">
+    <div class="score-header">
+      <span class="score-label">④ 信頼性・社会的証明</span>
+      <span class="score-num" style="color:#BA7517">65<small style="font-size:13px;color:var(--color-text-tertiary)">/100</small></span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" style="width:65%;background:#BA7517"></div></div>
+    <p class="score-note"><span class="badge badge-ok">強み</span>3件の口コミは地域・業態付きで具体的。星5つの評価も視覚的に分かりやすい。<span class="badge badge-ng">課題</span>導入スタイリスト数・導入サロン数などの全体規模が不明。「業務改善データ」のサンプル数や調査方法が記載されていないため、数値の信頼度が伝わりにくい。</p>
+  </div>
+
+  <div class="score-card">
+    <div class="score-header">
+      <span class="score-label">⑤ 価格訴求・競合優位性</span>
+      <span class="score-num" style="color:#A32D2D">55<small style="font-size:13px;color:var(--color-text-tertiary)">/100</small></span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" style="width:55%;background:#A32D2D"></div></div>
+    <p class="score-note"><span class="badge badge-ng">課題</span>料金体系は記載があるが、競合サービス（他の美容室向けアプリや紙カルテ）との比較が一切ない。「月2,980円が高いか安いか」の判断材料が顧客に提供されていない。年払い特典（初期サポート無料）のインパクトも控えめな説明に留まっている。</p>
+  </div>
+
+  <div class="score-card">
+    <div class="score-header">
+      <span class="score-label">⑥ 行動喚起（CTA）の設計</span>
+      <span class="score-num" style="color:#A32D2D">50<small style="font-size:13px;color:var(--color-text-tertiary)">/100</small></span>
+    </div>
+    <div class="bar-track"><div class="bar-fill" style="width:50%;background:#A32D2D"></div></div>
+    <p class="score-note"><span class="badge badge-ng">課題</span>CTAが最終スライド1か所のみ。「無料で今すぐ始める」のボタンはあるが、QRコードや実際のURLが記載されておらず、紙・PDF出力時に行動に移せない。価格スライドや口コミスライドの直後にもCTAを設けるべき。</p>
+  </div>
+
+  <hr class="divider">
+  <p class="section-title">優先度別・改善アクションリスト</p>
+
+  <div class="score-card" style="padding-bottom:.5rem">
+
+    <div class="issue-item">
+      <div class="issue-icon">🔴</div>
+      <div class="issue-body">
+        <p class="issue-title">CTAを複数箇所に分散させる</p>
+        <p class="issue-desc">現在は最終スライドのみ。価格スライド・口コミスライドの直後は購買意欲が最も高いタイミング。</p>
+        <p class="issue-fix">→ 改善案：価格スライドの下部に「まず無料で試す →」ボタン＋QRコードを追加。最終スライドにも登録用QRコードを大きく掲載する。</p>
+      </div>
+    </div>
+
+    <div class="issue-item">
+      <div class="issue-icon">🔴</div>
+      <div class="issue-body">
+        <p class="issue-title">競合比較スライドを1枚追加する</p>
+        <p class="issue-desc">「なぜSnapKarteを選ぶのか」の根拠がない。他のPOSシステムや手書きカルテとの比較がないと、価格の妥当性が伝わらない。</p>
+        <p class="issue-fix">→ 改善案：「紙カルテ／他社アプリ／SnapKarte」の3列比較表を追加。月額コスト・機能・手間の観点で視覚的に優位性を示す。</p>
+      </div>
+    </div>
+
+    <div class="issue-item">
+      <div class="issue-icon">🟡</div>
+      <div class="issue-body">
+        <p class="issue-title">データ・数値の出典を明記する</p>
+        <p class="issue-desc">「78%が課題に挙げている」「月15時間のロス」「カルテ作成10秒」は強力なフックだが、調査元・サンプル数がないと疑義を持たれる。</p>
+        <p class="issue-fix">→ 改善案：「自社調査（n=○○、2026年）」や「SnapKarte導入ユーザーの平均値」などの注釈を小文字でスライド下部に追記する。</p>
+      </div>
+    </div>
+
+    <div class="issue-item">
+      <div class="issue-icon">🟡</div>
+      <div class="issue-body">
+        <p class="issue-title">「導入ステップ」スライドを追加する</p>
+        <p class="issue-desc">「始めたいが何から手を付けるか分からない」という不安を解消するスライドが欠けている。FAQ内の情報だけでは不十分。</p>
+        <p class="issue-fix">→ 改善案：「今日から3ステップで始められる」スライドを追加。①無料登録 → ②LINE公式アカウント連携（5分）→ ③最初のお客様を登録、の流れを図解する。</p>
+      </div>
+    </div>
+
+    <div class="issue-item">
+      <div class="issue-icon">🟡</div>
+      <div class="issue-body">
+        <p class="issue-title">口コミに具体的な成果数値を加える</p>
+        <p class="issue-desc">現在の口コミは定性的な感想のみ。「リピート率が上がった」だけでは弱い。</p>
+        <p class="issue-fix">→ 改善案：「導入3ヶ月でリピート率が○%向上」「LINE開封率○%」など定量的な変化を1件でも取得・掲載できると説得力が大幅に増す。</p>
+      </div>
+    </div>
+
+    <div class="issue-item">
+      <div class="issue-icon">🟢</div>
+      <div class="issue-body">
+        <p class="issue-title">LINE公式アカウントの前提をより早い段階で説明する</p>
+        <p class="issue-desc">LINE連携はSnapKarteの最大の差別化機能だが、「LINEアカウントが必要」という事実がFAQまで出てこない。</p>
+        <p class="issue-fix">→ 改善案：「SnapKarteとは」スライド内で「LINE公式アカウント（無料作成可能）と連携して使います」と一言触れ、ハードルを事前に下げる。</p>
+      </div>
+    </div>
+
+    <div class="issue-item">
+      <div class="issue-icon">🟢</div>
+      <div class="issue-body">
+        <p class="issue-title">会社・ブランド情報スライドの追加を検討する</p>
+        <p class="issue-desc">「BlackSwan logic」の会社情報・設立背景が一切ない。BtoB文脈では開発元の信頼性も意思決定に影響する。</p>
+        <p class="issue-fix">→ 改善案：「About us」1枚を追加し、開発の背景・チームの美容業界への理解を簡潔に示す。または「プライバシーポリシー・利用規約」へのQRを設置するだけでも印象が変わる。</p>
+      </div>
+    </div>
+
+  </div>
+</div>

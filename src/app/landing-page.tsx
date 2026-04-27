@@ -5,9 +5,11 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-    Camera, Send, Save, Clock, Menu, X, MessageCircle,
-    ImageIcon, Zap, PlayCircle, BookOpen, Layers,
-    Star, Share, Check, ChevronDown, CheckCircle2
+    Camera, Clock, Menu, X, MessageCircle,
+    Zap, PlayCircle, BookOpen, Layers,
+    Star, Share, Check, ChevronDown, CheckCircle2,
+    ArrowLeft, Calendar, QrCode, Printer, Smartphone,
+    Shield, Heart
 } from 'lucide-react'
 
 // --- Components ---
@@ -124,7 +126,7 @@ export default function LandingPage() {
                 <section className="relative px-4 sm:px-8 py-20 lg:py-32 max-w-7xl mx-auto">
                     <div className="grid lg:grid-cols-2 gap-16 items-center">
                         <FadeIn className="z-10">
-                            <span className="inline-block px-4 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label text-xs uppercase tracking-widest mb-6">Solo Stylist Edition</span>
+                            <span className="inline-block px-4 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label text-xs tracking-widest mb-6">個人スタイリストのための顧客カルテ</span>
                             <h2 className="text-4xl sm:text-5xl lg:text-7xl font-headline font-black text-primary leading-tight mb-8">
                                 <span className="inline-block whitespace-nowrap">カルテを、</span><br />
                                 <span className="inline-block whitespace-nowrap"><span className="text-tertiary">インスピレーション</span>の</span><br />
@@ -148,7 +150,7 @@ export default function LandingPage() {
                             <div className="relative w-full h-[400px] sm:h-[500px] lg:h-full bg-gray-100 rounded-xl overflow-hidden shadow-[0_40px_40px_-15px_rgba(27,28,26,0.06)]">
                                 <Image
                                     className="object-cover"
-                                    src="/hero-image.png"
+                                    src="/hero-japanese.png"
                                     alt="Modern minimalist hair salon with professional stylist"
                                     fill
                                     priority
@@ -182,21 +184,21 @@ export default function LandingPage() {
                         <div className="grid md:grid-cols-3 gap-8">
                             {[
                                 {
-                                    icon: <Clock className="w-8 h-8 text-primary-stitch" />,
-                                    title: "残業ゼロのカルテ管理",
-                                    desc: "手書きやPC入力は不要。施術直後にスマホで完結。平均30分の残業時間を削減します。",
+                                    icon: <Camera className="w-8 h-8 text-primary-stitch" />,
+                                    title: "写真を撮って即カルテ化",
+                                    desc: "施術後の仕上がりをスマホで撮影するだけ。来店日・メニュータグ・特記事項と一緒に、ビジュアルカルテが10秒で完成します。",
                                     translateY: ""
                                 },
                                 {
-                                    icon: <Layers className="w-8 h-8 text-tertiary" />,
-                                    title: "視覚的なスタイル履歴",
-                                    desc: "「前回の仕上がり」が一目で分かる。写真中心のレイアウトで、再現性の高い施術をサポート。",
+                                    icon: <MessageCircle className="w-8 h-8 text-tertiary" />,
+                                    title: "LINE自動送信でフォロー",
+                                    desc: "カルテ保存と同時に、施術写真と感謝メッセージが顧客のLINEへ自動送信。手間なくアフターフォローが完了します。",
                                     translateY: "md:translate-y-6"
                                 },
                                 {
-                                    icon: <MessageCircle className="w-8 h-8 text-secondary-stitch" />,
-                                    title: "LINE連携でリピート率UP",
-                                    desc: "カルテから直接メッセージ。適切なタイミングでの提案が、顧客との深い信頼関係を作ります。",
+                                    icon: <QrCode className="w-8 h-8 text-secondary-stitch" />,
+                                    title: "QR受付で顧客を瞬時に特定",
+                                    desc: "デジタル会員証のQRコードをスキャンするだけで、顧客カルテにアクセス。紙の顧客リストはもう不要です。",
                                     translateY: ""
                                 }
                             ].map((item, i) => (
@@ -224,9 +226,9 @@ export default function LandingPage() {
                     <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-8 md:gap-4 relative">
                         <div className="hidden md:block absolute top-[4.5rem] left-0 w-full h-[2px] bg-outline-variant/30"></div>
                         {[
-                            { num: "1", title: "Take", desc: "施術後、自慢の仕上がりをスマホで撮影。" },
-                            { num: "2", title: "Save", desc: "タグ付けやメモを添えて、10秒で保存。" },
-                            { num: "3", title: "Send", desc: "必要に応じてLINEで顧客へアドバイスを送信。" }
+                            { num: "1", title: "Take", desc: "施術後、仕上がりをスマホでパシャッと撮影。" },
+                            { num: "2", title: "Save", desc: "顧客を選んでメニュータグを入力し、保存。" },
+                            { num: "3", title: "Auto", desc: "保存と同時にLINEで写真付きメッセージが自動送信。" }
                         ].map((step, i) => (
                             <FadeIn delay={0.1 * i} key={i}>
                                 <div className="relative bg-surface p-8 mx-4 sm:mx-0 rounded-[2rem] flex flex-col items-center text-center shadow-sm hover:shadow-md transition-shadow">
@@ -239,72 +241,150 @@ export default function LandingPage() {
                     </div>
                 </section>
 
+                {/* --- Numbers / Impact --- */}
+                <section className="py-20 px-4 sm:px-8 bg-surface-container-low">
+                    <div className="max-w-5xl mx-auto">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                            {[
+                                { num: "10秒", label: "カルテ作成時間" },
+                                { num: "0円", label: "初期費用" },
+                                { num: "30分", label: "毎日の時短効果" },
+                                { num: "自動", label: "LINE送信" },
+                            ].map((stat, i) => (
+                                <FadeIn delay={i * 0.1} key={i}>
+                                    <div>
+                                        <p className="text-3xl sm:text-4xl font-headline font-black text-primary-stitch mb-2">{stat.num}</p>
+                                        <p className="text-sm text-on-surface-variant font-medium">{stat.label}</p>
+                                    </div>
+                                </FadeIn>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
                 {/* Feature Showcase (Mockups) */}
                 <section className="bg-primary-stitch py-32 px-4 sm:px-8 text-white overflow-hidden rounded-[3rem] mx-2 sm:mx-4">
                     <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
-                        <FadeIn className="relative flex justify-center">
-                            {/* Mockup Simulation */}
-                            <div className="w-[280px] h-[580px] bg-sky-950 rounded-[3rem] border-8 border-[#30312e] relative overflow-hidden shadow-2xl">
-                                <div className="absolute top-0 w-full h-6 bg-[#30312e] flex justify-center items-end pb-1 z-20">
-                                    <div className="w-20 h-4 bg-sky-950 rounded-full"></div>
-                                </div>
-                                <div className="absolute inset-0 bg-surface-container- lowest overflow-y-auto">
-                                    <div className="relative h-[300px] w-full bg-surface-container-high rounded-b-3xl">
-                                        <Image
-                                            src="/sample-hair.png"
-                                            alt="Hair styles preview"
-                                            fill
-                                            className="object-cover"
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                                    </div>
-                                    <div className="p-6 -mt-16 relative z-10">
-                                        <div className="bg-white p-5 rounded-2xl shadow-xl space-y-4">
+                        <FadeIn className="relative flex justify-center lg:justify-start lg:ml-4 xl:ml-12">
+                            <div className="relative w-[360px]">
+                                {/* Hyper-Realistic Mobile Mockup */}
+                                <div className="w-[360px] h-[740px] bg-[#1b1c1a] rounded-[3.5rem] p-[14px] shadow-[0_50px_100px_-20px_rgba(0,0,0,0.6)] ring-4 ring-[#3a3b3a]/20 relative">
+                                    {/* Screen Content Wrapper */}
+                                    <div className="w-full h-full bg-[#fbf9f5] rounded-[2.5rem] relative overflow-hidden font-sans text-[#1b1c1a] flex flex-col shadow-[inset_0_0_0_2px_rgba(255,255,255,0.1)] isolate">
+                                        {/* Dynamic Island */}
+                                        <div className="absolute top-2 inset-x-0 flex justify-center z-40">
+                                            <div className="w-[110px] h-[32px] bg-[#1b1c1a] rounded-full shadow-inner flex items-center justify-between px-2.5">
+                                                <div className="w-2.5 h-2.5 rounded-full bg-[#0a0a0a] shadow-[inset_0_0_2px_rgba(255,255,255,0.1)] border border-white/5"></div>
+                                                <div className="w-2.5 h-2.5 rounded-full bg-[#111111] border border-white/5 relative overflow-hidden">
+                                                    <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-[1px]"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* App Header */}
+                                        <div className="pt-14 pb-3 px-5 bg-[#fbf9f5]/85 backdrop-blur-xl flex items-center justify-between z-30 sticky top-0 border-b border-[#e4e2de]/50 rounded-t-[2.5rem]">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
-                                                    <Camera className="w-5 h-5 text-emerald-600" />
+                                                <div className="p-1.5 -ml-1.5 text-[#414944] hover:bg-[#f5f3ef] rounded-full transition-colors"><ArrowLeft className="w-5 h-5" /></div>
+                                                <span className="font-serif font-bold text-lg tracking-wide text-[#1b1c1a]">Mio Sato</span>
+                                            </div>
+                                            <Menu className="w-5 h-5 text-[#414944]" />
+                                        </div>
+
+                                        {/* App Body */}
+                                        <div className="flex-1 overflow-y-auto px-4 pb-8 space-y-4">
+                                            {/* Profile Card */}
+                                            <div className="bg-[#ffffff] rounded-3xl p-5 shadow-[0_8px_30px_rgba(27,28,26,0.04)] mt-2">
+                                                <div className="flex items-start justify-between mb-4">
+                                                    <div className="w-12 h-12 rounded-2xl bg-[#f5f3ef] flex items-center justify-center text-xl font-serif font-bold text-[#134231] shadow-sm">
+                                                        M
+                                                    </div>
+                                                    <div className="flex flex-col items-end gap-2">
+                                                        <span className="text-[10px] px-2.5 py-1 bg-[#06C755]/10 text-[#06C755] rounded-full font-bold flex items-center gap-1">
+                                                            <MessageCircle className="w-3 h-3" />
+                                                            LINE連携中
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <div className="h-2 w-20 bg-slate-200 rounded mb-2"></div>
-                                                    <div className="h-3 w-32 bg-slate-300 rounded"></div>
+
+                                                <div className="space-y-1">
+                                                    <h2 className="text-xl font-serif font-bold tracking-tight text-[#1b1c1a]">Mio Sato</h2>
+                                                    <p className="text-xs text-[#414944] flex items-center gap-1.5">
+                                                        <Calendar className="w-3.5 h-3.5 text-[#6a5e33]" />
+                                                        最終来店: 2026/04/10
+                                                    </p>
                                                 </div>
                                             </div>
-                                            <div className="h-px w-full bg-slate-100 my-2"></div>
-                                            <div className="space-y-2">
-                                                <div className="h-2 w-full bg-slate-100 rounded"></div>
-                                                <div className="h-2 w-4/5 bg-slate-100 rounded"></div>
-                                                <div className="h-2 w-2/3 bg-slate-100 rounded"></div>
+
+                                            {/* Notes */}
+                                            <div className="bg-[#ffffff] rounded-3xl p-5 shadow-[0_8px_30px_rgba(27,28,26,0.04)]">
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <BookOpen className="w-4 h-4 text-[#134231]" />
+                                                    <h3 className="font-serif font-bold text-sm">特記事項</h3>
+                                                </div>
+                                                <p className="text-xs text-[#414944] leading-relaxed">
+                                                    地毛の暗髪を活かした透明感のあるダークトーン希望。顔周りのレイヤーで動きを出すスタイルがお気に入り。普段はコテで軽く巻くことが多いそうなので、ご自宅で再現しやすいカットラインを意識する。
+                                                </p>
                                             </div>
-                                            <div className="mt-4 flex justify-center">
-                                                <div className="w-full h-10 bg-[#06C755] rounded-xl flex items-center justify-center gap-2 text-white font-bold text-sm shadow-md shadow-[#06c755]/30">
-                                                    <Send className="w-4 h-4" />
-                                                    LINEで送付する
+
+                                            {/* Gallery / History */}
+                                            <div>
+                                                <h3 className="font-serif text-sm font-bold text-[#1b1c1a] mb-3 tracking-wide flex items-center gap-2">
+                                                    <span className="text-[#6a5e33]">◆</span> 来店履歴・アルバム
+                                                </h3>
+
+                                                <div className="grid grid-cols-2 gap-3">
+                                                    {[
+                                                        { id: 1, date: '2026/04/10', tags: ['カット', 'カラー'], img: '/ui-hair-1-new.png' },
+                                                        { id: 2, date: '2026/02/15', tags: ['カット', 'TR'], img: '/ui-hair-2-new.png' },
+                                                        { id: 3, date: '2025/12/20', tags: ['カラー'], img: '/ui-hair-3-new.png' },
+                                                        { id: 4, date: '2025/10/05', tags: ['カット', 'パーマ'], img: '/ui-hair-4-new.png' }
+                                                    ].map((visit) => (
+                                                        <div key={visit.id} className="bg-[#ffffff] rounded-[1.5rem] overflow-hidden shadow-[0_4px_15px_rgba(27,28,26,0.03)] relative">
+                                                            <div className="aspect-[3/4] bg-[#f5f3ef] relative overflow-hidden">
+                                                                <Image src={visit.img} alt={`Visit ${visit.date}`} fill className="object-cover" />
+                                                                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#1b1c1a]/80 via-[#1b1c1a]/40 to-transparent p-3 pt-8">
+                                                                    <p className="text-[#ffffff] text-[11px] font-bold tracking-wide">
+                                                                        {visit.date}
+                                                                    </p>
+                                                                    <div className="flex flex-wrap gap-1 mt-1">
+                                                                        {visit.tags.map((tag) => (
+                                                                            <span key={tag} className="text-[9px] bg-[#ffffff]/20 text-[#ffffff] px-1.5 py-0.5 rounded-full backdrop-blur-md font-medium">
+                                                                                {tag}
+                                                                            </span>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ))}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            {/* Secondary floating element */}
-                            <motion.div
-                                initial={{ opacity: 0, x: -20 }}
-                                whileInView={{ opacity: 1, x: 0 }}
-                                transition={{ delay: 0.5 }}
-                                className="absolute -right-4 md:-right-12 top-1/2 -translate-y-1/2 hidden md:block"
-                            >
-                                <div className="bg-white p-6 rounded-xl shadow-[0_40px_40px_-15px_rgba(27,28,26,0.3)] text-primary-stitch w-64 border border-white/20">
-                                    <div className="flex items-center gap-1 mb-4 text-amber-400">
-                                        <Star className="w-5 h-5 fill-current" />
-                                        <Star className="w-5 h-5 fill-current" />
-                                        <Star className="w-5 h-5 fill-current" />
-                                        <Star className="w-5 h-5 fill-current" />
-                                        <Star className="w-5 h-5 fill-current" />
+                                {/* Secondary floating element */}
+                                <motion.div
+                                    initial={{ opacity: 0, x: -20 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.5 }}
+                                    className="absolute -right-6 lg:-right-24 xl:-right-32 top-1/2 -translate-y-1/2 hidden md:block z-40"
+                                >
+                                    <div className="bg-white p-6 rounded-2xl shadow-[0_30px_60px_-15px_rgba(0,0,0,0.4)] text-primary-stitch w-64 border border-[#e4e2de]">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <div className="w-8 h-8 rounded-full bg-[#06C755]/10 flex items-center justify-center">
+                                                <MessageCircle className="w-4 h-4 text-[#06C755]" />
+                                            </div>
+                                            <span className="text-sm font-bold">LINE自動送信</span>
+                                        </div>
+                                        <p className="text-xs text-[#414944] leading-relaxed">施術写真とお礼メッセージが自動で届きました！</p>
+                                        <div className="flex items-center gap-1 mt-3 text-[10px] text-[#06C755] font-bold">
+                                            <CheckCircle2 className="w-3.5 h-3.5" />
+                                            送信完了
+                                        </div>
                                     </div>
-                                    <p className="text-sm font-bold mb-1">Google口コミの増加</p>
-                                    <p className="text-xs text-on-surface-variant leading-relaxed">「丁寧なカウンセリング」の口コミが増えました！</p>
-                                </div>
-                            </motion.div>
+                                </motion.div>
+                            </div>
                         </FadeIn>
 
                         <FadeIn>
@@ -315,17 +395,26 @@ export default function LandingPage() {
                                         <Share className="w-6 h-6 text-primary-fixed-dim" />
                                     </div>
                                     <div>
-                                        <h6 className="text-xl font-bold mb-3">LINE連携・共有機能</h6>
-                                        <p className="text-primary-fixed-dim leading-relaxed text-sm sm:text-base">作成したカルテの内容を、そのまま顧客のLINEへ。アフターフォローの手間を劇的に減らします。</p>
+                                        <h6 className="text-xl font-bold mb-3">LINE自動送信・フォローアップ</h6>
+                                        <p className="text-primary-fixed-dim leading-relaxed text-sm sm:text-base">カルテ保存と同時に、施術写真と感謝メッセージが顧客のLINEへ自動送信。アフターフォローの手間を劇的に減らします。</p>
                                     </div>
                                 </div>
                                 <div className="flex gap-6">
                                     <div className="shrink-0 w-14 h-14 rounded-full border border-primary-fixed-dim/30 bg-white/5 flex items-center justify-center">
-                                        <Star className="w-6 h-6 text-primary-fixed-dim" />
+                                        <QrCode className="w-6 h-6 text-primary-fixed-dim" />
                                     </div>
                                     <div>
-                                        <h6 className="text-xl font-bold mb-3">Googleマイビジネス連携</h6>
-                                        <p className="text-primary-fixed-dim leading-relaxed text-sm sm:text-base">満足度の高いお客様へ、スマートに口コミを依頼。集客の好循環を生み出します。</p>
+                                        <h6 className="text-xl font-bold mb-3">デジタル会員証・QR受付</h6>
+                                        <p className="text-primary-fixed-dim leading-relaxed text-sm sm:text-base">顧客毎に発行されるデジタル会員証のQRコードをスキャンすれば、瞬時にカルテを開けます。</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-6">
+                                    <div className="shrink-0 w-14 h-14 rounded-full border border-primary-fixed-dim/30 bg-white/5 flex items-center justify-center">
+                                        <Printer className="w-6 h-6 text-primary-fixed-dim" />
+                                    </div>
+                                    <div>
+                                        <h6 className="text-xl font-bold mb-3">LINE友だち追加ポスター生成</h6>
+                                        <p className="text-primary-fixed-dim leading-relaxed text-sm sm:text-base">店舗用のおしゃれな「LINEお友だち追加」ポスターをワンクリックで生成。印刷して店内に掲示するだけです。</p>
                                     </div>
                                 </div>
                             </div>
@@ -355,8 +444,46 @@ export default function LandingPage() {
                                 <span className="px-6 py-3 bg-surface-container-low rounded-full text-secondary-stitch font-bold border border-outline-variant/20 shadow-sm text-sm">
                                     # 初期費用0円
                                 </span>
+                                <span className="px-6 py-3 bg-surface-container-low rounded-full text-secondary-stitch font-bold border border-outline-variant/20 shadow-sm text-sm">
+                                    # 10秒でセットアップ
+                                </span>
                             </div>
                         </FadeIn>
+                    </div>
+                </section>
+
+                {/* --- All Features Grid --- */}
+                <section className="py-24 px-4 sm:px-8 bg-surface-container-low">
+                    <div className="max-w-6xl mx-auto">
+                        <FadeIn className="text-center mb-16">
+                            <p className="text-tertiary font-label text-sm font-bold uppercase tracking-widest mb-4">All Features</p>
+                            <h3 className="text-3xl sm:text-4xl font-headline text-primary-stitch">すべての機能を、ひとつのアプリで。</h3>
+                        </FadeIn>
+                        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {[
+                                { icon: <Camera className="w-6 h-6" />, title: "写真付きカルテ作成", desc: "施術写真・来店日・メニュータグを記録" },
+                                { icon: <MessageCircle className="w-6 h-6" />, title: "LINE自動送信", desc: "保存と同時に写真付きメッセージを送信" },
+                                { icon: <QrCode className="w-6 h-6" />, title: "QRコード受付", desc: "会員証をスキャンして顧客カルテを呼び出し" },
+                                { icon: <Smartphone className="w-6 h-6" />, title: "デジタル会員証", desc: "顧客ごとにQR付きの会員証を自動発行" },
+                                { icon: <Printer className="w-6 h-6" />, title: "ポスター自動生成", desc: "LINE友だち追加ポスターをワンクリックで作成" },
+                                { icon: <BookOpen className="w-6 h-6" />, title: "連携ガイド", desc: "LINE公式アカウント設定をステップバイステップで解説" },
+                                { icon: <Layers className="w-6 h-6" />, title: "来店履歴アルバム", desc: "写真中心のレイアウトで過去のスタイルを一覧" },
+                                { icon: <Heart className="w-6 h-6" />, title: "特記事項メモ", desc: "顧客ごとの好みや注意点を自由に記録" },
+                                { icon: <Shield className="w-6 h-6" />, title: "セキュアなデータ管理", desc: "暗号化ストレージでお客様のデータを安全に保護" },
+                            ].map((f, i) => (
+                                <FadeIn delay={i * 0.05} key={i}>
+                                    <div className="bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow flex gap-4 items-start">
+                                        <div className="shrink-0 w-12 h-12 rounded-xl bg-primary-fixed flex items-center justify-center text-primary-stitch">
+                                            {f.icon}
+                                        </div>
+                                        <div>
+                                            <h5 className="font-bold text-primary-stitch mb-1">{f.title}</h5>
+                                            <p className="text-sm text-on-surface-variant leading-relaxed">{f.desc}</p>
+                                        </div>
+                                    </div>
+                                </FadeIn>
+                            ))}
+                        </div>
                     </div>
                 </section>
 
@@ -364,11 +491,11 @@ export default function LandingPage() {
                 <section className="py-32 px-4 sm:px-8 bg-surface-container-low scroll-mt-24" id="pricing">
                     <div className="max-w-7xl mx-auto">
                         <FadeIn className="text-center mb-16">
-                            <h3 className="text-3xl sm:text-4xl font-headline text-primary-stitch mb-8">すべてのスタイリストに、<br className="sm:hidden" />最適なプランを。</h3>
+                            <h3 className="text-3xl sm:text-4xl font-headline text-primary-stitch mb-14">すべてのスタイリストに、<br className="sm:hidden" />最適なプランを。</h3>
 
                             {/* Billing Cycle Toggle */}
                             <div className="flex items-center justify-center gap-4 relative max-w-sm mx-auto">
-                                <div className="absolute -top-10 right-0 bg-tertiary text-white text-[10px] font-bold px-3 py-1.5 rounded-full animate-bounce shadow-md">
+                                <div className="absolute -top-7 right-0 bg-tertiary text-white text-[10px] font-bold px-3 py-1.5 rounded-full animate-bounce shadow-md">
                                     年額ならセットアップ無料！
                                 </div>
                                 <span className={`text-sm font-bold ${billingCycle === 'monthly' ? 'text-primary-stitch' : 'text-on-surface-variant'}`}>月払い</span>
@@ -418,8 +545,8 @@ export default function LandingPage() {
                                         <span className="text-primary-fixed-dim text-sm font-medium ml-1">/ {billingCycle === 'monthly' ? '月' : '年'}</span>
                                     </div>
                                     <ul className="space-y-5 mb-10 text-sm text-primary-fixed-dim flex-1 relative z-10">
-                                        <li className="flex gap-3 text-white font-medium leading-relaxed"><CheckCircle2 className="w-5 h-5 text-tertiary shrink-0" /> Starterの全機能</li>
-                                        <li className="flex gap-3 text-white font-medium leading-relaxed"><CheckCircle2 className="w-5 h-5 text-tertiary shrink-0" /> 高度な分析ダッシュボード</li>
+                                        <li className="flex gap-3 text-white font-medium leading-relaxed"><CheckCircle2 className="w-5 h-5 text-tertiary shrink-0" /> 顧客登録・来店記録 無制限</li>
+                                        <li className="flex gap-3 text-white font-medium leading-relaxed"><CheckCircle2 className="w-5 h-5 text-tertiary shrink-0" /> LINE自動送信 無制限</li>
                                         <li className="flex gap-3 text-white font-medium leading-relaxed"><CheckCircle2 className="w-5 h-5 text-tertiary shrink-0" /> 新機能の先行アクセス・優先サポート</li>
 
                                         {/* Setup Support Feature */}
@@ -462,14 +589,56 @@ export default function LandingPage() {
                                     </div>
                                     <ul className="space-y-5 mb-10 text-sm flex-1 opacity-60">
                                         <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> 最大5名まで利用可能</li>
-                                        <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> 顧客データ共有・一括管理</li>
-                                        <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> 予約システム連携</li>
+                                        <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> スタッフ間カルテ共有</li>
+                                        <li className="flex gap-3 text-slate-700 font-medium leading-relaxed"><Check className="w-5 h-5 text-emerald-600 shrink-0" /> 顧客データ一括管理</li>
                                     </ul>
                                     <button disabled className="w-full py-4 rounded-xl font-bold bg-surface-container text-on-surface-variant cursor-not-allowed">
                                         準備中
                                     </button>
                                 </div>
                             </FadeIn>
+                        </div>
+                    </div>
+                </section>
+
+                {/* --- Testimonials / Social Proof --- */}
+                <section className="py-24 px-4 sm:px-8 bg-surface">
+                    <div className="max-w-6xl mx-auto">
+                        <FadeIn className="text-center mb-16">
+                            <p className="text-tertiary font-label text-sm font-bold uppercase tracking-widest mb-4">Voice</p>
+                            <h3 className="text-3xl sm:text-4xl font-headline text-primary-stitch">導入されたスタイリストの声</h3>
+                        </FadeIn>
+                        <div className="grid md:grid-cols-3 gap-8">
+                            {[
+                                {
+                                    name: "A.K 様",
+                                    role: "フリーランス美容師 / 東京",
+                                    quote: "カルテ作成が本当に10秒で終わるので、次のお客様の準備に集中できるようになりました。LINE送信も自動なので、お客様から『写真ありがとう！』と喜ばれています。"
+                                },
+                                {
+                                    name: "M.S 様",
+                                    role: "面貸しスタイリスト / 大阪",
+                                    quote: "以前は紙のカルテで管理していましたが、写真付きで履歴が残るのが本当に便利。お客様の前回のスタイルをすぐに確認できるので、提案の質が上がりました。"
+                                },
+                                {
+                                    name: "Y.T 様",
+                                    role: "個人サロンオーナー / 名古屋",
+                                    quote: "QR受付のおかげで、お客様が来店された瞬間にカルテを開けます。会員証もデジタルで管理でき、紙の管理から解放されました。無料でここまでできるのは驚きです。"
+                                }
+                            ].map((t, i) => (
+                                <FadeIn delay={i * 0.1} key={i}>
+                                    <div className="bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm flex flex-col h-full">
+                                        <div className="flex items-center gap-1 mb-6 text-amber-400">
+                                            {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-current" />)}
+                                        </div>
+                                        <p className="text-on-surface-variant text-sm leading-relaxed flex-1 mb-6">「{t.quote}」</p>
+                                        <div className="border-t border-outline-variant/20 pt-4">
+                                            <p className="font-bold text-primary-stitch text-sm">{t.name}</p>
+                                            <p className="text-xs text-on-surface-variant">{t.role}</p>
+                                        </div>
+                                    </div>
+                                </FadeIn>
+                            ))}
                         </div>
                     </div>
                 </section>
@@ -485,23 +654,27 @@ export default function LandingPage() {
                         <div className="space-y-4">
                             <AccordionItem
                                 question="SnapKarteは無料で使えますか？"
-                                answer="はい、顧客登録や写真の保存、LINE連携など、カルテ管理に必要な基本機能はすべて無料で無制限にご利用いただけます。将来的に提供される「高度な売上分析機能」や「優先サポート」をお求めの場合にのみ、Soloプランへのアップグレードをご検討ください。"
+                                answer="はい、無料のStarterプランでは顧客登録30件まで、来店記録・LINE自動送信は月に10回までご利用いただけます。QR受付やデジタル会員証も無料で使えます。制限なく使いたい方は、Soloプラン（月額¥2,980）へのアップグレードをご検討ください。"
                             />
                             <AccordionItem
                                 question="LINE公式アカウントを持っていなくても使えますか？"
-                                answer={`はい、ご利用可能です。LINE公式アカウントの開設サポート（マニュアル等）もご用意しておりますので、初めての方でも安心して導入いただけます。\n\n年払いプランをお選びいただくと、初期設定の代行サポートが無料で付いてきます。`}
-                            />
-                            <AccordionItem
-                                question="オフラインでも使えますか？"
-                                answer="はい、一時的なオフライン状態でもデータの保存機能が一部動作します。ただしLINE連携の送信や画像アップロードはインターネット接続環境で行う必要があります。"
+                                answer={`はい、ご利用可能です。アプリ内に連携ガイド（マニュアル）をご用意しておりますので、初めての方でも安心して導入いただけます。\n\n年払いプランをお選びいただくと、初期設定の代行サポートが無料で付いてきます。`}
                             />
                             <AccordionItem
                                 question="パソコンがなくても使えますか？"
-                                answer="はい、スマートフォンやタブレットのみで全ての機能をご利用いただけます。初期化設定や分析ダッシュボードもスマホ画面に最適化されています。"
+                                answer="はい、スマートフォンやタブレットのみで全ての機能をご利用いただけます。カルテ作成からLINE送信、QR受付まで、すべてスマホ画面に最適化されています。"
+                            />
+                            <AccordionItem
+                                question="顧客のデータは安全ですか？"
+                                answer="はい。データは暗号化された状態で安全に管理されています。写真データも専用のセキュアストレージに保存され、アカウント所有者のみがアクセスできます。"
                             />
                             <AccordionItem
                                 question="解約はいつでも可能ですか？"
-                                answer="はい。契約期間の縛りはなく、いつでもマイページから解約手続きが可能です。解約後も一定期間はデータの閲覧が可能です。"
+                                answer="はい。契約期間の縛りはなく、いつでも設定画面から解約手続きが可能です。解約後も一定期間はデータの閲覧が可能です。"
+                            />
+                            <AccordionItem
+                                question="来店記録にはどんな情報を保存できますか？"
+                                answer="施術写真（スマホで撮影）、来店日、メニュータグ（カット・カラーなど）を保存できます。顧客ごとに特記事項メモも記録でき、次回来店時の参考にご活用いただけます。"
                             />
                         </div>
                     </div>
@@ -511,7 +684,7 @@ export default function LandingPage() {
                 <section className="relative py-40 px-4 sm:px-8 flex justify-center items-center overflow-hidden">
                     <div className="absolute inset-0 z-0">
                         <Image
-                            src="/hero-image.png"
+                            src="/hero-japanese.png"
                             alt="Dreamy modern beauty salon background"
                             fill
                             className="object-cover brightness-[0.3]"
@@ -557,6 +730,12 @@ export default function LandingPage() {
                         </div>
                         <div className="flex flex-col gap-3">
                             <Link href="/blog" className="text-left text-sm font-medium text-emerald-800/60 hover:text-emerald-900 transition-colors">ブログ</Link>
+                            <a href="https://lin.ee/O3ydcSf" target="_blank" rel="noopener noreferrer" className="text-left text-sm font-medium text-emerald-800/60 hover:text-emerald-900 transition-colors flex items-center gap-1.5">
+                                <MessageCircle className="w-3.5 h-3.5" />
+                                LINEサポート
+                            </a>
+                        </div>
+                        <div className="flex flex-col gap-3">
                             <Link href="/legal/privacy" className="text-left text-sm font-medium text-emerald-800/60 hover:text-emerald-900 transition-colors">プライバシーポリシー</Link>
                             <Link href="/legal/terms" className="text-left text-sm font-medium text-emerald-800/60 hover:text-emerald-900 transition-colors">利用規約</Link>
                             <Link href="/legal/tokusho" className="text-left text-sm font-medium text-emerald-800/60 hover:text-emerald-900 transition-colors">特商法表記</Link>

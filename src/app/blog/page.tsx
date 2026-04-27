@@ -15,6 +15,13 @@ export const metadata: Metadata = {
 export default function BlogPage() {
     const articles = [
         {
+            slug: 'hospitality-photo-karte',
+            title: '「前回と同じで」に即答できる美容師はなぜモテるのか？〜写真カルテがもたらす最高のホスピタリティ〜',
+            excerpt: '美容師としての技術は申し分ないのに、前回の施術内容を忘れてヒヤッとした経験はありませんか？指名客を増やすための最強の接客ツール「写真カルテ」の心理的効果と活用法を解説します。',
+            date: '2026-04-23',
+            category: '接客術・リピート獲得',
+        },
+        {
             slug: 'freelance-customer-management',
             title: 'フリーランス美容師がデジタル顧客管理に移行すべき理由とおすすめアプリ',
             excerpt: '独立してから顧客管理が自分任せになって悩んでいませんか？フリーランス・個人美容師の方がお金と時間をかけずに顧客管理を整える方法を解説します。',

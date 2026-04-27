@@ -1,6 +1,6 @@
 import { createClient } from '@/utils/supabase/server'
 import { signOut } from './login/actions'
-import { LogOut, Plus, Search, User, Calendar, Camera, Settings, QrCode, MessageCircleQuestion } from 'lucide-react'
+import { LogOut, Plus, Search, User, Calendar, Camera, Settings, QrCode, MessageCircleQuestion, BookOpen } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import LandingPage from './landing-page'
@@ -200,6 +200,11 @@ export default async function Dashboard() {
           <Link href="/settings" className="bg-slate-100 text-slate-700 p-5 rounded-[2rem] flex flex-col items-center justify-center gap-3 hover:bg-slate-200 transition-all aspect-[4/3] shadow-sm">
             <Settings className="w-7 h-7" />
             <span className="font-bold text-xs tracking-wide">設定・ポスター</span>
+          </Link>
+
+          <Link href="/blog" className="bg-[#ffffff] text-slate-700 p-5 rounded-[2rem] flex flex-col items-center justify-center gap-3 hover:shadow-md transition-all aspect-[4/3] shadow-sm">
+            <BookOpen className="w-7 h-7 text-[#134231]" />
+            <span className="font-bold text-xs tracking-wide">活用ブログ</span>
           </Link>
         </div>
 

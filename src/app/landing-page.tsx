@@ -436,7 +436,7 @@ export default function LandingPage() {
                             </p>
                             <div className="flex flex-wrap justify-center gap-4">
                                 <span className="px-6 py-3 bg-surface-container-low rounded-full text-secondary-stitch font-bold border border-outline-variant/20 shadow-sm text-sm">
-                                    # クレジットカード登録不要
+                                    # 完全無料プランあり
                                 </span>
                                 <span className="px-6 py-3 bg-surface-container-low rounded-full text-secondary-stitch font-bold border border-outline-variant/20 shadow-sm text-sm">
                                     # パソコン不要
@@ -702,7 +702,7 @@ export default function LandingPage() {
                                 無料で今すぐ始める
                             </Link>
                             <p className="text-sm font-medium text-emerald-200">
-                                クレジットカード登録不要 / 10秒でセットアップ
+                                完全無料のStarterプランあり / 10秒でセットアップ
                             </p>
                         </div>
                     </FadeIn>

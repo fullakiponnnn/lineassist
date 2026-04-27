@@ -227,7 +227,7 @@ export default function FreelanceCustomerManagementArticle() {
                                     まずは無料プランでリスクなく始められる
                                 </h3>
                                 <p className="text-[#414944] text-lg leading-relaxed mb-4">
-                                    SnapKarteには、<strong className="text-[#134231]">完全無料のStarterプラン</strong>が用意されています。クレジットカード登録不要で今すぐ試すことができ、使い勝手を確認できます。
+                                    SnapKarteには、<strong className="text-[#134231]">完全無料のStarterプラン</strong>が用意されています。今すぐ試すことができ、使い勝手を確認できます。
                                 </p>
                                 <p className="text-[#414944] text-lg leading-relaxed">
                                     個人事業主向けの<strong className="text-[#134231]">Soloプランは月額2,980円</strong>。送信件数無制限・写真無制限保存・LINE自動連携と、必要な機能がすべて揃ったコスパ最高のプランです（年払いにすると実質2,483円/月）。

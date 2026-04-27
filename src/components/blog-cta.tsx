@@ -35,7 +35,7 @@ export default async function BlogCTA() {
                 
                 {!user && (
                     <p className="text-xs text-white/50 mt-6 font-medium tracking-wide">
-                        ※ クレジットカード登録不要。いつでも解約可能です。
+                        ※ いつでも解約可能です。
                     </p>
                 )}
             </div>

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Inter, Noto_Serif_JP } from "next/font/google";
 import "./globals.css";
 import BottomNav from "@/components/bottom-nav";
+import PWARegister from "@/components/pwa-register";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -123,6 +124,7 @@ export default async function RootLayout({
       >
         {children}
         {user && <BottomNav />}
+        <PWARegister />
       </body>
     </html>
   );
